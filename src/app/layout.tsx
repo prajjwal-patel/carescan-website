@@ -1,5 +1,34 @@
 import type { Metadata } from 'next';
+import { Outfit, Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  weight: ['500', '600', '700', '800'],
+  variable: '--font-brand',
+  display: 'swap',
+});
+
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  weight: ['600', '700', '800'],
+  variable: '--font-heading',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['500', '700'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'Orqis — AI & Quantum-Enhanced Oral Screening Research',
@@ -28,8 +57,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="antialiased text-slate-900 bg-stone-50 font-sans">{children}</body>
+    <html
+      lang="en"
+      className={`scroll-smooth ${outfit.variable} ${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="antialiased text-slate-900 bg-stone-50 selection:bg-teal-100 selection:text-teal-950">
+        {children}
+      </body>
     </html>
   );
 }

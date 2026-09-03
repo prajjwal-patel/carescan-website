@@ -41,12 +41,12 @@ export const Navbar: React.FC = () => {
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-xl font-bold tracking-tight text-slate-900 leading-tight">Orqis</span>
+              <span className="font-brand text-2xl font-extrabold tracking-tight text-slate-900 leading-tight">Orqis</span>
               <span className="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200">
                 Quantum AI
               </span>
             </div>
-            <span className="text-[11px] text-slate-500 font-medium tracking-wide hidden sm:block">
+            <span className="text-[11px] text-slate-600 font-medium tracking-wide hidden sm:block font-body">
               Oral Screening & Triage
             </span>
           </div>
@@ -58,7 +58,7 @@ export const Navbar: React.FC = () => {
             <a
               key={item.label}
               href={item.href}
-              className="text-xs xl:text-sm font-medium text-slate-600 hover:text-teal-700 px-3 py-1.5 rounded-full hover:bg-slate-100/70 transition-colors"
+              className="font-body text-xs xl:text-sm font-semibold text-slate-700 hover:text-teal-700 px-3 py-1.5 rounded-full hover:bg-slate-100/70 transition-colors"
             >
               {item.label}
             </a>
@@ -93,7 +93,7 @@ export const Navbar: React.FC = () => {
                 key={item.label}
                 href={item.href}
                 onClick={() => setMobileOpen(false)}
-                className="flex items-center justify-between text-sm font-medium text-slate-700 px-4 py-2.5 rounded-2xl hover:bg-teal-50 hover:text-teal-700 transition-colors"
+                className="font-body flex items-center justify-between text-sm font-semibold text-slate-800 px-4 py-2.5 rounded-2xl hover:bg-teal-50 hover:text-teal-700 transition-colors"
               >
                 <span>{item.label}</span>
                 <ChevronRight className="w-4 h-4 text-slate-400" />
