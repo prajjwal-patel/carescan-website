@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, ShieldAlert, Cpu, FileText, Sparkles, Heart } from 'lucide-react';
+import { ShieldAlert, Cpu, FileText, Sparkles, Heart } from 'lucide-react';
 import { CLINICAL_DISCLAIMER, NAV_ITEMS } from '@/lib/constants';
 
 export const Footer: React.FC = () => {
@@ -25,11 +25,18 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand & Mission */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-indigo-500 to-teal-400 flex items-center justify-center text-white">
-                <Activity className="w-4 h-4" />
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center p-0.5 overflow-hidden shadow-xs">
+                <img
+                  src="/orqis-logo.png"
+                  alt="Orqis Logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
-              <span className="text-xl font-bold tracking-tight text-white">CareScan</span>
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold tracking-tight text-white">Orqis</span>
+                <span className="text-[11px] text-teal-400 font-medium -mt-1">Quantum-Enhanced Oral Triage</span>
+              </div>
             </div>
             <p className="text-sm text-slate-300 leading-relaxed max-w-md">
               AI-assisted, quantum-enhanced oral screening research designed to empower frontline healthcare providers with rapid, accessible, and privacy-preserving preliminary triage.
@@ -78,7 +85,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-          <p>© {new Date().getFullYear()} CareScan Research Project. Standalone Open-Access Demonstration.</p>
+          <p>© {new Date().getFullYear()} Orqis Research Project. Standalone Open-Access Demonstration.</p>
           <div className="flex items-center gap-1">
             <span>Crafted with clinical precision & empathy</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline ml-1" />

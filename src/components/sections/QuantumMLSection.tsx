@@ -7,7 +7,7 @@ import { Badge } from '../ui/Badge';
 import { QUANTUM_CONCEPTS } from '@/lib/constants';
 import { CircuitDiagram } from '../visual/CircuitDiagram';
 import { OrganicDivider } from '../visual/OrganicDivider';
-import { Atom, Zap, Shield, Sparkles, BookOpen } from 'lucide-react';
+import { Atom, Zap, Shield, BookOpen } from 'lucide-react';
 
 export const QuantumMLSection: React.FC = () => {
   return (
@@ -19,7 +19,7 @@ export const QuantumMLSection: React.FC = () => {
           badgeVariant="quantum"
           title="Harnessing Quantum Hilbert Spaces for"
           highlightText="Subtle Oncology Features"
-          subtitle="CareScan investigates how Parameterized Quantum Circuits (VQC) can map complex multi-modal visual and clinical correlations into high-dimensional quantum states for superior boundary separation."
+          subtitle="Orqis investigates how Parameterized Quantum Circuits (VQC) can map complex multi-modal visual and clinical correlations into high-dimensional quantum states for superior boundary separation."
         />
 
         {/* Why Quantum Section Narrative Callout */}
@@ -32,7 +32,7 @@ export const QuantumMLSection: React.FC = () => {
               Exponential State Compression
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              With 8 qubits, the system represents $2^8 = 256$ complex probability amplitudes simultaneously, allowing rich visual texture embeddings to be processed in parallel.
+              With 8 qubits, Orqis represents $2^8 = 256$ complex probability amplitudes simultaneously, allowing rich visual texture embeddings to be processed in parallel.
             </p>
           </Card>
 
@@ -66,7 +66,7 @@ export const QuantumMLSection: React.FC = () => {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <h3 className="text-xl sm:text-2xl font-bold text-slate-900">
-                Interactive VQC Circuit Architecture
+                Interactive Orqis VQC Circuit Architecture
               </h3>
               <p className="text-xs sm:text-sm text-slate-500">
                 End-to-end Variational Quantum Classifier executed on Qiskit Aer

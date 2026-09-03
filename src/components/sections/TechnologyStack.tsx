@@ -30,7 +30,7 @@ export const TechnologyStack: React.FC = () => {
           badgeVariant="quantum"
           title="Modular, Multi-Tier"
           highlightText="Healthcare Engineering"
-          subtitle="CareScan decouples user acquisition, computer vision embeddings, quantum state classification, and clinical reporting into independently testable and verifiable subsystems."
+          subtitle="Orqis decouples user acquisition, computer vision embeddings, quantum state classification, and clinical reporting into independently testable and verifiable subsystems."
         />
 
         {/* 4 Tier Selector Cards */}
@@ -48,7 +48,7 @@ export const TechnologyStack: React.FC = () => {
                 onClick={() => setSelectedTierId(tier.id)}
                 className={`cursor-pointer transition-all duration-200 ${
                   isSelected
-                    ? 'border-indigo-500 shadow-md ring-2 ring-indigo-500/20'
+                    ? 'border-teal-500 shadow-md ring-2 ring-teal-500/20'
                     : 'hover:border-slate-300'
                 }`}
               >
@@ -56,7 +56,7 @@ export const TechnologyStack: React.FC = () => {
                   <div
                     className={`w-10 h-10 rounded-2xl flex items-center justify-center ${
                       isSelected
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-gradient-to-tr from-teal-600 to-indigo-600 text-white'
                         : 'bg-slate-200/80 text-slate-700'
                     }`}
                   >
@@ -64,7 +64,7 @@ export const TechnologyStack: React.FC = () => {
                   </div>
                   <ChevronRight
                     className={`w-4 h-4 transition-transform ${
-                      isSelected ? 'text-indigo-600 rotate-90' : 'text-slate-400'
+                      isSelected ? 'text-teal-600 rotate-90' : 'text-slate-400'
                     }`}
                   />
                 </div>
@@ -76,12 +76,12 @@ export const TechnologyStack: React.FC = () => {
         </div>
 
         {/* Active Tier Deep-Dive Overview */}
-        <Card variant="white" padding="lg" organic="subtle" className="border-indigo-100 shadow-sm">
+        <Card variant="white" padding="lg" organic="subtle" className="border-teal-100 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left Specs & Description */}
             <div className="lg:col-span-7 space-y-6">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center">
                   <ActiveIcon className="w-6 h-6" />
                 </div>
                 <div>

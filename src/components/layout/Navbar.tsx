@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { NAV_ITEMS } from '@/lib/constants';
 import { Button } from '../ui/Button';
-import { Menu, X, Activity, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, X, Sparkles, ChevronRight } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -26,24 +27,28 @@ export const Navbar: React.FC = () => {
       <div
         className={`max-w-7xl mx-auto rounded-full transition-all duration-300 ${
           isScrolled
-            ? 'glass-nav shadow-md py-2.5 px-5 sm:px-6'
-            : 'bg-white/70 backdrop-blur-md border border-slate-200/50 py-3.5 px-6'
+            ? 'glass-nav shadow-md py-2 px-5 sm:px-6'
+            : 'bg-white/80 backdrop-blur-md border border-slate-200/60 py-2.5 px-6 shadow-2xs'
         } flex items-center justify-between`}
       >
-        {/* Logo */}
+        {/* Logo & Brand Name */}
         <a href="#" className="flex items-center gap-2.5 group">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-indigo-600 to-teal-500 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
-            <Activity className="w-5 h-5" />
+          <div className="relative w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-xs border border-slate-100 p-0.5 overflow-hidden group-hover:scale-105 transition-transform">
+            <img
+              src="/orqis-logo.png"
+              alt="Orqis Logo"
+              className="w-full h-full object-contain"
+            />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-1.5">
-              <span className="text-lg font-bold tracking-tight text-slate-900">CareScan</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded-full border border-indigo-100">
-                Research
+              <span className="text-xl font-bold tracking-tight text-slate-900">Orqis</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200">
+                Quantum AI
               </span>
             </div>
-            <span className="text-[10px] text-slate-600 font-medium tracking-wide -mt-1 hidden sm:block">
-              AI & Quantum Screening
+            <span className="text-[10px] text-slate-500 font-medium tracking-wide -mt-1 hidden sm:block">
+              Oral Screening & Triage
             </span>
           </div>
         </a>

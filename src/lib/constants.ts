@@ -37,7 +37,7 @@ export const HERO_METRICS: MetricItem[] = [
     description: 'Interoperable Observation & RiskAssessment resources',
   },
   {
-    value: '100% Client Privacy',
+    value: '100% Privacy',
     label: 'Pseudonymous Triage',
     description: 'Zero persistent storage of patient identity vectors',
   },
@@ -47,17 +47,17 @@ export const PURPOSE_STATS = [
   {
     stat: '377,000+',
     label: 'New Oral Cases Annually',
-    detail: 'Global annual incidence of oral cavity malignancies according to WHO data, with high concentration in South Asia.',
+    detail: 'Global annual incidence of oral cavity malignancies according to WHO data, with heavy concentration across high-risk demographic regions.',
   },
   {
     stat: '65%+',
     label: 'Diagnosed at Stage III/IV',
-    detail: 'The majority of cases are identified late due to subtle early lesion symptoms and limited specialist access in rural clinics.',
+    detail: 'The majority of cases are identified late due to subtle early lesion symptoms and limited specialist access in community clinics.',
   },
   {
     stat: '85%+',
     label: '5-Year Survival When Early',
-    detail: 'Detection of premalignant lesions (leukoplakia, erythroplakia) drastically improves curative prognosis.',
+    detail: 'Timely detection of premalignant lesions (leukoplakia, erythroplakia) drastically improves curative prognosis.',
   },
 ];
 
@@ -130,7 +130,7 @@ export const TECH_TIERS: TechnologyTier[] = [
     specs: [
       { label: 'Framework', value: 'Flutter / Dart' },
       { label: 'Platforms', value: 'iOS & Android' },
-      { label: 'Design System', value: 'CareScan Token Contract' },
+      { label: 'Design System', value: 'Orqis Token Contract' },
       { label: 'Camera Engine', value: 'Hardware Camera Plugin' },
     ],
     highlights: [
@@ -247,7 +247,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Clarity & Reassurance',
     tagline: 'Non-Alarmist Clinical Communication',
     description:
-      'Receiving a screening result can trigger significant health anxiety. CareScan frames results with calm, objective language, emphasizing preliminary triage and clear next steps rather than frightening medical jargon.',
+      'Receiving a screening result can trigger significant health anxiety. Orqis frames results with calm, objective language, emphasizing preliminary triage and clear next steps rather than frightening medical jargon.',
     icon: 'HeartHandshake',
     points: [
       'Calm neutral palette avoiding aggressive danger alerts',
@@ -259,7 +259,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Human-Centered Ergonomics',
     tagline: 'Designed for Real Clinical Conditions',
     description:
-      'Frontline health workers often operate in resource-constrained clinics with varying lighting, modest mobile devices, and high patient throughput. CareScan optimizes for speed, simplicity, and low cognitive load.',
+      'Frontline health workers often operate in resource-constrained clinics with varying lighting, modest mobile devices, and high patient throughput. Orqis optimizes for speed, simplicity, and low cognitive load.',
     icon: 'Eye',
     points: [
       'High-contrast visual feedback visible in bright natural light',
@@ -271,7 +271,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Privacy by Default',
     tagline: 'Zero Persistent Biometric Tracking',
     description:
-      'Medical data security is non-negotiable. CareScan employs pseudonymous patient identifiers, local temporary image caching, and strict data boundary encapsulation.',
+      'Medical data security is non-negotiable. Orqis employs pseudonymous patient identifiers, local temporary image caching, and strict data boundary encapsulation.',
     icon: 'Lock',
     points: [
       'No personal identification numbers or facial biometrics retained',
@@ -283,7 +283,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Responsible AI & Rigor',
     tagline: 'Transparent Decision Support',
     description:
-      'Machine learning must support clinicians, not replace clinical judgment. CareScan provides transparent confidence intervals, multimodal feature transparency, and standards-compliant documentation.',
+      'Machine learning must support clinicians, not replace clinical judgment. Orqis provides transparent confidence intervals, multimodal feature transparency, and standards-compliant documentation.',
     icon: 'Shield',
     points: [
       'Zero black-box diagnostic claims; highlights contributing risk factors',
@@ -313,7 +313,7 @@ export const TIMELINE_MILESTONES: TimelineMilestone[] = [
     title: 'Mobile Architecture & Design System',
     status: 'completed',
     description:
-      'Designed the patient-facing mobile portal in Flutter, implementing the CareScan Stitch design contract with strict accessibility and defensive UI boundaries.',
+      'Designed the patient-facing mobile portal in Flutter, implementing the Orqis design contract with strict accessibility and defensive UI boundaries.',
     deliverables: [
       'Flutter patient mobile application scaffold',
       'Standardized camera capture & guided framing overlay',
@@ -365,7 +365,7 @@ export const TIMELINE_MILESTONES: TimelineMilestone[] = [
     title: 'Multi-Center Clinical Evaluation',
     status: 'planned',
     description:
-      'Planning prospective multi-center validation in frontline dental and community health clinics comparing CareScan triage against histopathological gold standards.',
+      'Planning prospective multi-center validation in frontline dental and community health clinics comparing Orqis triage against histopathological gold standards.',
     deliverables: [
       'Real-world clinical accuracy benchmark study',
       'Hardware quantum backend deployment (IBM Quantum / AWS Braket)',
@@ -391,7 +391,7 @@ export const TEAM_MEMBERS: TeamMember[] = [
   },
   {
     role: 'Mobile Architecture & UX',
-    discipline: 'Cross-Platform Flutter & Stitch UI',
+    discipline: 'Cross-Platform Flutter & UI System',
     department: 'Patient Experience Engineering',
     focus: 'Guided intraoral camera framing, WCAG AA accessibility, token contracts, and offline session resilience.',
     avatarPlaceholder: 'UX',
@@ -406,4 +406,4 @@ export const TEAM_MEMBERS: TeamMember[] = [
 ];
 
 export const CLINICAL_DISCLAIMER =
-  'CareScan is an investigational research project and clinical decision support system designed to assist frontline healthcare professionals. It does not provide medical diagnosis or replace definitive histopathological biopsy and examination by a qualified clinical specialist.';
+  'Orqis is an investigational research project and clinical decision support system designed to assist frontline healthcare professionals. It does not provide medical diagnosis or replace definitive histopathological biopsy and examination by a qualified clinical specialist.';

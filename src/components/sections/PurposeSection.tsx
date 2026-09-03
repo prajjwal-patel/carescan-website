@@ -43,7 +43,7 @@ export const PurposeSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Side-by-Side Comparison: Traditional vs CareScan */}
+        {/* Side-by-Side Comparison: Traditional vs Orqis */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
           {/* Traditional Bottlenecks */}
           <Card variant="white" padding="lg" className="border-rose-100/80 bg-gradient-to-b from-rose-50/30 to-white">
@@ -80,17 +80,17 @@ export const PurposeSection: React.FC = () => {
             </ul>
           </Card>
 
-          {/* CareScan Solution */}
+          {/* Orqis Solution */}
           <Card variant="white" padding="lg" className="border-teal-100/80 bg-gradient-to-b from-teal-50/30 to-white">
             <div className="flex items-center gap-2 mb-4">
-              <Badge variant="teal">CareScan Approach</Badge>
+              <Badge variant="teal">Orqis Platform</Badge>
               <span className="text-xs font-semibold text-teal-700">Immediate Decision Support</span>
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-3">
               Standardized AI & Quantum Triage
             </h3>
             <p className="text-sm text-slate-600 mb-6 leading-relaxed">
-              CareScan turns any smartphone into an objective, standardized screening companion for primary care providers.
+              Orqis turns any smartphone into an objective, standardized screening companion for primary care providers.
             </p>
 
             <ul className="space-y-3.5 text-sm text-slate-700">

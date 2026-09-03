@@ -4,18 +4,9 @@ import React, { useState } from 'react';
 import { SectionHeader } from '../ui/SectionHeader';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { Button } from '../ui/Button';
 import { TEST_CASE_PRESETS, calculateSimulatedRisk } from '@/lib/mockData';
 import { OrganicDivider } from '../visual/OrganicDivider';
 import {
-  Sparkles,
-  ShieldCheck,
-  Cpu,
-  FileCode,
-  Activity,
-  AlertTriangle,
-  CheckCircle2,
-  RefreshCw,
   Info,
 } from 'lucide-react';
 
@@ -59,7 +50,7 @@ export const InteractiveDemo: React.FC = () => {
 
   const simulatedFhirObservation = {
     resourceType: 'Observation',
-    id: `obs-demo-${selectedPreset.id}`,
+    id: `obs-orqis-${selectedPreset.id}`,
     status: 'final',
     code: {
       coding: [
@@ -69,7 +60,7 @@ export const InteractiveDemo: React.FC = () => {
           display: 'Malignant tumor of oral cavity (screening)',
         },
       ],
-      text: 'AI & Quantum Oral Screening Risk Assessment',
+      text: 'Orqis AI & Quantum Oral Screening Risk Assessment',
     },
     valueQuantity: {
       value: simulation.finalProb,
@@ -97,10 +88,10 @@ export const InteractiveDemo: React.FC = () => {
         {/* Section Header */}
         <SectionHeader
           badge="Client-Side Demonstration"
-          badgeVariant="iris"
+          badgeVariant="teal"
           title="Interactive Conceptual"
           highlightText="Screening Sandbox"
-          subtitle="Experience how CareScan conceptually fuses image embeddings, lifestyle risk vectors, and Variational Quantum expectation values without sending data to any external server."
+          subtitle="Experience how Orqis conceptually fuses image embeddings, lifestyle risk vectors, and Variational Quantum expectation values without sending data to any external server."
         />
 
         {/* Sandbox Main Container */}
@@ -113,7 +104,7 @@ export const InteractiveDemo: React.FC = () => {
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
                   Step 1 • Select Clinical Test Case
                 </span>
-                <span className="text-[11px] text-indigo-600 font-semibold">Synthetic Preset</span>
+                <span className="text-[11px] text-teal-600 font-semibold">Synthetic Preset</span>
               </div>
 
               <div className="space-y-2.5">
@@ -125,7 +116,7 @@ export const InteractiveDemo: React.FC = () => {
                       onClick={() => handleSelectPreset(preset.id)}
                       className={`w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-indigo-50/80 border-indigo-500 ring-2 ring-indigo-500/20 shadow-xs'
+                          ? 'bg-teal-50/80 border-teal-500 ring-2 ring-teal-500/20 shadow-xs'
                           : 'bg-white border-slate-200 hover:bg-slate-50'
                       }`}
                     >
@@ -187,7 +178,7 @@ export const InteractiveDemo: React.FC = () => {
                       type="checkbox"
                       checked={item.checked}
                       onChange={(e) => item.setter(e.target.checked)}
-                      className="w-4 h-4 rounded text-indigo-600 focus:ring-indigo-500 border-slate-300 cursor-pointer"
+                      className="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300 cursor-pointer"
                     />
                   </label>
                 ))}
@@ -197,7 +188,7 @@ export const InteractiveDemo: React.FC = () => {
 
           {/* Right Column: Live Simulated Triage & FHIR Output */}
           <div className="lg:col-span-7 space-y-6">
-            <Card variant="white" padding="lg" organic="subtle" className="border-indigo-100 shadow-md">
+            <Card variant="white" padding="lg" organic="subtle" className="border-teal-100 shadow-md">
               {/* Tab Switcher */}
               <div className="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
                 <div className="flex items-center gap-2">
@@ -205,7 +196,7 @@ export const InteractiveDemo: React.FC = () => {
                     onClick={() => setActiveTab('triage')}
                     className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors ${
                       activeTab === 'triage'
-                        ? 'bg-indigo-600 text-white shadow-xs'
+                        ? 'bg-teal-600 text-white shadow-xs'
                         : 'text-slate-600 hover:bg-slate-100'
                     }`}
                   >
@@ -215,7 +206,7 @@ export const InteractiveDemo: React.FC = () => {
                     onClick={() => setActiveTab('fhir')}
                     className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors ${
                       activeTab === 'fhir'
-                        ? 'bg-indigo-600 text-white shadow-xs'
+                        ? 'bg-teal-600 text-white shadow-xs'
                         : 'text-slate-600 hover:bg-slate-100'
                     }`}
                   >
@@ -224,7 +215,7 @@ export const InteractiveDemo: React.FC = () => {
                 </div>
 
                 <span className="text-[11px] font-mono text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100 font-semibold hidden sm:inline">
-                  Client Simulator Active
+                  Orqis Simulator Active
                 </span>
               </div>
 
@@ -288,7 +279,7 @@ export const InteractiveDemo: React.FC = () => {
                       <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
                         Fused Risk Score
                       </p>
-                      <p className="text-xl font-bold text-indigo-700 font-mono mt-1">
+                      <p className="text-xl font-bold text-teal-700 font-mono mt-1">
                         {(simulation.finalProb * 100).toFixed(1)}%
                       </p>
                       <div className="w-full bg-slate-100 h-1.5 rounded-full mt-2 overflow-hidden">
@@ -308,9 +299,9 @@ export const InteractiveDemo: React.FC = () => {
                   </div>
 
                   {/* Recommendation Card */}
-                  <div className="p-5 rounded-2xl bg-indigo-50/50 border border-indigo-100 space-y-2">
-                    <div className="flex items-center gap-2 text-indigo-900 font-bold text-xs uppercase tracking-wider">
-                      <Info className="w-4 h-4 text-indigo-600" />
+                  <div className="p-5 rounded-2xl bg-teal-50/50 border border-teal-100 space-y-2">
+                    <div className="flex items-center gap-2 text-teal-900 font-bold text-xs uppercase tracking-wider">
+                      <Info className="w-4 h-4 text-teal-600" />
                       Clinical Decision Support Guidance
                     </div>
                     <p className="text-sm text-slate-700 leading-relaxed">

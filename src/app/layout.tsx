@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'CareScan — AI & Quantum-Enhanced Oral Screening Research',
+  title: 'Orqis — AI & Quantum-Enhanced Oral Screening Research',
   description:
-    'CareScan is a standalone research platform combining mobile imaging, deep convolutional feature extraction, and Variational Quantum Classifiers (VQC) for rapid, accessible preliminary triage.',
+    'Orqis is an open scientific research platform combining mobile imaging, deep convolutional feature extraction, and Variational Quantum Classifiers (VQC) for rapid, accessible preliminary oral oncology triage.',
   keywords: [
-    'CareScan',
+    'Orqis',
     'Oral Cancer Screening',
     'Quantum Machine Learning',
     'Variational Quantum Classifier',
@@ -16,7 +16,10 @@ export const metadata: Metadata = {
     'Medical Image Analysis',
     'Mobile Triage',
   ],
-  authors: [{ name: 'CareScan Research Team' }],
+  authors: [{ name: 'Orqis Research Team' }],
+  icons: {
+    icon: '/orqis-logo.png',
+  },
 };
 
 export default function RootLayout({

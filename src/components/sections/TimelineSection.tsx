@@ -6,7 +6,7 @@ import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
 import { TIMELINE_MILESTONES } from '@/lib/constants';
 import { OrganicDivider } from '../visual/OrganicDivider';
-import { CheckCircle2, CircleDot, Clock, ArrowDown } from 'lucide-react';
+import { CheckCircle2, CircleDot, Clock } from 'lucide-react';
 
 export const TimelineSection: React.FC = () => {
   return (
@@ -15,16 +15,16 @@ export const TimelineSection: React.FC = () => {
         {/* Section Header */}
         <SectionHeader
           badge="Project Roadmap"
-          badgeVariant="iris"
+          badgeVariant="teal"
           title="The Evolution of the"
-          highlightText="CareScan Research Initiative"
+          highlightText="Orqis Research Initiative"
           subtitle="From initial clinical problem definition to hardware-aware quantum variational circuits and multi-center validation protocols."
         />
 
         {/* Timeline Path */}
         <div className="relative max-w-4xl mx-auto">
           {/* Vertical connecting line */}
-          <div className="absolute top-8 bottom-8 left-4 md:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-indigo-500 via-teal-500 to-slate-300 hidden sm:block" />
+          <div className="absolute top-8 bottom-8 left-4 md:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-teal-500 via-indigo-500 to-slate-300 hidden sm:block" />
 
           <div className="space-y-8">
             {TIMELINE_MILESTONES.map((item, index) => {
@@ -43,7 +43,7 @@ export const TimelineSection: React.FC = () => {
                       variant="white"
                       padding="md"
                       organic="subtle"
-                      className="border-slate-200/90 shadow-xs hover:border-indigo-300 transition-all space-y-3"
+                      className="border-slate-200/90 shadow-xs hover:border-teal-300 transition-all space-y-3"
                     >
                       <div className="flex items-center justify-between">
                         <Badge
@@ -51,7 +51,7 @@ export const TimelineSection: React.FC = () => {
                             item.status === 'completed'
                               ? 'success'
                               : item.status === 'in-progress'
-                              ? 'iris'
+                              ? 'teal'
                               : 'neutral'
                           }
                           size="sm"
@@ -76,7 +76,7 @@ export const TimelineSection: React.FC = () => {
                       <div className="pt-2 space-y-1.5 border-t border-slate-100">
                         {item.deliverables.map((del, dIdx) => (
                           <div key={dIdx} className="flex items-center gap-2 text-xs text-slate-700">
-                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0" />
                             <span>{del}</span>
                           </div>
                         ))}
@@ -85,11 +85,11 @@ export const TimelineSection: React.FC = () => {
                   </div>
 
                   {/* Center Node on Timeline */}
-                  <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white border-2 border-indigo-600 items-center justify-center text-indigo-600 shadow-sm z-10">
+                  <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white border-2 border-teal-600 items-center justify-center text-teal-600 shadow-sm z-10">
                     {item.status === 'completed' ? (
                       <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                     ) : item.status === 'in-progress' ? (
-                      <CircleDot className="w-4 h-4 text-indigo-600 animate-pulse" />
+                      <CircleDot className="w-4 h-4 text-teal-600 animate-pulse" />
                     ) : (
                       <Clock className="w-4 h-4 text-slate-400" />
                     )}
