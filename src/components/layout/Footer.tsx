@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { ShieldAlert, Cpu, FileText, Sparkles, Heart } from 'lucide-react';
 import { CLINICAL_DISCLAIMER, NAV_ITEMS } from '@/lib/constants';
@@ -25,8 +27,8 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand & Mission */}
           <div className="md:col-span-2 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center p-0.5 overflow-hidden shadow-xs">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1.5 overflow-hidden shadow-sm border border-slate-700/60 shrink-0">
                 <img
                   src="/orqis-logo.png"
                   alt="Orqis Logo"
@@ -35,7 +37,7 @@ export const Footer: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <span className="text-2xl font-bold tracking-tight text-white">Orqis</span>
-                <span className="text-[11px] text-teal-400 font-medium -mt-1">Quantum-Enhanced Oral Triage</span>
+                <span className="text-[11px] text-teal-400 font-medium -mt-0.5">Quantum-Enhanced Oral Triage</span>
               </div>
             </div>
             <p className="text-sm text-slate-300 leading-relaxed max-w-md">
