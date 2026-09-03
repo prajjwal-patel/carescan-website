@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { Info, Sparkles } from 'lucide-react';
+import { Info, Sparkles, Check } from 'lucide-react';
 
 interface GateInfo {
   name: string;
@@ -15,40 +15,40 @@ interface GateInfo {
 
 const GATE_DETAILS: Record<string, GateInfo> = {
   prep: {
-    name: 'State Preparation (Amplitude Encoding)',
-    type: 'State Preparation',
-    math: '|ψ(x)⟩ = ∑ᵢ₌₀²⁵⁵ xᵢ |i⟩',
+    name: '1. State Preparation (Encoding the Photo)',
+    type: 'Input Encoding',
+    math: '|ψ(x)⟩ = ∑ xᵢ |i⟩',
     description:
-      'Encodes the 256-dimensional normalized visual feature vector into the probability amplitudes of 8 entangled qubits simultaneously.',
+      'Compresses the 256 visual features from the oral photograph into the synchronized quantum states of 8 qubits at once.',
     clinicalImpact:
-      'Compresses high-dimensional intraoral morphological textures without spatial resolution loss.',
+      'Preserves tiny textural subtleties in oral lesions without losing resolution or slowing down edge mobile devices.',
   },
   rot: {
-    name: 'Parameterized Rotations: Rz(ϕ) Ry(θ)',
-    type: 'Variational Layer',
+    name: '2. Variational Rotations (Trained Diagnostic Weights)',
+    type: 'Learned Weights',
     math: 'U(θ, ϕ) = R_z(ϕ) R_y(θ)',
     description:
-      'Single-qubit parameterized gates that rotate the state on the Bloch sphere according to weights trained by SPSA gradient optimization.',
+      'Adjusts the orientation of quantum states based on trained clinical weights to separate benign mucosal tissue from precancerous changes.',
     clinicalImpact:
-      'Learns subtle non-linear decision boundaries between benign mucosa and dysplastic tissue.',
+      'Acts like learned diagnostic filters, highlighting high-risk cellular patterns and ulcerated borders.',
   },
   cnot: {
-    name: 'Hardware-Aware CNOT Cascade',
-    type: 'Entanglement Layer',
-    math: 'CX(q_i, q_{i+1})',
+    name: '3. Quantum Entanglement (Cross-Risk Consultation)',
+    type: 'Feature Correlation',
+    math: 'CX(qᵢ, qᵢ₊₁)',
     description:
-      'Nearest-neighbor linear CNOT cascade with circular closure connecting adjacent qubits into a deeply correlated quantum state.',
+      'Intertwines all 8 qubits so visual lesion markers, smoking habits, and betel nut usage are evaluated together as an interconnected profile.',
     clinicalImpact:
-      'Captures spatial and contextual correlations across different tissue quadrants and risk factors.',
+      'Catches combined risk combinations that single-factor tests miss (e.g. subtle white patch + heavy betel quid exposure).',
   },
   readout: {
-    name: 'Pauli-Z Expectation Readout',
-    type: 'Measurement',
-    math: '⟨Z₀⟩ = P(0) - P(1)  →  P_cancer = (1 - ⟨Z₀⟩) / 2',
+    name: '4. Readout Measurement (Objective Triage Score)',
+    type: 'Clinical Readout',
+    math: '⟨Z₀⟩ → P = (1 - ⟨Z₀⟩) / 2',
     description:
-      'Samples qubit 0 over 1,024 simulator shots to calculate the projection along the Z axis, mapping expectation value [-1, 1] to risk probability [0, 1].',
+      'Measures the final quantum state over 1,024 simulator iterations to calculate the definitive preliminary risk score.',
     clinicalImpact:
-      'Outputs a continuous preliminary risk score subsequently calibrated into Low, Moderate, or High triage strata.',
+      'Produces a calibrated triage score (Low, Moderate, or High Risk) ready for instant specialist escalation.',
   },
 };
 
@@ -56,23 +56,22 @@ export const CircuitDiagram: React.FC = () => {
   const [selectedGate, setSelectedGate] = useState<string>('rot');
 
   const activeGate = GATE_DETAILS[selectedGate];
-
   const qubits = [0, 1, 2, 3, 4, 5, 6, 7];
 
   return (
-    <div className="w-full space-y-6">
+    <div className="w-full space-y-4">
       {/* Interactive Quantum Circuit SVG Card */}
-      <Card variant="white" padding="md" className="overflow-x-auto border-slate-200">
-        <div className="min-w-[760px] py-2">
+      <Card variant="white" padding="md" className="overflow-x-auto border-slate-200 shadow-xs">
+        <div className="min-w-[720px] py-1">
           {/* Circuit Header / Legend */}
-          <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-100 text-xs text-slate-500">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-slate-100 text-xs">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-600" />
-              <span className="font-semibold text-slate-700">
-                8-Qubit Hardware-Aware VQC Architecture (Qiskit Engine)
+              <span className="font-bold text-slate-800">
+                8-Qubit Variational Quantum Classifier (Qiskit Engine)
               </span>
             </div>
-            <span className="text-slate-400">Click any circuit block to inspect its mathematical role</span>
+            <span className="text-slate-500 font-medium">Click any circuit block to see what it does in plain language</span>
           </div>
 
           <svg viewBox="0 0 780 340" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
@@ -85,10 +84,10 @@ export const CircuitDiagram: React.FC = () => {
                   <text
                     x="15"
                     y={y + 4}
-                    fill="#475569"
+                    fill="#334155"
                     fontSize="12"
                     fontFamily="monospace"
-                    fontWeight="600"
+                    fontWeight="700"
                   >
                     |q_{q}⟩
                   </text>
@@ -111,8 +110,8 @@ export const CircuitDiagram: React.FC = () => {
                 height="305"
                 rx="12"
                 fill={selectedGate === 'prep' ? '#EEF2FF' : '#F8FAFC'}
-                stroke={selectedGate === 'prep' ? '#4F46E5' : '#E2E8F0'}
-                strokeWidth={selectedGate === 'prep' ? '2' : '1.5'}
+                stroke={selectedGate === 'prep' ? '#4F46E5' : '#CBD5E1'}
+                strokeWidth={selectedGate === 'prep' ? '2.5' : '1.5'}
                 className="transition-all duration-200"
               />
               <text
@@ -124,7 +123,7 @@ export const CircuitDiagram: React.FC = () => {
                 textAnchor="middle"
                 transform="rotate(-90 112 160)"
               >
-                Amplitude State Prep |ψ(x)⟩
+                1. Photo State Prep |ψ(x)⟩
               </text>
             </g>
 
@@ -153,7 +152,7 @@ export const CircuitDiagram: React.FC = () => {
                       y={y + 4}
                       fill="#5B21B6"
                       fontSize="10"
-                      fontWeight="600"
+                      fontWeight="700"
                       textAnchor="middle"
                       fontFamily="monospace"
                     >
@@ -176,8 +175,8 @@ export const CircuitDiagram: React.FC = () => {
                 height="305"
                 rx="12"
                 fill={selectedGate === 'cnot' ? '#F0FDFA' : '#F8FAFC'}
-                stroke={selectedGate === 'cnot' ? '#0D9488' : '#E2E8F0'}
-                strokeWidth={selectedGate === 'cnot' ? '2' : '1.5'}
+                stroke={selectedGate === 'cnot' ? '#0D9488' : '#CBD5E1'}
+                strokeWidth={selectedGate === 'cnot' ? '2.5' : '1.5'}
                 className="transition-all duration-200"
               />
               {qubits.slice(0, 7).map((q) => {
@@ -187,13 +186,13 @@ export const CircuitDiagram: React.FC = () => {
                 return (
                   <g key={q}>
                     {/* Control dot */}
-                    <circle cx={x} cy={y1} r="4" fill="#0D9488" />
+                    <circle cx={x} cy={y1} r="4.5" fill="#0D9488" />
                     {/* Vertical link */}
-                    <line x1={x} y1={y1} x2={x} y2={y2} stroke="#0D9488" strokeWidth="1.5" />
+                    <line x1={x} y1={y1} x2={x} y2={y2} stroke="#0D9488" strokeWidth="2" />
                     {/* Target circle */}
-                    <circle cx={x} cy={y2} r="6" fill="#FFFFFF" stroke="#0D9488" strokeWidth="1.5" />
-                    <line x1={x - 4} y1={y2} x2={x + 4} y2={y2} stroke="#0D9488" strokeWidth="1.5" />
-                    <line x1={x} y1={y2 - 4} x2={x} y2={y2 + 4} stroke="#0D9488" strokeWidth="1.5" />
+                    <circle cx={x} cy={y2} r="6" fill="#FFFFFF" stroke="#0D9488" strokeWidth="2" />
+                    <line x1={x - 4} y1={y2} x2={x + 4} y2={y2} stroke="#0D9488" strokeWidth="2" />
+                    <line x1={x} y1={y2 - 4} x2={x} y2={y2 + 4} stroke="#0D9488" strokeWidth="2" />
                   </g>
                 );
               })}
@@ -224,7 +223,7 @@ export const CircuitDiagram: React.FC = () => {
                       y={y + 4}
                       fill="#5B21B6"
                       fontSize="10"
-                      fontWeight="600"
+                      fontWeight="700"
                       textAnchor="middle"
                       fontFamily="monospace"
                     >
@@ -247,8 +246,8 @@ export const CircuitDiagram: React.FC = () => {
                 height="305"
                 rx="12"
                 fill={selectedGate === 'cnot' ? '#F0FDFA' : '#F8FAFC'}
-                stroke={selectedGate === 'cnot' ? '#0D9488' : '#E2E8F0'}
-                strokeWidth={selectedGate === 'cnot' ? '2' : '1.5'}
+                stroke={selectedGate === 'cnot' ? '#0D9488' : '#CBD5E1'}
+                strokeWidth={selectedGate === 'cnot' ? '2.5' : '1.5'}
                 className="transition-all duration-200"
               />
               <text
@@ -271,24 +270,23 @@ export const CircuitDiagram: React.FC = () => {
             >
               <rect
                 x="640"
-                y="20"
-                width="70"
-                height="30"
-                rx="6"
+                y="18"
+                width="74"
+                height="34"
+                rx="8"
                 fill={selectedGate === 'readout' ? '#FEF2F2' : '#FFFFFF'}
                 stroke={selectedGate === 'readout' ? '#DC2626' : '#EF4444'}
-                strokeWidth={selectedGate === 'readout' ? '2' : '1.5'}
+                strokeWidth={selectedGate === 'readout' ? '2.5' : '1.5'}
                 className="transition-all duration-200"
               />
-              {/* Measurement icon representation */}
               <path d="M 660 40 A 10 10 0 0 1 680 40" stroke="#DC2626" strokeWidth="1.5" fill="none" />
               <line x1="670" y1="40" x2="676" y2="28" stroke="#DC2626" strokeWidth="1.5" />
-              <text x="693" y="40" fill="#991B1B" fontSize="10" fontWeight="700">M(Z)</text>
+              <text x="688" y="40" fill="#991B1B" fontSize="10" fontWeight="700">M(Z)</text>
 
               {/* Arrow out to classical register */}
-              <line x1="710" y1="35" x2="740" y2="35" stroke="#DC2626" strokeWidth="2" strokeDasharray="3 3" />
-              <polygon points="740,32 748,35 740,38" fill="#DC2626" />
-              <text x="752" y="39" fill="#0F172A" fontSize="11" fontWeight="700" fontFamily="monospace">
+              <line x1="714" y1="35" x2="744" y2="35" stroke="#DC2626" strokeWidth="2" strokeDasharray="3 3" />
+              <polygon points="744,32 752,35 744,38" fill="#DC2626" />
+              <text x="756" y="39" fill="#0F172A" fontSize="11" fontWeight="700" fontFamily="monospace">
                 ⟨Z₀⟩
               </text>
             </g>
@@ -297,7 +295,7 @@ export const CircuitDiagram: React.FC = () => {
       </Card>
 
       {/* Selected Gate Inspection Detail Panel */}
-      <Card variant="stone" padding="md" className="border-indigo-100 bg-gradient-to-r from-indigo-50/40 via-white to-purple-50/30">
+      <Card variant="stone" padding="md" className="border-indigo-100 bg-gradient-to-r from-indigo-50/50 via-white to-purple-50/40 shadow-xs">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="space-y-2 max-w-xl">
             <div className="flex items-center gap-2">
@@ -306,21 +304,21 @@ export const CircuitDiagram: React.FC = () => {
               </Badge>
               <h4 className="text-base font-bold text-slate-900">{activeGate.name}</h4>
             </div>
-            <p className="text-sm text-slate-600 leading-relaxed">{activeGate.description}</p>
-            <div className="flex items-start gap-2 pt-1 text-xs text-slate-700 bg-white/80 p-2.5 rounded-xl border border-slate-200/60">
-              <Info className="w-4 h-4 text-indigo-600 shrink-0 mt-0.5" />
+            <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">{activeGate.description}</p>
+            <div className="flex items-start gap-2 pt-1 text-xs text-slate-800 bg-white p-2.5 rounded-xl border border-slate-200">
+              <Info className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
               <span>
-                <strong className="text-indigo-900">Clinical Purpose: </strong>
+                <strong className="text-slate-900">Clinical Purpose: </strong>
                 {activeGate.clinicalImpact}
               </span>
             </div>
           </div>
 
-          <div className="shrink-0 bg-white px-4 py-3 rounded-2xl border border-slate-200/80 shadow-xs">
-            <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">
-              Circuit Formulation
+          <div className="shrink-0 bg-white px-4 py-2.5 rounded-2xl border border-slate-200 shadow-2xs">
+            <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">
+              Mathematical Formulation
             </p>
-            <code className="text-xs font-mono font-bold text-indigo-700 bg-indigo-50/70 px-2.5 py-1 rounded-lg block">
+            <code className="text-xs font-mono font-bold text-indigo-700 bg-indigo-50 px-2 py-1 rounded-lg block">
               {activeGate.math}
             </code>
           </div>

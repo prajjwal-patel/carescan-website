@@ -8,41 +8,41 @@ import { TEAM_MEMBERS } from '@/lib/constants';
 
 export const TeamSection: React.FC = () => {
   return (
-    <section id="team" className="relative py-20 md:py-28 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <section id="team" className="relative py-14 md:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <SectionHeader
-          badge="Research Contributors"
+          badge="Multidisciplinary Research Collaboration"
           badgeVariant="teal"
-          title="Multidisciplinary Research &"
-          highlightText="Engineering Collaboration"
-          subtitle="Orqis unites expertise across quantum information science, medical computer vision, clinical informatics, and patient-centered mobile design."
+          title="Bridging Medicine, AI, &"
+          highlightText="Quantum Information Science"
+          subtitle="Orqis unites clinicians, oncology informatics researchers, quantum engineers, and mobile architects dedicated to accessible cancer screening."
         />
 
         {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {TEAM_MEMBERS.map((member, i) => (
             <Card
               key={i}
               variant="white"
-              padding="lg"
+              padding="md"
               organic="subtle"
-              className="border-slate-200/90 hover:border-teal-300 shadow-xs transition-all space-y-4 text-center group"
+              className="border-slate-200 hover:border-teal-400 shadow-2xs transition-all space-y-3 text-center group"
             >
               {/* Avatar Placeholder */}
-              <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-teal-50 via-indigo-50 to-purple-50 border border-teal-100/80 flex items-center justify-center text-teal-700 font-bold text-lg shadow-2xs group-hover:scale-105 transition-transform">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-teal-50 via-indigo-50 to-purple-50 border border-teal-200/80 flex items-center justify-center text-teal-800 font-extrabold text-base shadow-2xs group-hover:scale-105 transition-transform">
                 <span>{member.avatarPlaceholder}</span>
               </div>
 
               <div>
-                <Badge variant={i === 0 ? 'quantum' : i === 1 ? 'teal' : i === 2 ? 'iris' : 'neutral'} size="sm">
+                <Badge variant={i === 0 ? 'teal' : i === 1 ? 'iris' : i === 2 ? 'quantum' : 'neutral'} size="sm">
                   {member.discipline}
                 </Badge>
-                <h3 className="text-base font-bold text-slate-900 mt-2">{member.role}</h3>
-                <p className="text-xs font-semibold text-slate-500">{member.department}</p>
+                <h3 className="text-sm sm:text-base font-bold text-slate-900 mt-1.5">{member.role}</h3>
+                <p className="text-xs font-semibold text-slate-600">{member.department}</p>
               </div>
 
-              <p className="text-xs text-slate-600 leading-relaxed pt-2 border-t border-slate-100">
+              <p className="text-xs text-slate-700 leading-relaxed pt-2 border-t border-slate-100">
                 {member.focus}
               </p>
             </Card>
@@ -50,10 +50,10 @@ export const TeamSection: React.FC = () => {
         </div>
 
         {/* Academic & Open Research Collaboration Banner */}
-        <Card variant="stone" padding="md" organic="subtle" className="max-w-3xl mx-auto border-teal-100 text-center space-y-2">
-          <p className="text-xs font-bold uppercase tracking-wider text-teal-700">Open-Access Research Initiative</p>
-          <p className="text-sm text-slate-700">
-            Orqis is developed as an open scientific collaboration targeting peer-reviewed benchmarks in AI-assisted oral oncology triage and quantum circuit acceleration.
+        <Card variant="stone" padding="md" organic="subtle" className="max-w-3xl mx-auto border-teal-200 text-center space-y-1.5">
+          <p className="text-xs font-bold uppercase tracking-wider text-teal-800">Open Scientific Research Initiative</p>
+          <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+            Orqis is developed as an open scientific collaboration targeting peer-reviewed clinical benchmarks in frontline AI oral triage and hardware-aware quantum acceleration.
           </p>
         </Card>
       </div>

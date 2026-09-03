@@ -10,30 +10,30 @@ import { CheckCircle2, CircleDot, Clock } from 'lucide-react';
 
 export const TimelineSection: React.FC = () => {
   return (
-    <section id="journey" className="relative py-20 md:py-28 bg-slate-50/70">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+    <section id="journey" className="relative py-14 md:py-20 bg-slate-50/70">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <SectionHeader
-          badge="Project Roadmap"
+          badge="Research & Clinical Roadmap"
           badgeVariant="teal"
-          title="The Evolution of the"
-          highlightText="Orqis Research Initiative"
-          subtitle="From initial clinical problem definition to hardware-aware quantum variational circuits and multi-center validation protocols."
+          title="The Journey of the"
+          highlightText="Orqis Healthcare Initiative"
+          subtitle="From clinical problem definition to hardware-aware quantum variational circuits and upcoming community field trials."
         />
 
         {/* Timeline Path */}
         <div className="relative max-w-4xl mx-auto">
           {/* Vertical connecting line */}
-          <div className="absolute top-8 bottom-8 left-4 md:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-teal-500 via-indigo-500 to-slate-300 hidden sm:block" />
+          <div className="absolute top-6 bottom-6 left-4 md:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-teal-500 via-indigo-500 to-slate-300 hidden sm:block" />
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             {TIMELINE_MILESTONES.map((item, index) => {
               const isEven = index % 2 === 0;
 
               return (
                 <div
                   key={item.phase}
-                  className={`relative flex flex-col sm:flex-row items-center gap-6 sm:gap-12 ${
+                  className={`relative flex flex-col sm:flex-row items-center gap-4 sm:gap-10 ${
                     isEven ? 'sm:flex-row-reverse' : ''
                   }`}
                 >
@@ -43,7 +43,7 @@ export const TimelineSection: React.FC = () => {
                       variant="white"
                       padding="md"
                       organic="subtle"
-                      className="border-slate-200/90 shadow-xs hover:border-teal-300 transition-all space-y-3"
+                      className="border-slate-200 shadow-2xs hover:border-teal-400 transition-all space-y-2.5"
                     >
                       <div className="flex items-center justify-between">
                         <Badge
@@ -60,23 +60,23 @@ export const TimelineSection: React.FC = () => {
                           {item.status === 'completed'
                             ? 'Completed'
                             : item.status === 'in-progress'
-                            ? 'Active Research'
+                            ? 'Active Phase'
                             : 'Planned'}
                         </Badge>
-                        <span className="text-xs font-mono font-bold text-slate-400">
+                        <span className="text-xs font-mono font-bold text-slate-500">
                           {item.phase} • {item.quarter}
                         </span>
                       </div>
 
-                      <h3 className="text-base font-bold text-slate-900">{item.title}</h3>
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900">{item.title}</h3>
+                      <p className="text-xs text-slate-700 leading-relaxed">
                         {item.description}
                       </p>
 
-                      <div className="pt-2 space-y-1.5 border-t border-slate-100">
+                      <div className="pt-1.5 space-y-1 border-t border-slate-100">
                         {item.deliverables.map((del, dIdx) => (
-                          <div key={dIdx} className="flex items-center gap-2 text-xs text-slate-700">
-                            <span className="w-1.5 h-1.5 rounded-full bg-teal-500 shrink-0" />
+                          <div key={dIdx} className="flex items-center gap-2 text-xs text-slate-800">
+                            <span className="w-1.5 h-1.5 rounded-full bg-teal-600 shrink-0" />
                             <span>{del}</span>
                           </div>
                         ))}
@@ -85,13 +85,13 @@ export const TimelineSection: React.FC = () => {
                   </div>
 
                   {/* Center Node on Timeline */}
-                  <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-white border-2 border-teal-600 items-center justify-center text-teal-600 shadow-sm z-10">
+                  <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-white border-2 border-teal-600 items-center justify-center text-teal-600 shadow-2xs z-10">
                     {item.status === 'completed' ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                     ) : item.status === 'in-progress' ? (
-                      <CircleDot className="w-4 h-4 text-teal-600 animate-pulse" />
+                      <CircleDot className="w-3.5 h-3.5 text-teal-600 animate-pulse" />
                     ) : (
-                      <Clock className="w-4 h-4 text-slate-400" />
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
                     )}
                   </div>
 
@@ -104,7 +104,7 @@ export const TimelineSection: React.FC = () => {
         </div>
       </div>
 
-      <div className="mt-16">
+      <div className="mt-12">
         <OrganicDivider position="bottom" fillColor="#FFFFFF" variant="curve-1" />
       </div>
     </section>
