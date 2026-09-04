@@ -1,7 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useCredentials, CREDENTIAL_PRESETS } from '@/lib/../context/CredentialsContext';
+import React, { useState, useRef } from 'react';
+import {
+  useCredentials,
+  CREDENTIAL_PRESETS,
+  PATIENT_PRESETS,
+  DEFAULT_CREDENTIALS,
+  DEFAULT_PATIENT,
+  computeAnomalyAnalysis,
+} from '@/context/CredentialsContext';
 import { Button } from './Button';
 import { Badge } from './Badge';
 import {
@@ -17,307 +24,873 @@ import {
   Sparkles,
   Lock,
   Stethoscope,
-  Info,
+  Upload,
+  Camera,
+  Image as ImageIcon,
+  Activity,
+  AlertTriangle,
+  HeartHandshake,
+  CheckCircle2,
+  HelpCircle,
+  FileText,
+  Calendar,
+  Layers,
+  Cpu,
 } from 'lucide-react';
 
 export const CredentialsModal: React.FC = () => {
   const {
+    activeAuthTab,
+    setActiveAuthTab,
     credentials,
+    patientProfile,
     isModalOpen,
     closeModal,
     updateCredentials,
+    updatePatientProfile,
     applyPreset,
+    applyPatientPreset,
     resetDefaults,
+    resetPatientDefaults,
     generateNewKey,
+    generateNewPatientId,
+    uploadPatientImage,
   } = useCredentials();
 
-  const [formData, setFormData] = useState(credentials);
+  // Clinician Form State
+  const [clinicianForm, setClinicianForm] = useState(credentials);
   const [copiedKey, setCopiedKey] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
+  const [clinicianSaveSuccess, setClinicianSaveSuccess] = useState(false);
 
-  // Sync formData when modal opens or credentials change
+  // Patient Form State
+  const [patientForm, setPatientForm] = useState(patientProfile);
+  const [patientSaveSuccess, setPatientSaveSuccess] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [dragActive, setDragActive] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync states when modal opens
   React.useEffect(() => {
-    setFormData(credentials);
-  }, [credentials, isModalOpen]);
+    setClinicianForm(credentials);
+    setPatientForm(patientProfile);
+  }, [credentials, patientProfile, isModalOpen]);
 
   if (!isModalOpen) return null;
 
-  const handleCopyKey = () => {
-    navigator.clipboard.writeText(formData.accessKey);
-    setCopiedKey(true);
-    setTimeout(() => setCopiedKey(false), 2000);
-  };
-
-  const handleSave = (e: React.FormEvent) => {
+  // Handle Clinician Save
+  const handleSaveClinician = (e: React.FormEvent) => {
     e.preventDefault();
-    updateCredentials(formData);
-    setSaveSuccess(true);
+    updateCredentials(clinicianForm);
+    setClinicianSaveSuccess(true);
     setTimeout(() => {
-      setSaveSuccess(false);
+      setClinicianSaveSuccess(false);
       closeModal();
-    }, 1200);
+    }, 1000);
   };
 
-  const handlePresetSelect = (presetId: string) => {
-    applyPreset(presetId);
-    const preset = CREDENTIAL_PRESETS.find((p) => p.id === presetId);
-    if (preset) {
-      setFormData({
-        name: preset.name,
-        role: preset.role,
-        facilityId: preset.facilityId,
-        accessKey: preset.accessKey,
-        fhirEndpoint: preset.fhirEndpoint,
-        notes: preset.description,
-      });
+  // Handle Patient Save & Launch Sandbox
+  const handleSavePatient = (e?: React.FormEvent, navigateToSandbox = false) => {
+    if (e) e.preventDefault();
+    const analysis = computeAnomalyAnalysis(patientForm.uploadedImageName, patientForm);
+    const updated = {
+      ...patientForm,
+      analysisResult: analysis,
+    };
+    updatePatientProfile(updated);
+    setPatientSaveSuccess(true);
+    setTimeout(() => {
+      setPatientSaveSuccess(false);
+      closeModal();
+      if (navigateToSandbox) {
+        const el = document.getElementById('sandbox');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }, 900);
+  };
+
+  // Handle File Upload from Input or Drag-Drop
+  const handleFileChange = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const file = files[0];
+    if (!file.type.startsWith('image/')) {
+      alert('Please upload a valid image file (JPG, PNG, or WebP)');
+      return;
     }
+
+    setIsAnalyzing(true);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const dataUrl = e.target?.result as string;
+      const analysis = computeAnomalyAnalysis(file.name, {
+        ...patientForm,
+        uploadedImageName: file.name,
+      });
+
+      setPatientForm((prev) => ({
+        ...prev,
+        uploadedImage: dataUrl,
+        uploadedImageName: file.name,
+        analysisResult: analysis,
+      }));
+
+      setIsAnalyzing(false);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
+    handleFileChange(e.dataTransfer.files);
+  };
+
+  // Run Manual Analysis trigger
+  const handleTriggerAnalysis = () => {
+    setIsAnalyzing(true);
+    setTimeout(() => {
+      const analysis = computeAnomalyAnalysis(patientForm.uploadedImageName, patientForm);
+      setPatientForm((prev) => ({
+        ...prev,
+        analysisResult: analysis,
+      }));
+      updatePatientProfile({ analysisResult: analysis });
+      setIsAnalyzing(false);
+    }, 600);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto animate-in fade-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto animate-in fade-in duration-200 font-body">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
+        className="fixed inset-0 bg-slate-900/65 backdrop-blur-sm transition-opacity"
         onClick={closeModal}
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden z-10 my-8">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-teal-900 via-slate-900 to-indigo-950 px-6 py-5 text-white flex items-center justify-between border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center text-teal-300 shrink-0">
-              <KeyRound className="w-5 h-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-heading text-lg font-bold tracking-tight text-white">
-                  User & Clinician Credentials
-                </h3>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-teal-300 bg-teal-900/60 px-2 py-0.5 rounded-full border border-teal-700/50">
-                  Local Session
-                </span>
+      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden z-10 my-6">
+        {/* Header with Dual Role Tab Switcher */}
+        <div className="bg-gradient-to-r from-teal-950 via-slate-900 to-indigo-950 p-5 sm:px-7 sm:py-5 text-white border-b border-white/10">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-teal-500/20 border border-teal-400/30 flex items-center justify-center text-teal-300 shrink-0">
+                {activeAuthTab === 'patient' ? (
+                  <User className="w-5 h-5" />
+                ) : (
+                  <KeyRound className="w-5 h-5" />
+                )}
               </div>
-              <p className="text-xs text-slate-300 font-body">
-                Configure practitioner credentials for interactive screening & FHIR export
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={closeModal}
-            className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
-            aria-label="Close credentials modal"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Content Body */}
-        <div className="p-6 space-y-6 max-h-[75vh] overflow-y-auto font-body">
-          {/* Preset Roles Quick Selector */}
-          <div className="space-y-2.5">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-teal-600" />
-                Quick-Select Role Presets
-              </label>
-              <span className="text-[11px] text-slate-400">Click to auto-populate</span>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              {CREDENTIAL_PRESETS.map((preset) => {
-                const isSelected = formData.role === preset.role && formData.name === preset.name;
-                return (
-                  <button
-                    key={preset.id}
-                    type="button"
-                    onClick={() => handlePresetSelect(preset.id)}
-                    className={`p-2.5 rounded-2xl border text-left transition-all ${
-                      isSelected
-                        ? 'border-teal-600 bg-teal-50/80 ring-2 ring-teal-600/20 shadow-xs'
-                        : 'border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-slate-50'
-                    }`}
-                  >
-                    <span className="block text-[10px] font-bold uppercase text-teal-700">
-                      {preset.badge}
-                    </span>
-                    <span className="block text-xs font-semibold text-slate-900 truncate">
-                      {preset.name}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Form Inputs for Custom Values */}
-          <form onSubmit={handleSave} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {/* Clinician Name */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <User className="w-3.5 h-3.5 text-slate-400" />
-                  Clinician / User Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Dr. Sunita Devi"
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
-                />
-              </div>
-
-              {/* Facility ID */}
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <Building2 className="w-3.5 h-3.5 text-slate-400" />
-                  Facility / Clinic ID
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={formData.facilityId}
-                  onChange={(e) => setFormData({ ...formData, facilityId: e.target.value })}
-                  placeholder="e.g. PHC-PURULIA-NODE-04"
-                  className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono transition-colors"
-                />
-              </div>
-            </div>
-
-            {/* Clinical Role Selection / Input */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                <Stethoscope className="w-3.5 h-3.5 text-slate-400" />
-                Designation / Clinical Role
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                placeholder="e.g. Frontline Health Worker (ASHA / PHC)"
-                className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
-              />
-            </div>
-
-            {/* Session Access Key */}
-            <div className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                  <Lock className="w-3.5 h-3.5 text-slate-400" />
-                  Session Access Key / API Token
-                </label>
+              <div>
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      generateNewKey();
-                      const randomHex = Math.random().toString(36).substring(2, 8).toUpperCase();
-                      const newK = `ORQIS-CLINIC-${randomHex}-${Date.now().toString().slice(-4)}`;
-                      setFormData({ ...formData, accessKey: newK });
-                    }}
-                    className="text-[11px] text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1"
-                  >
-                    <RefreshCw className="w-3 h-3" /> Generate New
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleCopyKey}
-                    className="text-[11px] text-slate-500 hover:text-slate-700 font-medium flex items-center gap-1"
-                  >
-                    {copiedKey ? (
-                      <>
-                        <Check className="w-3 h-3 text-emerald-600" />
-                        <span className="text-emerald-600">Copied</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3 h-3" /> Copy
-                      </>
-                    )}
-                  </button>
+                  <h3 className="font-heading text-lg font-bold tracking-tight text-white">
+                    {activeAuthTab === 'patient'
+                      ? 'Patient Self-Screening Portal'
+                      : 'Healthcare Clinician & Researcher Portal'}
+                  </h3>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-teal-300 bg-teal-900/60 px-2 py-0.5 rounded-full border border-teal-700/50">
+                    Local Session
+                  </span>
                 </div>
-              </div>
-              <input
-                type="text"
-                required
-                value={formData.accessKey}
-                onChange={(e) => setFormData({ ...formData, accessKey: e.target.value })}
-                className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono text-slate-800 transition-colors"
-              />
-            </div>
-
-            {/* FHIR Server Target Endpoint */}
-            <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                <Server className="w-3.5 h-3.5 text-slate-400" />
-                HL7 FHIR R4 Target Server
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.fhirEndpoint}
-                onChange={(e) => setFormData({ ...formData, fhirEndpoint: e.target.value })}
-                placeholder="https://rural-care.health.gov.in/fhir/r4"
-                className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono text-slate-800 transition-colors"
-              />
-            </div>
-
-            {/* Privacy & Zero-Cloud Notice */}
-            <div className="bg-teal-50/60 border border-teal-200/70 rounded-2xl p-3.5 flex items-start gap-3 text-xs text-teal-900">
-              <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
-              <div className="space-y-0.5">
-                <span className="font-bold">Zero-Cloud PHI Guarantee:</span>
-                <p className="text-teal-800/90 text-[11px] leading-relaxed">
-                  Entered credentials and session tokens are strictly stored in your local browser session and utilized solely to dynamically stamp client-side FHIR telemetry in the Sandbox.
+                <p className="text-xs text-slate-300 font-body">
+                  {activeAuthTab === 'patient'
+                    ? 'Direct image upload, on-device anomaly check & risk assessment'
+                    : 'Configure practitioner credentials for clinical screening & FHIR telemetry'}
                 </p>
               </div>
             </div>
+            <button
+              onClick={closeModal}
+              className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              aria-label="Close modal"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
-            {/* Footer Buttons */}
-            <div className="pt-3 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => {
-                  resetDefaults();
-                  setFormData({
-                    name: 'Sunita Devi',
-                    role: 'Frontline Health Worker (ASHA / PHC)',
-                    facilityId: 'PHC-PURULIA-NODE-04',
-                    accessKey: 'ASHA-RURAL-2026-9812',
-                    fhirEndpoint: 'https://rural-care.health.gov.in/fhir/r4',
-                    notes: 'Authenticated local testing profile for preliminary oral screening.',
-                  });
-                }}
-                className="text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors"
-              >
-                Reset to Default Preset
-              </button>
+          {/* Mode Tabs Switcher */}
+          <div className="grid grid-cols-2 p-1 bg-slate-800/80 rounded-2xl border border-slate-700/80">
+            <button
+              type="button"
+              onClick={() => setActiveAuthTab('patient')}
+              className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeAuthTab === 'patient'
+                  ? 'bg-teal-600 text-white shadow-md'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+              }`}
+            >
+              <Camera className="w-4 h-4" />
+              <span>Patient Self-Screening & Image Check</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveAuthTab('clinician')}
+              className={`flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                activeAuthTab === 'clinician'
+                  ? 'bg-teal-600 text-white shadow-md'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-700/50'
+              }`}
+            >
+              <Stethoscope className="w-4 h-4" />
+              <span>Clinician & Researcher Login</span>
+            </button>
+          </div>
+        </div>
 
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={closeModal}
-                  className="flex-1 sm:flex-initial"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  type="submit"
-                  variant="secondary"
-                  size="sm"
-                  icon={saveSuccess ? <Check className="w-3.5 h-3.5" /> : <ShieldCheck className="w-3.5 h-3.5" />}
-                  className="flex-1 sm:flex-initial bg-teal-600 hover:bg-teal-700"
-                >
-                  {saveSuccess ? 'Saved & Applied!' : 'Save & Apply Credentials'}
-                </Button>
+        {/* Content Body */}
+        <div className="p-5 sm:p-7 space-y-6 max-h-[75vh] overflow-y-auto">
+          {/* ========================================================================= */}
+          {/* PATIENT SELF-SCREENING & DIRECT IMAGE ANOMALY CHECK TAB */}
+          {/* ========================================================================= */}
+          {activeAuthTab === 'patient' && (
+            <div className="space-y-6">
+              {/* Patient Quick Scenario Presets */}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                    Quick Sample Patient Scenarios
+                  </label>
+                  <span className="text-[11px] text-slate-500">1-click test cases with clinical photos</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {PATIENT_PRESETS.map((preset) => {
+                    const isSelected = patientForm.patientId === preset.patientId;
+                    return (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => {
+                          applyPatientPreset(preset.id);
+                          const analysis = computeAnomalyAnalysis(preset.sampleImageName, {
+                            name: preset.name,
+                            tobaccoUse: preset.tobaccoUse,
+                            betelNutUse: preset.betelNutUse,
+                            alcoholUse: preset.alcoholUse,
+                            symptomRegion: preset.symptomRegion,
+                          });
+                          setPatientForm({
+                            name: preset.name,
+                            patientId: preset.patientId,
+                            age: preset.age,
+                            gender: preset.gender,
+                            symptomRegion: preset.symptomRegion,
+                            duration: preset.duration,
+                            tobaccoUse: preset.tobaccoUse,
+                            betelNutUse: preset.betelNutUse,
+                            alcoholUse: preset.alcoholUse,
+                            uploadedImage: preset.sampleImage,
+                            uploadedImageName: preset.sampleImageName,
+                            analysisResult: analysis,
+                          });
+                        }}
+                        className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-teal-600 bg-teal-50/80 ring-2 ring-teal-500/20 shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-slate-50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span
+                            className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                              preset.badgeVariant === 'danger'
+                                ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                                : preset.badgeVariant === 'warning'
+                                ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                            }`}
+                          >
+                            {preset.badge}
+                          </span>
+                        </div>
+                        <span className="block text-xs font-bold text-slate-900 truncate">
+                          {preset.name}
+                        </span>
+                        <span className="block text-[11px] text-slate-500 line-clamp-1 mt-0.5">
+                          {preset.description}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
+
+              {/* Direct Image Upload / Camera Input Area */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                    <Camera className="w-3.5 h-3.5 text-teal-600" />
+                    Direct Oral Image Input for Anomaly Detection
+                  </label>
+                  <span className="text-[11px] text-slate-500">JPG, PNG, WebP supported</span>
+                </div>
+
+                {/* Upload Box & Image Preview */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                  {/* Dropzone */}
+                  <div
+                    onDragOver={handleDragOver}
+                    onDragLeave={handleDragLeave}
+                    onDrop={handleDrop}
+                    onClick={() => fileInputRef.current?.click()}
+                    className={`md:col-span-6 p-5 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
+                      dragActive
+                        ? 'border-teal-600 bg-teal-50'
+                        : 'border-slate-300 hover:border-teal-500 bg-slate-50/80 hover:bg-teal-50/30'
+                    }`}
+                  >
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => handleFileChange(e.target.files)}
+                    />
+                    <div className="w-11 h-11 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mb-2 shadow-xs">
+                      <Upload className="w-5 h-5" />
+                    </div>
+                    <p className="text-xs sm:text-sm font-bold text-slate-800">
+                      Upload Oral Photo or Drag Here
+                    </p>
+                    <p className="text-[11px] text-slate-500 mt-1 max-w-xs">
+                      Click to browse from your device or camera capture. Analyzed 100% on-device.
+                    </p>
+                  </div>
+
+                  {/* Image Preview & Anomaly Trigger Card */}
+                  <div className="md:col-span-6 bg-slate-900 rounded-2xl p-3.5 border border-slate-800 flex flex-col items-center justify-center text-white relative overflow-hidden min-h-[170px]">
+                    {patientForm.uploadedImage ? (
+                      <div className="relative w-full h-36 rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center group">
+                        <img
+                          src={patientForm.uploadedImage}
+                          alt="Oral scan preview"
+                          className="w-full h-full object-contain"
+                        />
+                        {/* Scanning beam animation */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal-400/20 to-transparent animate-scan-line pointer-events-none" />
+                        <div className="absolute bottom-2 left-2 right-2 bg-slate-900/80 backdrop-blur-xs px-2.5 py-1 rounded-lg flex items-center justify-between text-[11px]">
+                          <span className="font-mono text-teal-300 truncate max-w-[160px]">
+                            {patientForm.uploadedImageName || 'oral_photo.png'}
+                          </span>
+                          <span className="text-emerald-400 font-bold flex items-center gap-1 text-[10px]">
+                            <CheckCircle2 className="w-3 h-3" /> Ready
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-center p-4 text-slate-400">
+                        <ImageIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                        <p className="text-xs">No image loaded yet</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Patient Demographics & Risk Inputs */}
+              <form onSubmit={handleSavePatient} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {/* Patient Name / Pseudonym */}
+                  <div className="space-y-1 sm:col-span-2">
+                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-slate-400" />
+                      Patient Name / Pseudonymous Label
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={patientForm.name}
+                      onChange={(e) => setPatientForm({ ...patientForm, name: e.target.value })}
+                      placeholder="e.g. Rohan Verma (Self-Check)"
+                      className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
+                    />
+                  </div>
+
+                  {/* Patient ID with Generator */}
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <label className="text-xs font-semibold text-slate-700">Patient ID</label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const randomHex = Math.random().toString(36).substring(2, 7).toUpperCase();
+                          setPatientForm({ ...patientForm, patientId: `PAT-SELF-${randomHex}` });
+                        }}
+                        className="text-[10px] text-teal-600 hover:text-teal-700 font-bold"
+                      >
+                        New ID
+                      </button>
+                    </div>
+                    <input
+                      type="text"
+                      required
+                      value={patientForm.patientId}
+                      onChange={(e) => setPatientForm({ ...patientForm, patientId: e.target.value })}
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {/* Age */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-700">Age</label>
+                    <input
+                      type="number"
+                      value={patientForm.age}
+                      onChange={(e) => setPatientForm({ ...patientForm, age: e.target.value })}
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                    />
+                  </div>
+
+                  {/* Gender */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-700">Gender</label>
+                    <select
+                      value={patientForm.gender}
+                      onChange={(e) => setPatientForm({ ...patientForm, gender: e.target.value })}
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 text-slate-800"
+                    >
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                      <option value="Other">Other / Non-Binary</option>
+                      <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                  </div>
+
+                  {/* Oral Region */}
+                  <div className="space-y-1">
+                    <label className="text-xs font-semibold text-slate-700">Symptom Location</label>
+                    <select
+                      value={patientForm.symptomRegion}
+                      onChange={(e) =>
+                        setPatientForm({ ...patientForm, symptomRegion: e.target.value })
+                      }
+                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 text-slate-800"
+                    >
+                      <option value="Buccal Mucosa (Inner Cheek)">Buccal Mucosa (Inner Cheek)</option>
+                      <option value="Left Lateral Border of Tongue">Left Lateral Tongue</option>
+                      <option value="Right Lateral Border of Tongue">Right Lateral Tongue</option>
+                      <option value="Dorsal Tongue">Dorsal Tongue</option>
+                      <option value="Floor of Mouth">Floor of Mouth</option>
+                      <option value="Gingiva / Gums">Gingiva / Gums</option>
+                      <option value="Palate (Roof of Mouth)">Palate (Roof of Mouth)</option>
+                      <option value="Lips / Labial Mucosa">Lips / Labial Mucosa</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Risk Exposures */}
+                <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                  <span className="text-xs font-bold text-slate-700 block">
+                    Patient Lifestyle & Habit Exposures
+                  </span>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={patientForm.tobaccoUse}
+                        onChange={(e) =>
+                          setPatientForm({ ...patientForm, tobaccoUse: e.target.checked })
+                        }
+                        className="rounded text-teal-600 focus:ring-teal-500"
+                      />
+                      <span>Tobacco / Smoking</span>
+                    </label>
+
+                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={patientForm.betelNutUse}
+                        onChange={(e) =>
+                          setPatientForm({ ...patientForm, betelNutUse: e.target.checked })
+                        }
+                        className="rounded text-teal-600 focus:ring-teal-500"
+                      />
+                      <span>Betel Nut / Quid</span>
+                    </label>
+
+                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={patientForm.alcoholUse}
+                        onChange={(e) =>
+                          setPatientForm({ ...patientForm, alcoholUse: e.target.checked })
+                        }
+                        className="rounded text-teal-600 focus:ring-teal-500"
+                      />
+                      <span>Alcohol Intake</span>
+                    </label>
+                  </div>
+                </div>
+
+                {/* Live Anomaly Assessment Results Card */}
+                {patientForm.analysisResult && (
+                  <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-900 to-teal-950 text-white border border-teal-500/30 space-y-3">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-teal-400" />
+                        <span className="font-heading text-xs font-bold uppercase tracking-wider text-teal-300">
+                          AI & Quantum Anomaly Analysis Output
+                        </span>
+                      </div>
+                      <span
+                        className={`text-xs font-bold px-2.5 py-0.5 rounded-full ${
+                          patientForm.analysisResult.riskLevel === 'High'
+                            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/40'
+                            : patientForm.analysisResult.riskLevel === 'Moderate'
+                            ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                            : 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40'
+                        }`}
+                      >
+                        {patientForm.analysisResult.riskLevel} Risk Anomaly
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                      <div className="bg-white/5 p-2.5 rounded-xl border border-white/10">
+                        <span className="text-[10px] text-slate-400 block">Fused Risk Score</span>
+                        <span className="text-base font-bold font-mono text-teal-300">
+                          {(patientForm.analysisResult.probability * 100).toFixed(1)}%
+                        </span>
+                      </div>
+                      <div className="bg-white/5 p-2.5 rounded-xl border border-white/10">
+                        <span className="text-[10px] text-slate-400 block">Quantum VQC ⟨Z₀⟩</span>
+                        <span className="text-base font-bold font-mono text-indigo-300">
+                          {patientForm.analysisResult.vqcExpectation >= 0 ? '+' : ''}
+                          {patientForm.analysisResult.vqcExpectation.toFixed(2)}
+                        </span>
+                      </div>
+                      <div className="bg-white/5 p-2.5 rounded-xl border border-white/10 col-span-2 sm:col-span-1">
+                        <span className="text-[10px] text-slate-400 block">Analysis Engine</span>
+                        <span className="text-xs font-semibold text-slate-200">
+                          Qiskit Aer 8-Qubit
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Findings */}
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-bold text-slate-300 block">
+                        Visual & Tissue Anomaly Findings:
+                      </span>
+                      <ul className="space-y-1 text-xs text-slate-300">
+                        {patientForm.analysisResult.findings.map((f, i) => (
+                          <li key={i} className="flex items-start gap-1.5">
+                            <span className="text-teal-400 mt-0.5">•</span>
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Recommendation */}
+                    <div className="bg-teal-950/70 border border-teal-700/50 p-3 rounded-xl text-xs space-y-1">
+                      <span className="font-bold text-teal-300 flex items-center gap-1">
+                        <HeartHandshake className="w-3.5 h-3.5" />
+                        Patient Next Steps & Guidance:
+                      </span>
+                      <p className="text-slate-200 leading-relaxed text-[11px]">
+                        {patientForm.analysisResult.recommendation}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Footer Buttons */}
+                <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetPatientDefaults();
+                      setPatientForm(DEFAULT_PATIENT);
+                    }}
+                    className="text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors"
+                  >
+                    Reset Patient Form
+                  </button>
+
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={closeModal}
+                      className="flex-1 sm:flex-initial text-xs"
+                    >
+                      Close
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="primary"
+                      size="sm"
+                      onClick={() => handleSavePatient(undefined, true)}
+                      icon={<Sparkles className="w-3.5 h-3.5" />}
+                      className="flex-1 sm:flex-initial text-xs"
+                    >
+                      {patientSaveSuccess ? 'Applied!' : 'Open in Triage Sandbox'}
+                    </Button>
+                  </div>
+                </div>
+              </form>
             </div>
-          </form>
+          )}
+
+          {/* ========================================================================= */}
+          {/* CLINICIAN & RESEARCHER LOGIN TAB */}
+          {/* ========================================================================= */}
+          {activeAuthTab === 'clinician' && (
+            <div className="space-y-6">
+              {/* Preset Roles Quick Selector */}
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                    Quick-Select Clinician Profiles
+                  </label>
+                  <span className="text-[11px] text-slate-400">Click to auto-populate</span>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {CREDENTIAL_PRESETS.map((preset) => {
+                    const isSelected =
+                      clinicianForm.role === preset.role && clinicianForm.name === preset.name;
+                    return (
+                      <button
+                        key={preset.id}
+                        type="button"
+                        onClick={() => {
+                          applyPreset(preset.id);
+                          const p = CREDENTIAL_PRESETS.find((x) => x.id === preset.id);
+                          if (p) {
+                            setClinicianForm({
+                              name: p.name,
+                              role: p.role,
+                              facilityId: p.facilityId,
+                              accessKey: p.accessKey,
+                              fhirEndpoint: p.fhirEndpoint,
+                              notes: p.description,
+                            });
+                          }
+                        }}
+                        className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-teal-600 bg-teal-50/80 ring-2 ring-teal-600/20 shadow-xs'
+                            : 'border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span className="block text-[10px] font-bold uppercase text-teal-700">
+                          {preset.badge}
+                        </span>
+                        <span className="block text-xs font-semibold text-slate-900 truncate">
+                          {preset.name}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Clinician Form Inputs */}
+              <form onSubmit={handleSaveClinician} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {/* Clinician Name */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-slate-400" />
+                      Clinician / User Name
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={clinicianForm.name}
+                      onChange={(e) =>
+                        setClinicianForm({ ...clinicianForm, name: e.target.value })
+                      }
+                      placeholder="e.g. Dr. Sunita Devi"
+                      className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
+                    />
+                  </div>
+
+                  {/* Facility ID */}
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                      Facility / Clinic ID
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      value={clinicianForm.facilityId}
+                      onChange={(e) =>
+                        setClinicianForm({ ...clinicianForm, facilityId: e.target.value })
+                      }
+                      placeholder="e.g. PHC-PURULIA-NODE-04"
+                      className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono transition-colors"
+                    />
+                  </div>
+                </div>
+
+                {/* Clinical Role */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                    <Stethoscope className="w-3.5 h-3.5 text-slate-400" />
+                    Designation / Clinical Role
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={clinicianForm.role}
+                    onChange={(e) =>
+                      setClinicianForm({ ...clinicianForm, role: e.target.value })
+                    }
+                    placeholder="e.g. Frontline Health Worker (ASHA / PHC)"
+                    className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
+                  />
+                </div>
+
+                {/* Session Access Key */}
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                      <Lock className="w-3.5 h-3.5 text-slate-400" />
+                      Session Access Key / API Token
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          generateNewKey();
+                          const randomHex = Math.random()
+                            .toString(36)
+                            .substring(2, 8)
+                            .toUpperCase();
+                          const newK = `ORQIS-CLINIC-${randomHex}-${Date.now().toString().slice(-4)}`;
+                          setClinicianForm({ ...clinicianForm, accessKey: newK });
+                        }}
+                        className="text-[11px] text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1 cursor-pointer"
+                      >
+                        <RefreshCw className="w-3 h-3" /> Generate New
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard.writeText(clinicianForm.accessKey);
+                          setCopiedKey(true);
+                          setTimeout(() => setCopiedKey(false), 2000);
+                        }}
+                        className="text-[11px] text-slate-500 hover:text-slate-700 font-medium flex items-center gap-1 cursor-pointer"
+                      >
+                        {copiedKey ? (
+                          <>
+                            <Check className="w-3 h-3 text-emerald-600" />
+                            <span className="text-emerald-600">Copied</span>
+                          </>
+                        ) : (
+                          <>
+                            <Copy className="w-3 h-3" /> Copy
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    required
+                    value={clinicianForm.accessKey}
+                    onChange={(e) =>
+                      setClinicianForm({ ...clinicianForm, accessKey: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800"
+                  />
+                </div>
+
+                {/* FHIR Server Target Endpoint */}
+                <div className="space-y-1.5">
+                  <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
+                    <Server className="w-3.5 h-3.5 text-slate-400" />
+                    HL7 FHIR R4 Target Server
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={clinicianForm.fhirEndpoint}
+                    onChange={(e) =>
+                      setClinicianForm({ ...clinicianForm, fhirEndpoint: e.target.value })
+                    }
+                    placeholder="https://rural-care.health.gov.in/fhir/r4"
+                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800"
+                  />
+                </div>
+
+                {/* Privacy & Zero-Cloud Notice */}
+                <div className="bg-teal-50/60 border border-teal-200/70 rounded-2xl p-3.5 flex items-start gap-3 text-xs text-teal-900">
+                  <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                  <div className="space-y-0.5">
+                    <span className="font-bold">Zero-Cloud PHI Guarantee:</span>
+                    <p className="text-teal-800/90 text-[11px] leading-relaxed">
+                      Entered credentials and session tokens are strictly stored in your local browser session and utilized solely to dynamically stamp client-side FHIR telemetry in the Sandbox.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Footer Buttons */}
+                <div className="pt-3 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      resetDefaults();
+                      setClinicianForm(DEFAULT_CREDENTIALS);
+                    }}
+                    className="text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors"
+                  >
+                    Reset to Default Clinician
+                  </button>
+
+                  <div className="flex items-center gap-2 w-full sm:w-auto">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="sm"
+                      onClick={closeModal}
+                      className="flex-1 sm:flex-initial"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      variant="secondary"
+                      size="sm"
+                      icon={
+                        clinicianSaveSuccess ? (
+                          <Check className="w-3.5 h-3.5" />
+                        ) : (
+                          <ShieldCheck className="w-3.5 h-3.5" />
+                        )
+                      }
+                      className="flex-1 sm:flex-initial bg-teal-600 hover:bg-teal-700"
+                    >
+                      {clinicianSaveSuccess ? 'Saved & Applied!' : 'Save & Apply Credentials'}
+                    </Button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          )}
         </div>
       </div>
     </div>

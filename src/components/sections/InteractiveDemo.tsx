@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SectionHeader } from '../ui/SectionHeader';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
@@ -19,11 +19,20 @@ import {
   HeartHandshake,
   HelpCircle,
   KeyRound,
+  Camera,
+  User,
+  Upload,
+  Layers,
+  Activity,
 } from 'lucide-react';
 
 export const InteractiveDemo: React.FC = () => {
-  const { credentials, openModal } = useCredentials();
+  const { credentials, patientProfile, openModal } = useCredentials();
+
+  // Selected case state: 'synthetic-preset' or 'patient-upload'
+  const [caseSource, setCaseSource] = useState<'preset' | 'patient'>('preset');
   const [selectedPresetId, setSelectedPresetId] = useState<string>(TEST_CASE_PRESETS[0].id);
+
   const [smoking, setSmoking] = useState<boolean>(false);
   const [alcohol, setAlcohol] = useState<boolean>(false);
   const [betelQuid, setBetelQuid] = useState<boolean>(false);
@@ -34,6 +43,7 @@ export const InteractiveDemo: React.FC = () => {
 
   // Sync default lifestyle factors when preset changes
   const handleSelectPreset = (presetId: string) => {
+    setCaseSource('preset');
     setSelectedPresetId(presetId);
     const p = TEST_CASE_PRESETS.find((item) => item.id === presetId);
     if (p) {
@@ -43,26 +53,75 @@ export const InteractiveDemo: React.FC = () => {
     }
   };
 
-  const simulation = calculateSimulatedRisk(selectedPreset, {
-    smoking,
-    alcohol,
-    betelQuid,
-  });
+  // Switch to Patient Uploaded Case
+  const handleSelectPatientCase = () => {
+    setCaseSource('patient');
+    setSmoking(patientProfile.tobaccoUse);
+    setAlcohol(patientProfile.alcoholUse);
+    setBetelQuid(patientProfile.betelNutUse);
+  };
+
+  // Calculate risk based on either preset or patient image analysis
+  let finalProb = 0.05;
+  let classicalProb = 0.05;
+  let quantumZ0 = 0.85;
+  let riskLevel = 'Low';
+  let recommendation = '';
+
+  if (caseSource === 'patient' && patientProfile.analysisResult) {
+    let p = patientProfile.analysisResult.probability;
+    // Apply real-time checkbox overrides
+    if (smoking && !patientProfile.tobaccoUse) p += 0.12;
+    if (!smoking && patientProfile.tobaccoUse) p -= 0.12;
+    if (betelQuid && !patientProfile.betelNutUse) p += 0.15;
+    if (!betelQuid && patientProfile.betelNutUse) p -= 0.15;
+    if (alcohol && !patientProfile.alcoholUse) p += 0.06;
+    if (!alcohol && patientProfile.alcoholUse) p -= 0.06;
+
+    finalProb = Math.min(0.96, Math.max(0.04, p));
+    classicalProb = Math.min(0.95, finalProb * 0.9 + 0.02);
+    quantumZ0 = finalProb >= 0.6 ? -(0.4 + finalProb * 0.4) : 0.88 - finalProb * 0.6;
+    riskLevel = finalProb >= 0.6 ? 'High' : finalProb >= 0.28 ? 'Moderate' : 'Low';
+    recommendation = patientProfile.analysisResult.recommendation;
+  } else {
+    const sim = calculateSimulatedRisk(selectedPreset, {
+      smoking,
+      alcohol,
+      betelQuid,
+    });
+    finalProb = sim.finalProb;
+    classicalProb = sim.classicalProb;
+    quantumZ0 = sim.quantumExpectation;
+    riskLevel = sim.riskLevel;
+    recommendation = sim.recommendation;
+  }
 
   const getRiskBadge = (level: string) => {
     switch (level) {
       case 'High':
-        return <Badge variant="danger" pulse size="md">High Risk • Urgent Referral</Badge>;
+        return (
+          <Badge variant="danger" pulse size="md">
+            High Risk • Urgent Referral
+          </Badge>
+        );
       case 'Moderate':
-        return <Badge variant="warning" pulse size="md">Moderate Risk • 30-Day Re-check</Badge>;
+        return (
+          <Badge variant="warning" pulse size="md">
+            Moderate Risk • 30-Day Re-check
+          </Badge>
+        );
       default:
-        return <Badge variant="success" size="md">Low Risk • Routine Hygiene</Badge>;
+        return (
+          <Badge variant="success" size="md">
+            Low Risk • Routine Hygiene
+          </Badge>
+        );
     }
   };
 
   const simulatedFhirObservation = {
     resourceType: 'Observation',
-    id: `obs-orqis-${selectedPreset.id}`,
+    id: `obs-orqis-${caseSource === 'patient' ? patientProfile.patientId : selectedPreset.id}`,
     meta: {
       source: credentials.fhirEndpoint,
       profile: ['http://hl7.org/fhir/StructureDefinition/Observation'],
@@ -77,6 +136,21 @@ export const InteractiveDemo: React.FC = () => {
         },
       ],
       text: 'Orqis AI & Quantum Oral Screening Risk Assessment',
+    },
+    subject: {
+      reference: `Patient/${caseSource === 'patient' ? patientProfile.patientId : 'SYNTH-PT-001'}`,
+      display: caseSource === 'patient' ? patientProfile.name : 'Simulated Screening Patient',
+      extension: [
+        {
+          url: 'https://orqis.health/patient-age',
+          valueString: caseSource === 'patient' ? `${patientProfile.age}y` : '45y',
+        },
+        {
+          url: 'https://orqis.health/oral-region',
+          valueString:
+            caseSource === 'patient' ? patientProfile.symptomRegion : selectedPreset.category,
+        },
+      ],
     },
     performer: [
       {
@@ -99,7 +173,7 @@ export const InteractiveDemo: React.FC = () => {
       },
     ],
     valueQuantity: {
-      value: simulation.finalProb,
+      value: Math.round(finalProb * 1000) / 1000,
       unit: 'probability',
       system: 'http://unitsofmeasure.org',
       code: '1',
@@ -108,14 +182,24 @@ export const InteractiveDemo: React.FC = () => {
       {
         coding: [
           {
-            code: simulation.riskLevel === 'High' ? 'POS' : simulation.riskLevel === 'Moderate' ? 'OBS' : 'NEG',
-            display: simulation.riskLevel,
+            code: riskLevel === 'High' ? 'POS' : riskLevel === 'Moderate' ? 'OBS' : 'NEG',
+            display: riskLevel,
           },
         ],
-        text: simulation.riskLevel,
+        text: `${riskLevel} Risk Anomaly`,
       },
     ],
-    note: [{ text: simulation.recommendation }],
+    component: [
+      {
+        code: { text: 'MobileNetV3 512D Classical CNN Feature Score' },
+        valueQuantity: { value: Math.round(classicalProb * 1000) / 1000, unit: 'score' },
+      },
+      {
+        code: { text: '8-Qubit VQC Pauli-Z Ground State Expectation ⟨Z₀⟩' },
+        valueQuantity: { value: Math.round(quantumZ0 * 1000) / 1000, unit: 'expectation' },
+      },
+    ],
+    note: [{ text: recommendation }],
   };
 
   return (
@@ -139,7 +223,7 @@ export const InteractiveDemo: React.FC = () => {
               </span>
               <div>
                 <p className="text-xs font-bold text-slate-900">Choose Patient Case</p>
-                <p className="text-[11px] text-slate-600">Select clinical presentation</p>
+                <p className="text-[11px] text-slate-600">Preset scenario or live photo</p>
               </div>
             </div>
 
@@ -167,44 +251,141 @@ export const InteractiveDemo: React.FC = () => {
 
         {/* Sandbox Main Container */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Left Column: Preset Selection & Lifestyle Toggles */}
+          {/* Left Column: Preset Selection, Patient Photo Case & Lifestyle Toggles */}
           <div className="lg:col-span-5 space-y-5">
-            {/* Step 1: Presets */}
+            {/* Step 1: Case Selector */}
             <Card variant="white" padding="md" organic="subtle" className="border-slate-200 shadow-2xs">
               <div className="flex items-center justify-between mb-3">
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
-                  Step 1 • Select Patient Scenario
+                  Step 1 • Select Screening Case
                 </span>
-                <span className="text-[11px] text-teal-700 font-bold">Synthetic Case</span>
+                <span className="text-[11px] text-teal-700 font-bold">
+                  {caseSource === 'patient' ? 'Patient Photo Active' : 'Synthetic Presets'}
+                </span>
               </div>
 
-              <div className="space-y-2">
-                {TEST_CASE_PRESETS.map((preset) => {
-                  const isSelected = preset.id === selectedPresetId;
-                  return (
-                    <button
-                      key={preset.id}
-                      onClick={() => handleSelectPreset(preset.id)}
-                      className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-teal-50 border-teal-600 ring-2 ring-teal-500/20 shadow-xs'
-                          : 'bg-white border-slate-200 hover:bg-slate-50'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm font-bold text-slate-900">{preset.name}</span>
-                        <Badge
-                          variant={preset.riskLevel === 'High' ? 'danger' : preset.riskLevel === 'Moderate' ? 'warning' : 'neutral'}
-                          size="sm"
-                        >
-                          {preset.category}
-                        </Badge>
-                      </div>
-                      <p className="text-xs text-slate-600 line-clamp-2">{preset.clinicalDescription}</p>
-                    </button>
-                  );
-                })}
+              {/* Case Source Switcher Tabs */}
+              <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-xl mb-3">
+                <button
+                  type="button"
+                  onClick={() => setCaseSource('preset')}
+                  className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer ${
+                    caseSource === 'preset'
+                      ? 'bg-white text-slate-900 shadow-2xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  Clinical Presets
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSelectPatientCase}
+                  className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                    caseSource === 'patient'
+                      ? 'bg-teal-700 text-white shadow-2xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Camera className="w-3.5 h-3.5" />
+                  <span>Patient Photo Case</span>
+                </button>
               </div>
+
+              {/* View 1: Patient Photo Case Display */}
+              {caseSource === 'patient' && (
+                <div className="space-y-3 p-3 rounded-2xl bg-teal-50/70 border border-teal-200">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="text-xs font-bold text-slate-900">{patientProfile.name}</h4>
+                      <p className="text-[11px] text-slate-600">
+                        {patientProfile.age} yrs • {patientProfile.gender} • {patientProfile.symptomRegion}
+                      </p>
+                    </div>
+                    <Badge
+                      variant={
+                        patientProfile.analysisResult?.riskLevel === 'High'
+                          ? 'danger'
+                          : patientProfile.analysisResult?.riskLevel === 'Moderate'
+                          ? 'warning'
+                          : 'success'
+                      }
+                      size="sm"
+                    >
+                      {patientProfile.analysisResult?.riskLevel || 'Analyzed'} Anomaly
+                    </Badge>
+                  </div>
+
+                  {/* Photo Preview with Scanner */}
+                  {patientProfile.uploadedImage && (
+                    <div className="relative w-full h-36 rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center border border-slate-800">
+                      <img
+                        src={patientProfile.uploadedImage}
+                        alt="Patient oral photo"
+                        className="w-full h-full object-contain"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-teal-400/20 to-transparent animate-scan-line pointer-events-none" />
+                      <div className="absolute bottom-1.5 left-2 right-2 bg-slate-900/80 px-2 py-0.5 rounded text-[10px] text-teal-300 font-mono truncate flex items-center justify-between">
+                        <span>{patientProfile.uploadedImageName || 'patient_lesion.png'}</span>
+                        <span className="text-emerald-400 font-bold">On-Device VQC Scanned</span>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex items-center justify-between pt-1">
+                    <span className="text-[11px] text-slate-500 font-mono">
+                      ID: {patientProfile.patientId}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => openModal('patient')}
+                      icon={<Upload className="w-3 h-3 text-teal-700" />}
+                      className="text-xs font-bold text-teal-800 bg-white hover:bg-teal-50 border border-teal-200"
+                    >
+                      Change Photo / Patient
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+              {/* View 2: Preset Scenarios List */}
+              {caseSource === 'preset' && (
+                <div className="space-y-2">
+                  {TEST_CASE_PRESETS.map((preset) => {
+                    const isSelected = preset.id === selectedPresetId;
+                    return (
+                      <button
+                        key={preset.id}
+                        onClick={() => handleSelectPreset(preset.id)}
+                        className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer ${
+                          isSelected
+                            ? 'bg-teal-50 border-teal-600 ring-2 ring-teal-500/20 shadow-xs'
+                            : 'bg-white border-slate-200 hover:bg-slate-50'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-bold text-slate-900">{preset.name}</span>
+                          <Badge
+                            variant={
+                              preset.riskLevel === 'High'
+                                ? 'danger'
+                                : preset.riskLevel === 'Moderate'
+                                ? 'warning'
+                                : 'neutral'
+                            }
+                            size="sm"
+                          >
+                            {preset.category}
+                          </Badge>
+                        </div>
+                        <p className="text-xs text-slate-600 line-clamp-2">
+                          {preset.clinicalDescription}
+                        </p>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
             </Card>
 
             {/* Step 2: Lifestyle Auxiliary Risk Toggles */}
@@ -259,7 +440,7 @@ export const InteractiveDemo: React.FC = () => {
 
           {/* Right Column: Live Simulated Triage & FHIR Output */}
           <div className="lg:col-span-7 space-y-5">
-            {/* Active Practitioner Credentials Banner */}
+            {/* Active Practitioner & Patient Session Banner */}
             <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-teal-50/80 border border-teal-200/90 shadow-2xs">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center text-xs font-bold shadow-xs shrink-0">
@@ -273,14 +454,14 @@ export const InteractiveDemo: React.FC = () => {
                     </span>
                   </div>
                   <p className="text-[11px] text-slate-600 font-mono">
-                    Facility: {credentials.facilityId}
+                    Facility: {credentials.facilityId} • Patient: {caseSource === 'patient' ? patientProfile.name : 'Simulated Case'}
                   </p>
                 </div>
               </div>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={openModal}
+                onClick={() => openModal('clinician')}
                 icon={<KeyRound className="w-3.5 h-3.5 text-teal-700" />}
                 className="text-xs font-bold text-teal-800 hover:bg-white border border-teal-200/80 bg-white/80 shadow-2xs"
               >
@@ -328,50 +509,53 @@ export const InteractiveDemo: React.FC = () => {
                       <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
                         Step 3 • Calibrated Clinical Triage
                       </p>
-                      <h3 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-0.5">
-                        {simulation.riskLevel} Risk Stratum
-                      </h3>
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+                        {riskLevel} Risk Stratum
+                      </h4>
+                      <p className="text-xs text-slate-600 mt-0.5">
+                        {caseSource === 'patient'
+                          ? `Evaluated for ${patientProfile.name} on ${patientProfile.symptomRegion}`
+                          : `Clinical presentation for ${selectedPreset.name}`}
+                      </p>
                     </div>
-                    <div>{getRiskBadge(simulation.riskLevel)}</div>
+                    <div>{getRiskBadge(riskLevel)}</div>
                   </div>
 
-                  {/* Telemetry Progress Gauges */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {/* Classical Model Baseline */}
+                  {/* Diagnostic Gauges Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+                    {/* Classical CNN */}
                     <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
                       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                        Classical Visual Risk
+                        Classical CNN
                       </p>
                       <p className="text-lg font-extrabold text-slate-900 font-mono mt-0.5">
-                        {(simulation.classicalProb * 100).toFixed(1)}%
+                        {(classicalProb * 100).toFixed(1)}%
                       </p>
                       <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
-                          className="bg-teal-600 h-full transition-all duration-300"
-                          style={{ width: `${simulation.classicalProb * 100}%` }}
+                          className="bg-indigo-600 h-full transition-all duration-300"
+                          style={{ width: `${classicalProb * 100}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-1">Image texture analysis</p>
+                      <p className="text-[10px] text-slate-500 mt-1">MobileNetV3 512D</p>
                     </div>
 
-                    {/* Quantum Expectation <Z> */}
+                    {/* Quantum 8-Qubit VQC */}
                     <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
                       <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
-                        Quantum VQC Readout
+                        Quantum VQC ⟨Z₀⟩
                       </p>
                       <p className="text-lg font-extrabold text-purple-700 font-mono mt-0.5">
-                        {simulation.quantumExpectation > 0 ? '+' : ''}
-                        {simulation.quantumExpectation.toFixed(3)}
+                        {quantumZ0 >= 0 ? '+' : ''}
+                        {quantumZ0.toFixed(2)}
                       </p>
                       <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
                           className="bg-purple-600 h-full transition-all duration-300"
-                          style={{
-                            width: `${((1 - simulation.quantumExpectation) / 2) * 100}%`,
-                          }}
+                          style={{ width: `${Math.max(10, (1 - (quantumZ0 + 1) / 2) * 100)}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-1">8-Qubit circuit analysis</p>
+                      <p className="text-[10px] text-slate-500 mt-1">Pauli-Z ground state</p>
                     </div>
 
                     {/* Multimodal Fused Probability */}
@@ -380,18 +564,18 @@ export const InteractiveDemo: React.FC = () => {
                         Final Calibrated Score
                       </p>
                       <p className="text-lg font-extrabold text-teal-800 font-mono mt-0.5">
-                        {(simulation.finalProb * 100).toFixed(1)}%
+                        {(finalProb * 100).toFixed(1)}%
                       </p>
                       <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
                           className={`h-full transition-all duration-300 ${
-                            simulation.finalProb >= 0.65
+                            finalProb >= 0.6
                               ? 'bg-rose-500'
-                              : simulation.finalProb >= 0.3
+                              : finalProb >= 0.28
                               ? 'bg-amber-500'
                               : 'bg-emerald-500'
                           }`}
-                          style={{ width: `${simulation.finalProb * 100}%` }}
+                          style={{ width: `${finalProb * 100}%` }}
                         />
                       </div>
                       <p className="text-[10px] text-slate-500 mt-1">Fused clinical decision</p>
@@ -402,10 +586,10 @@ export const InteractiveDemo: React.FC = () => {
                   <div className="p-4 rounded-2xl bg-teal-50/60 border border-teal-200 space-y-1.5">
                     <div className="flex items-center gap-2 text-teal-950 font-bold text-xs uppercase tracking-wider">
                       <HeartHandshake className="w-4 h-4 text-teal-700" />
-                      Clinical Action Plan for Health Worker
+                      Clinical Action Plan for Health Worker & Patient
                     </div>
                     <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
-                      {simulation.recommendation}
+                      {recommendation}
                     </p>
                   </div>
                 </div>
@@ -418,7 +602,7 @@ export const InteractiveDemo: React.FC = () => {
                     <span className="font-bold">HL7 FHIR R4 Observation Resource</span>
                     <span className="font-mono text-slate-500">SNOMED CT: 363349007</span>
                   </div>
-                  <pre className="p-3.5 rounded-2xl bg-slate-900 text-teal-300 font-mono text-xs overflow-x-auto max-h-72 border border-slate-800 leading-relaxed">
+                  <pre className="p-3.5 rounded-2xl bg-slate-900 text-teal-300 font-mono text-xs overflow-x-auto max-h-80 border border-slate-800 leading-relaxed">
                     {JSON.stringify(simulatedFhirObservation, null, 2)}
                   </pre>
                 </div>

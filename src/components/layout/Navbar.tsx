@@ -70,7 +70,7 @@ export const Navbar: React.FC = () => {
         {/* Right CTA - User & Clinician Credentials Trigger */}
         <div className="hidden sm:flex items-center gap-2 shrink-0 whitespace-nowrap">
           <Button
-            onClick={openModal}
+            onClick={() => openModal()}
             variant="secondary"
             size="sm"
             icon={<KeyRound className="w-3.5 h-3.5" />}
