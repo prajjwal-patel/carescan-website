@@ -51,6 +51,7 @@ export const metadata: Metadata = {
   },
 };
 
+import Script from 'next/script';
 import { AppProviders } from '@/components/providers/AppProviders';
 
 export default function RootLayout({
@@ -65,7 +66,9 @@ export default function RootLayout({
       className={`scroll-smooth ${outfit.variable} ${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <head>
-        <script
+        <Script
+          id="theme-initializer"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
