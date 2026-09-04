@@ -17,7 +17,7 @@ const ICONS = {
 
 export const PhilosophySection: React.FC = () => {
   return (
-    <section id="philosophy" className="relative py-14 md:py-20 bg-white">
+    <section id="philosophy" className="relative py-14 md:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Section Header */}
         <SectionHeader
@@ -39,26 +39,26 @@ export const PhilosophySection: React.FC = () => {
                 variant="white"
                 padding="lg"
                 organic="subtle"
-                className="border-slate-200 hover:border-teal-300 shadow-2xs transition-all space-y-3.5"
+                className="border-slate-200 dark:border-slate-800 hover:border-teal-300 dark:hover:border-teal-700 shadow-2xs transition-all space-y-3.5"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-2xl bg-teal-50 dark:bg-teal-950/70 text-teal-700 dark:text-teal-300 flex items-center justify-center shrink-0">
                     <Icon className="w-5 h-5" />
                   </div>
                   <div>
                     <Badge variant="teal">{pillar.tagline}</Badge>
-                    <h3 className="text-lg font-bold text-slate-900 mt-1">{pillar.title}</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-1 font-heading">{pillar.title}</h3>
                   </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-slate-700 leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-body">
                   {pillar.description}
                 </p>
 
-                <div className="pt-2 space-y-2 border-t border-slate-100">
+                <div className="pt-2 space-y-2 border-t border-slate-100 dark:border-slate-800">
                   {pillar.points.map((pt, pIdx) => (
-                    <div key={pIdx} className="flex items-start gap-2.5 text-xs text-slate-800 font-medium">
-                      <CheckCircle2 className="w-4 h-4 text-teal-700 shrink-0 mt-0.5" />
+                    <div key={pIdx} className="flex items-start gap-2.5 text-xs text-slate-800 dark:text-slate-200 font-medium font-body">
+                      <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0 mt-0.5" />
                       <span>{pt}</span>
                     </div>
                   ))}
@@ -70,7 +70,7 @@ export const PhilosophySection: React.FC = () => {
       </div>
 
       <div className="mt-12">
-        <OrganicDivider position="bottom" fillColor="#F8FAFC" variant="wave" />
+        <OrganicDivider position="bottom" fillColor="var(--warm-bg)" variant="wave" />
       </div>
     </section>
   );

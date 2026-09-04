@@ -29,16 +29,16 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           <Badge variant={badgeVariant}>{badge}</Badge>
         </div>
       )}
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-[1.2]">
+      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-slate-900 dark:text-white leading-[1.2]">
         {title}{' '}
         {highlightText && (
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-700 via-indigo-600 to-purple-700">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-indigo-500 to-purple-600 dark:from-teal-400 dark:via-indigo-400 dark:to-purple-400">
             {highlightText}
           </span>
         )}
       </h2>
       {subtitle && (
-        <p className="mt-3 text-sm sm:text-base text-slate-700 leading-relaxed max-w-2xl mx-auto">
+        <p className="mt-3 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto font-body">
           {subtitle}
         </p>
       )}

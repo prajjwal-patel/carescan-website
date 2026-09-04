@@ -182,7 +182,7 @@ export const CredentialsModal: React.FC = () => {
       />
 
       {/* Modal Container */}
-      <div className="relative w-full max-w-3xl bg-white rounded-3xl shadow-2xl border border-slate-200/90 overflow-hidden z-10 my-6">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200/90 dark:border-slate-800 overflow-hidden z-10 my-6 transition-colors">
         {/* Header with Dual Role Tab Switcher */}
         <div className="bg-gradient-to-r from-teal-950 via-slate-900 to-indigo-950 p-5 sm:px-7 sm:py-5 text-white border-b border-white/10">
           <div className="flex items-center justify-between mb-4">
@@ -214,7 +214,7 @@ export const CredentialsModal: React.FC = () => {
             </div>
             <button
               onClick={closeModal}
-              className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+              className="p-2 rounded-full text-slate-400 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X className="w-5 h-5" />
@@ -260,11 +260,11 @@ export const CredentialsModal: React.FC = () => {
               {/* Patient Quick Scenario Presets */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                     Quick Sample Patient Scenarios
                   </label>
-                  <span className="text-[11px] text-slate-500">1-click test cases with clinical photos</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">1-click test cases with clinical photos</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -300,27 +300,27 @@ export const CredentialsModal: React.FC = () => {
                         }}
                         className={`p-3 rounded-2xl border text-left transition-all cursor-pointer ${
                           isSelected
-                            ? 'border-teal-600 bg-teal-50/80 ring-2 ring-teal-500/20 shadow-xs'
-                            : 'border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-slate-50'
+                            ? 'border-teal-600 bg-teal-50/80 dark:bg-teal-950/40 ring-2 ring-teal-500/20 shadow-xs'
+                            : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-slate-50/60 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1">
                           <span
                             className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
                               preset.badgeVariant === 'danger'
-                                ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                                ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
                                 : preset.badgeVariant === 'warning'
-                                ? 'bg-amber-100 text-amber-800 border border-amber-200'
-                                : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
+                                ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+                                : 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
                             }`}
                           >
                             {preset.badge}
                           </span>
                         </div>
-                        <span className="block text-xs font-bold text-slate-900 truncate">
+                        <span className="block text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
                           {preset.name}
                         </span>
-                        <span className="block text-[11px] text-slate-500 line-clamp-1 mt-0.5">
+                        <span className="block text-[11px] text-slate-500 dark:text-slate-400 line-clamp-1 mt-0.5">
                           {preset.description}
                         </span>
                       </button>
@@ -332,11 +332,11 @@ export const CredentialsModal: React.FC = () => {
               {/* Direct Image Upload / Camera Input Area */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
-                    <Camera className="w-3.5 h-3.5 text-teal-600" />
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <Camera className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                     Direct Oral Image Input for Anomaly Detection
                   </label>
-                  <span className="text-[11px] text-slate-500">JPG, PNG, WebP supported</span>
+                  <span className="text-[11px] text-slate-500 dark:text-slate-400">JPG, PNG, WebP supported</span>
                 </div>
 
                 {/* Upload Box & Image Preview */}
@@ -349,8 +349,8 @@ export const CredentialsModal: React.FC = () => {
                     onClick={() => fileInputRef.current?.click()}
                     className={`md:col-span-6 p-5 rounded-2xl border-2 border-dashed flex flex-col items-center justify-center text-center cursor-pointer transition-all ${
                       dragActive
-                        ? 'border-teal-600 bg-teal-50'
-                        : 'border-slate-300 hover:border-teal-500 bg-slate-50/80 hover:bg-teal-50/30'
+                        ? 'border-teal-600 bg-teal-50 dark:bg-teal-950/30'
+                        : 'border-slate-300 dark:border-slate-700 hover:border-teal-500 bg-slate-50/80 dark:bg-slate-800/40 hover:bg-teal-50/30 dark:hover:bg-teal-950/20'
                     }`}
                   >
                     <input
@@ -360,19 +360,19 @@ export const CredentialsModal: React.FC = () => {
                       className="hidden"
                       onChange={(e) => handleFileChange(e.target.files)}
                     />
-                    <div className="w-11 h-11 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mb-2 shadow-xs">
+                    <div className="w-11 h-11 rounded-2xl bg-teal-100 dark:bg-teal-900/60 text-teal-700 dark:text-teal-300 flex items-center justify-center mb-2 shadow-xs">
                       <Upload className="w-5 h-5" />
                     </div>
-                    <p className="text-xs sm:text-sm font-bold text-slate-800">
+                    <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">
                       Upload Oral Photo or Drag Here
                     </p>
-                    <p className="text-[11px] text-slate-500 mt-1 max-w-xs">
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 max-w-xs">
                       Click to browse from your device or camera capture. Analyzed 100% on-device.
                     </p>
                   </div>
 
                   {/* Image Preview & Anomaly Trigger Card */}
-                  <div className="md:col-span-6 bg-slate-900 rounded-2xl p-3.5 border border-slate-800 flex flex-col items-center justify-center text-white relative overflow-hidden min-h-[170px]">
+                  <div className="md:col-span-6 bg-slate-900 dark:bg-slate-950 rounded-2xl p-3.5 border border-slate-800 dark:border-slate-800/80 flex flex-col items-center justify-center text-white relative overflow-hidden min-h-[170px]">
                     {patientForm.uploadedImage ? (
                       <div className="relative w-full h-36 rounded-xl overflow-hidden bg-slate-950 flex items-center justify-center group">
                         <img
@@ -406,8 +406,8 @@ export const CredentialsModal: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {/* Patient Name / Pseudonym */}
                   <div className="space-y-1 sm:col-span-2">
-                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-slate-400" />
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                       Patient Name / Pseudonymous Label
                     </label>
                     <input
@@ -416,21 +416,21 @@ export const CredentialsModal: React.FC = () => {
                       value={patientForm.name}
                       onChange={(e) => setPatientForm({ ...patientForm, name: e.target.value })}
                       placeholder="e.g. Rohan Verma (Self-Check)"
-                      className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
+                      className="w-full px-3.5 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 dark:text-slate-100 transition-colors"
                     />
                   </div>
 
                   {/* Patient ID with Generator */}
                   <div className="space-y-1">
                     <div className="flex items-center justify-between">
-                      <label className="text-xs font-semibold text-slate-700">Patient ID</label>
+                      <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Patient ID</label>
                       <button
                         type="button"
                         onClick={() => {
                           const randomHex = Math.random().toString(36).substring(2, 7).toUpperCase();
                           setPatientForm({ ...patientForm, patientId: `PAT-SELF-${randomHex}` });
                         }}
-                        className="text-[10px] text-teal-600 hover:text-teal-700 font-bold"
+                        className="text-[10px] text-teal-600 dark:text-teal-400 hover:text-teal-700 font-bold"
                       >
                         New ID
                       </button>
@@ -440,7 +440,7 @@ export const CredentialsModal: React.FC = () => {
                       required
                       value={patientForm.patientId}
                       onChange={(e) => setPatientForm({ ...patientForm, patientId: e.target.value })}
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800 dark:text-slate-100"
                     />
                   </div>
                 </div>
@@ -448,22 +448,22 @@ export const CredentialsModal: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                   {/* Age */}
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-700">Age</label>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Age</label>
                     <input
                       type="number"
                       value={patientForm.age}
                       onChange={(e) => setPatientForm({ ...patientForm, age: e.target.value })}
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 dark:text-slate-100"
                     />
                   </div>
 
                   {/* Gender */}
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-700">Gender</label>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Gender</label>
                     <select
                       value={patientForm.gender}
                       onChange={(e) => setPatientForm({ ...patientForm, gender: e.target.value })}
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 text-slate-800"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 text-slate-800 dark:text-slate-100"
                     >
                       <option value="Male">Male</option>
                       <option value="Female">Female</option>
@@ -474,13 +474,13 @@ export const CredentialsModal: React.FC = () => {
 
                   {/* Oral Region */}
                   <div className="space-y-1">
-                    <label className="text-xs font-semibold text-slate-700">Symptom Location</label>
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Symptom Location</label>
                     <select
                       value={patientForm.symptomRegion}
                       onChange={(e) =>
                         setPatientForm({ ...patientForm, symptomRegion: e.target.value })
                       }
-                      className="w-full px-3 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 text-slate-800"
+                      className="w-full px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 text-slate-800 dark:text-slate-100"
                     >
                       <option value="Buccal Mucosa (Inner Cheek)">Buccal Mucosa (Inner Cheek)</option>
                       <option value="Left Lateral Border of Tongue">Left Lateral Tongue</option>
@@ -495,12 +495,12 @@ export const CredentialsModal: React.FC = () => {
                 </div>
 
                 {/* Risk Exposures */}
-                <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
-                  <span className="text-xs font-bold text-slate-700 block">
+                <div className="p-3.5 bg-slate-50 dark:bg-slate-800/40 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2">
+                  <span className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
                     Patient Lifestyle & Habit Exposures
                   </span>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 cursor-pointer">
+                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={patientForm.tobaccoUse}
@@ -512,7 +512,7 @@ export const CredentialsModal: React.FC = () => {
                       <span>Tobacco / Smoking</span>
                     </label>
 
-                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 cursor-pointer">
+                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={patientForm.betelNutUse}
@@ -524,7 +524,7 @@ export const CredentialsModal: React.FC = () => {
                       <span>Betel Nut / Quid</span>
                     </label>
 
-                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200 text-xs text-slate-800 cursor-pointer">
+                    <label className="flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-800 dark:text-slate-200 cursor-pointer">
                       <input
                         type="checkbox"
                         checked={patientForm.alcoholUse}
@@ -612,14 +612,14 @@ export const CredentialsModal: React.FC = () => {
                 )}
 
                 {/* Footer Buttons */}
-                <div className="pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => {
                       resetPatientDefaults();
                       setPatientForm(DEFAULT_PATIENT);
                     }}
-                    className="text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors"
+                    className="text-xs text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 font-medium transition-colors cursor-pointer"
                   >
                     Reset Patient Form
                   </button>
@@ -658,11 +658,11 @@ export const CredentialsModal: React.FC = () => {
               {/* Preset Roles Quick Selector */}
               <div className="space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-teal-600" />
+                  <label className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
                     Quick-Select Clinician Profiles
                   </label>
-                  <span className="text-[11px] text-slate-400">Click to auto-populate</span>
+                  <span className="text-[11px] text-slate-400 dark:text-slate-500">Click to auto-populate</span>
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -689,14 +689,14 @@ export const CredentialsModal: React.FC = () => {
                         }}
                         className={`p-2.5 rounded-2xl border text-left transition-all cursor-pointer ${
                           isSelected
-                            ? 'border-teal-600 bg-teal-50/80 ring-2 ring-teal-600/20 shadow-xs'
-                            : 'border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-slate-50'
+                            ? 'border-teal-600 bg-teal-50/80 dark:bg-teal-950/40 ring-2 ring-teal-600/20 shadow-xs'
+                            : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 bg-slate-50/60 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
                       >
-                        <span className="block text-[10px] font-bold uppercase text-teal-700">
+                        <span className="block text-[10px] font-bold uppercase text-teal-700 dark:text-teal-400">
                           {preset.badge}
                         </span>
-                        <span className="block text-xs font-semibold text-slate-900 truncate">
+                        <span className="block text-xs font-semibold text-slate-900 dark:text-slate-100 truncate">
                           {preset.name}
                         </span>
                       </button>
@@ -710,8 +710,8 @@ export const CredentialsModal: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Clinician Name */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                      <User className="w-3.5 h-3.5 text-slate-400" />
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                       Clinician / User Name
                     </label>
                     <input
@@ -722,14 +722,14 @@ export const CredentialsModal: React.FC = () => {
                         setClinicianForm({ ...clinicianForm, name: e.target.value })
                       }
                       placeholder="e.g. Dr. Sunita Devi"
-                      className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
+                      className="w-full px-3.5 py-2 text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 dark:text-slate-100 transition-colors"
                     />
                   </div>
 
                   {/* Facility ID */}
                   <div className="space-y-1.5">
-                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                      <Building2 className="w-3.5 h-3.5 text-slate-400" />
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                       Facility / Clinic ID
                     </label>
                     <input
@@ -740,15 +740,15 @@ export const CredentialsModal: React.FC = () => {
                         setClinicianForm({ ...clinicianForm, facilityId: e.target.value })
                       }
                       placeholder="e.g. PHC-PURULIA-NODE-04"
-                      className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono transition-colors"
+                      className="w-full px-3.5 py-2 text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 font-mono dark:text-slate-100 transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Clinical Role */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                    <Stethoscope className="w-3.5 h-3.5 text-slate-400" />
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <Stethoscope className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                     Designation / Clinical Role
                   </label>
                   <input
@@ -759,15 +759,15 @@ export const CredentialsModal: React.FC = () => {
                       setClinicianForm({ ...clinicianForm, role: e.target.value })
                     }
                     placeholder="e.g. Frontline Health Worker (ASHA / PHC)"
-                    className="w-full px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 transition-colors"
+                    className="w-full px-3.5 py-2 text-sm bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-600 dark:text-slate-100 transition-colors"
                   />
                 </div>
 
                 {/* Session Access Key */}
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                      <Lock className="w-3.5 h-3.5 text-slate-400" />
+                    <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                      <Lock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                       Session Access Key / API Token
                     </label>
                     <div className="flex items-center gap-2">
@@ -782,7 +782,7 @@ export const CredentialsModal: React.FC = () => {
                           const newK = `ORQIS-CLINIC-${randomHex}-${Date.now().toString().slice(-4)}`;
                           setClinicianForm({ ...clinicianForm, accessKey: newK });
                         }}
-                        className="text-[11px] text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1 cursor-pointer"
+                        className="text-[11px] text-teal-600 dark:text-teal-400 hover:text-teal-700 font-medium flex items-center gap-1 cursor-pointer"
                       >
                         <RefreshCw className="w-3 h-3" /> Generate New
                       </button>
@@ -793,12 +793,12 @@ export const CredentialsModal: React.FC = () => {
                           setCopiedKey(true);
                           setTimeout(() => setCopiedKey(false), 2000);
                         }}
-                        className="text-[11px] text-slate-500 hover:text-slate-700 font-medium flex items-center gap-1 cursor-pointer"
+                        className="text-[11px] text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium flex items-center gap-1 cursor-pointer"
                       >
                         {copiedKey ? (
                           <>
-                            <Check className="w-3 h-3 text-emerald-600" />
-                            <span className="text-emerald-600">Copied</span>
+                            <Check className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
+                            <span className="text-emerald-600 dark:text-emerald-400">Copied</span>
                           </>
                         ) : (
                           <>
@@ -815,14 +815,14 @@ export const CredentialsModal: React.FC = () => {
                     onChange={(e) =>
                       setClinicianForm({ ...clinicianForm, accessKey: e.target.value })
                     }
-                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800"
+                    className="w-full px-3.5 py-2 text-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800 dark:text-slate-100"
                   />
                 </div>
 
                 {/* FHIR Server Target Endpoint */}
                 <div className="space-y-1.5">
-                  <label className="text-xs font-semibold text-slate-700 flex items-center gap-1.5">
-                    <Server className="w-3.5 h-3.5 text-slate-400" />
+                  <label className="text-xs font-semibold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                    <Server className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
                     HL7 FHIR R4 Target Server
                   </label>
                   <input
@@ -833,30 +833,30 @@ export const CredentialsModal: React.FC = () => {
                       setClinicianForm({ ...clinicianForm, fhirEndpoint: e.target.value })
                     }
                     placeholder="https://rural-care.health.gov.in/fhir/r4"
-                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800"
+                    className="w-full px-3.5 py-2 text-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 font-mono text-slate-800 dark:text-slate-100"
                   />
                 </div>
 
                 {/* Privacy & Zero-Cloud Notice */}
-                <div className="bg-teal-50/60 border border-teal-200/70 rounded-2xl p-3.5 flex items-start gap-3 text-xs text-teal-900">
-                  <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                <div className="bg-teal-50/60 dark:bg-teal-950/40 border border-teal-200/70 dark:border-teal-800/60 rounded-2xl p-3.5 flex items-start gap-3 text-xs text-teal-900 dark:text-teal-200">
+                  <ShieldCheck className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0 mt-0.5" />
                   <div className="space-y-0.5">
                     <span className="font-bold">Zero-Cloud PHI Guarantee:</span>
-                    <p className="text-teal-800/90 text-[11px] leading-relaxed">
+                    <p className="text-teal-800/90 dark:text-teal-300/90 text-[11px] leading-relaxed">
                       Entered credentials and session tokens are strictly stored in your local browser session and utilized solely to dynamically stamp client-side FHIR telemetry in the Sandbox.
                     </p>
                   </div>
                 </div>
 
                 {/* Footer Buttons */}
-                <div className="pt-3 border-t border-slate-100 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
+                <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-col-reverse sm:flex-row items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => {
                       resetDefaults();
                       setClinicianForm(DEFAULT_CREDENTIALS);
                     }}
-                    className="text-xs text-slate-500 hover:text-slate-800 font-medium transition-colors"
+                    className="text-xs text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 font-medium transition-colors cursor-pointer"
                   >
                     Reset to Default Clinician
                   </button>

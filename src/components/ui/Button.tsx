@@ -19,15 +19,15 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const variantStyles = {
     primary:
-      'bg-indigo-600 text-white hover:bg-indigo-700 active:bg-indigo-800 shadow-sm hover:shadow-md hover:shadow-indigo-500/20 border border-indigo-500/20',
+      'bg-indigo-600 dark:bg-indigo-600 text-white hover:bg-indigo-700 dark:hover:bg-indigo-500 active:bg-indigo-800 shadow-sm hover:shadow-md hover:shadow-indigo-500/20 border border-indigo-500/20',
     secondary:
-      'bg-teal-600 text-white hover:bg-teal-700 active:bg-teal-800 shadow-sm hover:shadow-md hover:shadow-teal-500/20 border border-teal-500/20',
+      'bg-teal-600 dark:bg-teal-600 text-white hover:bg-teal-700 dark:hover:bg-teal-500 active:bg-teal-800 shadow-sm hover:shadow-md hover:shadow-teal-500/20 border border-teal-500/20',
     dark:
-      'bg-slate-900 text-white hover:bg-slate-800 active:bg-slate-950 shadow-sm border border-slate-700',
+      'bg-slate-900 dark:bg-slate-800 text-white hover:bg-slate-800 dark:hover:bg-slate-700 active:bg-slate-950 shadow-sm border border-slate-700 dark:border-slate-600',
     outline:
-      'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 active:bg-slate-100 shadow-xs',
+      'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700 active:bg-slate-100 shadow-xs',
     ghost:
-      'bg-transparent text-slate-700 hover:bg-slate-100 active:bg-slate-200 border border-transparent',
+      'bg-transparent text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 active:bg-slate-200 dark:active:bg-slate-700 border border-transparent',
   };
 
   const sizeStyles = {
@@ -38,7 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
-      className={`inline-flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-indigo-500/40 focus:ring-offset-2 ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
+      className={`inline-flex items-center justify-center transition-all duration-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-teal-500/40 focus:ring-offset-2 dark:focus:ring-offset-slate-900 ${variantStyles[variant]} ${sizeStyles[size]} ${className}`}
       {...props}
     >
       {icon && iconPosition === 'left' && <span className="inline-flex shrink-0">{icon}</span>}

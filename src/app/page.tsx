@@ -5,7 +5,6 @@ import { HeroSection } from '@/components/sections/HeroSection';
 import { PurposeSection } from '@/components/sections/PurposeSection';
 import { HowItWorks } from '@/components/sections/HowItWorks';
 import { TechnologyStack } from '@/components/sections/TechnologyStack';
-import { QuantumMLSection } from '@/components/sections/QuantumMLSection';
 import { InteractiveDemo } from '@/components/sections/InteractiveDemo';
 import { PhilosophySection } from '@/components/sections/PhilosophySection';
 import { TimelineSection } from '@/components/sections/TimelineSection';
@@ -13,7 +12,7 @@ import { TeamSection } from '@/components/sections/TeamSection';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/50 selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen flex flex-col bg-stone-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-teal-100 selection:text-teal-950 dark:selection:bg-teal-900 dark:selection:text-teal-100 transition-colors duration-300">
       {/* Navigation */}
       <Navbar />
 
@@ -31,23 +30,20 @@ export default function Home() {
         {/* 4. Technology Stack Architecture */}
         <TechnologyStack />
 
-        {/* 5. Quantum ML Research & Circuit Visualizer */}
-        <QuantumMLSection />
-
-        {/* 6. Interactive Conceptual Sandbox (Standalone Demo) */}
+        {/* 5. Interactive Conceptual Sandbox (Standalone Demo) */}
         <InteractiveDemo />
 
-        {/* 7. Design Ethics & Human-Centered Philosophy */}
+        {/* 6. Design Ethics & Human-Centered Philosophy */}
         <PhilosophySection />
 
-        {/* 8. Project Evolution Timeline */}
+        {/* 7. Project Evolution Timeline */}
         <TimelineSection />
 
-        {/* 9. Multidisciplinary Research Team */}
+        {/* 8. Multidisciplinary Research Team */}
         <TeamSection />
       </main>
 
-      {/* 10. Footer with Clinical Disclaimer */}
+      {/* Footer with Clinical Disclaimer */}
       <Footer />
     </div>
   );

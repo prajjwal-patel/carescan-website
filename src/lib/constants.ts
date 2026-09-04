@@ -13,7 +13,6 @@ export const NAV_ITEMS: NavItem[] = [
   { label: 'Mission', href: '#project' },
   { label: 'Workflow', href: '#how-it-works' },
   { label: 'Technology', href: '#technology' },
-  { label: 'Quantum ML', href: '#quantum-ml' },
   { label: 'Sandbox', href: '#sandbox' },
   { label: 'Ethics', href: '#philosophy' },
   { label: 'Roadmap', href: '#journey' },

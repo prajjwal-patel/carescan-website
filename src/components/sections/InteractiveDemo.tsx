@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SectionHeader } from '../ui/SectionHeader';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
@@ -9,21 +9,11 @@ import { TEST_CASE_PRESETS, calculateSimulatedRisk } from '@/lib/mockData';
 import { OrganicDivider } from '../visual/OrganicDivider';
 import { useCredentials } from '@/context/CredentialsContext';
 import {
-  Info,
   Sparkles,
-  ShieldCheck,
-  Cpu,
-  FileCode,
-  CheckCircle2,
-  AlertTriangle,
   HeartHandshake,
-  HelpCircle,
   KeyRound,
   Camera,
-  User,
   Upload,
-  Layers,
-  Activity,
 } from 'lucide-react';
 
 export const InteractiveDemo: React.FC = () => {
@@ -203,7 +193,7 @@ export const InteractiveDemo: React.FC = () => {
   };
 
   return (
-    <section id="sandbox" className="relative py-14 md:py-20 bg-stone-50">
+    <section id="sandbox" className="relative py-14 md:py-20 bg-stone-50 dark:bg-slate-950 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Header */}
         <SectionHeader
@@ -215,35 +205,35 @@ export const InteractiveDemo: React.FC = () => {
         />
 
         {/* Guided 3-Step Progress Header Banner */}
-        <div className="max-w-4xl mx-auto bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-2xs">
+        <div className="max-w-4xl mx-auto bg-white dark:bg-slate-900 rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-2xs">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-center sm:text-left">
-            <div className="flex items-center gap-3 p-2 rounded-xl bg-teal-50/60 border border-teal-100">
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-teal-50/60 dark:bg-teal-950/40 border border-teal-100 dark:border-teal-800/60">
               <span className="w-7 h-7 rounded-full bg-teal-700 text-white font-bold text-xs flex items-center justify-center shrink-0">
                 1
               </span>
               <div>
-                <p className="text-xs font-bold text-slate-900">Choose Patient Case</p>
-                <p className="text-[11px] text-slate-600">Preset scenario or live photo</p>
+                <p className="text-xs font-bold text-slate-900 dark:text-white">Choose Patient Case</p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400">Preset scenario or live photo</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-2 rounded-xl bg-indigo-50/60 border border-indigo-100">
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-indigo-50/60 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-800/60">
               <span className="w-7 h-7 rounded-full bg-indigo-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
                 2
               </span>
               <div>
-                <p className="text-xs font-bold text-slate-900">Toggle Risk Factors</p>
-                <p className="text-[11px] text-slate-600">Tobacco, alcohol, betel quid</p>
+                <p className="text-xs font-bold text-slate-900 dark:text-white">Toggle Risk Factors</p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400">Tobacco, alcohol, betel quid</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3 p-2 rounded-xl bg-purple-50/60 border border-purple-100">
+            <div className="flex items-center gap-3 p-2 rounded-xl bg-purple-50/60 dark:bg-purple-950/40 border border-purple-100 dark:border-purple-800/60">
               <span className="w-7 h-7 rounded-full bg-purple-600 text-white font-bold text-xs flex items-center justify-center shrink-0">
                 3
               </span>
               <div>
-                <p className="text-xs font-bold text-slate-900">Review AI & Quantum Score</p>
-                <p className="text-[11px] text-slate-600">See clinical referral output</p>
+                <p className="text-xs font-bold text-slate-900 dark:text-white">Review AI & Quantum Score</p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400">See clinical referral output</p>
               </div>
             </div>
           </div>
@@ -254,25 +244,25 @@ export const InteractiveDemo: React.FC = () => {
           {/* Left Column: Preset Selection, Patient Photo Case & Lifestyle Toggles */}
           <div className="lg:col-span-5 space-y-5">
             {/* Step 1: Case Selector */}
-            <Card variant="white" padding="md" organic="subtle" className="border-slate-200 shadow-2xs">
+            <Card variant="white" padding="md" organic="subtle" className="border-slate-200 dark:border-slate-800 shadow-2xs">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   Step 1 • Select Screening Case
                 </span>
-                <span className="text-[11px] text-teal-700 font-bold">
+                <span className="text-[11px] text-teal-700 dark:text-teal-400 font-bold">
                   {caseSource === 'patient' ? 'Patient Photo Active' : 'Synthetic Presets'}
                 </span>
               </div>
 
               {/* Case Source Switcher Tabs */}
-              <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 rounded-xl mb-3">
+              <div className="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl mb-3">
                 <button
                   type="button"
                   onClick={() => setCaseSource('preset')}
                   className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer ${
                     caseSource === 'preset'
-                      ? 'bg-white text-slate-900 shadow-2xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   Clinical Presets
@@ -283,7 +273,7 @@ export const InteractiveDemo: React.FC = () => {
                   className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
                     caseSource === 'patient'
                       ? 'bg-teal-700 text-white shadow-2xs'
-                      : 'text-slate-600 hover:text-slate-900'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   <Camera className="w-3.5 h-3.5" />
@@ -293,11 +283,11 @@ export const InteractiveDemo: React.FC = () => {
 
               {/* View 1: Patient Photo Case Display */}
               {caseSource === 'patient' && (
-                <div className="space-y-3 p-3 rounded-2xl bg-teal-50/70 border border-teal-200">
+                <div className="space-y-3 p-3 rounded-2xl bg-teal-50/70 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-xs font-bold text-slate-900">{patientProfile.name}</h4>
-                      <p className="text-[11px] text-slate-600">
+                      <h4 className="text-xs font-bold text-slate-900 dark:text-white">{patientProfile.name}</h4>
+                      <p className="text-[11px] text-slate-600 dark:text-slate-400">
                         {patientProfile.age} yrs • {patientProfile.gender} • {patientProfile.symptomRegion}
                       </p>
                     </div>
@@ -332,15 +322,15 @@ export const InteractiveDemo: React.FC = () => {
                   )}
 
                   <div className="flex items-center justify-between pt-1">
-                    <span className="text-[11px] text-slate-500 font-mono">
+                    <span className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
                       ID: {patientProfile.patientId}
                     </span>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => openModal('patient')}
-                      icon={<Upload className="w-3 h-3 text-teal-700" />}
-                      className="text-xs font-bold text-teal-800 bg-white hover:bg-teal-50 border border-teal-200"
+                      icon={<Upload className="w-3 h-3 text-teal-700 dark:text-teal-300" />}
+                      className="text-xs font-bold text-teal-800 dark:text-teal-300 bg-white dark:bg-slate-900 hover:bg-teal-50 dark:hover:bg-slate-800 border border-teal-200 dark:border-teal-800"
                     >
                       Change Photo / Patient
                     </Button>
@@ -359,12 +349,12 @@ export const InteractiveDemo: React.FC = () => {
                         onClick={() => handleSelectPreset(preset.id)}
                         className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer ${
                           isSelected
-                            ? 'bg-teal-50 border-teal-600 ring-2 ring-teal-500/20 shadow-xs'
-                            : 'bg-white border-slate-200 hover:bg-slate-50'
+                            ? 'bg-teal-50 dark:bg-teal-950/60 border-teal-600 dark:border-teal-500 ring-2 ring-teal-500/20 shadow-xs'
+                            : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm font-bold text-slate-900">{preset.name}</span>
+                          <span className="text-sm font-bold text-slate-900 dark:text-white">{preset.name}</span>
                           <Badge
                             variant={
                               preset.riskLevel === 'High'
@@ -378,7 +368,7 @@ export const InteractiveDemo: React.FC = () => {
                             {preset.category}
                           </Badge>
                         </div>
-                        <p className="text-xs text-slate-600 line-clamp-2">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">
                           {preset.clinicalDescription}
                         </p>
                       </button>
@@ -389,12 +379,12 @@ export const InteractiveDemo: React.FC = () => {
             </Card>
 
             {/* Step 2: Lifestyle Auxiliary Risk Toggles */}
-            <Card variant="white" padding="md" organic="subtle" className="border-slate-200 shadow-2xs">
+            <Card variant="white" padding="md" organic="subtle" className="border-slate-200 dark:border-slate-800 shadow-2xs">
               <div className="flex items-center justify-between mb-2.5">
-                <span className="text-xs font-bold uppercase tracking-wider text-slate-700">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                   Step 2 • Add Patient Risk Exposures
                 </span>
-                <span className="text-[11px] text-indigo-700 font-bold">Lifestyle Inputs</span>
+                <span className="text-[11px] text-indigo-700 dark:text-indigo-400 font-bold">Lifestyle Inputs</span>
               </div>
 
               <div className="space-y-2.5">
@@ -420,17 +410,17 @@ export const InteractiveDemo: React.FC = () => {
                 ].map((item, idx) => (
                   <label
                     key={idx}
-                    className="flex items-center justify-between p-2.5 rounded-2xl border border-slate-200 hover:bg-slate-50 cursor-pointer transition-colors"
+                    className="flex items-center justify-between p-2.5 rounded-2xl border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer transition-colors"
                   >
                     <div>
-                      <p className="text-xs sm:text-sm font-bold text-slate-800">{item.label}</p>
-                      <p className="text-[11px] text-slate-500">{item.desc}</p>
+                      <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200">{item.label}</p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400">{item.desc}</p>
                     </div>
                     <input
                       type="checkbox"
                       checked={item.checked}
                       onChange={(e) => item.setter(e.target.checked)}
-                      className="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300 cursor-pointer"
+                      className="w-4 h-4 rounded text-teal-600 focus:ring-teal-500 border-slate-300 dark:border-slate-700 cursor-pointer"
                     />
                   </label>
                 ))}
@@ -441,19 +431,19 @@ export const InteractiveDemo: React.FC = () => {
           {/* Right Column: Live Simulated Triage & FHIR Output */}
           <div className="lg:col-span-7 space-y-5">
             {/* Active Practitioner & Patient Session Banner */}
-            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-teal-50/80 border border-teal-200/90 shadow-2xs">
+            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-teal-50/80 dark:bg-teal-950/40 border border-teal-200/90 dark:border-teal-800/80 shadow-2xs">
               <div className="flex items-center gap-2.5">
                 <div className="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center text-xs font-bold shadow-xs shrink-0">
                   <KeyRound className="w-4 h-4" />
                 </div>
                 <div>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-bold text-slate-900">{credentials.name}</span>
-                    <span className="text-[10px] font-bold text-teal-800 bg-teal-100/80 px-2 py-0.5 rounded-full border border-teal-200">
+                    <span className="text-xs font-bold text-slate-900 dark:text-white">{credentials.name}</span>
+                    <span className="text-[10px] font-bold text-teal-800 dark:text-teal-300 bg-teal-100/80 dark:bg-teal-900/60 px-2 py-0.5 rounded-full border border-teal-200 dark:border-teal-800">
                       {credentials.role}
                     </span>
                   </div>
-                  <p className="text-[11px] text-slate-600 font-mono">
+                  <p className="text-[11px] text-slate-600 dark:text-slate-400 font-mono">
                     Facility: {credentials.facilityId} • Patient: {caseSource === 'patient' ? patientProfile.name : 'Simulated Case'}
                   </p>
                 </div>
@@ -462,23 +452,23 @@ export const InteractiveDemo: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => openModal('clinician')}
-                icon={<KeyRound className="w-3.5 h-3.5 text-teal-700" />}
-                className="text-xs font-bold text-teal-800 hover:bg-white border border-teal-200/80 bg-white/80 shadow-2xs"
+                icon={<KeyRound className="w-3.5 h-3.5 text-teal-700 dark:text-teal-300" />}
+                className="text-xs font-bold text-teal-800 dark:text-teal-300 hover:bg-white dark:hover:bg-slate-800 border border-teal-200/80 dark:border-teal-800 bg-white/80 dark:bg-slate-900 shadow-2xs"
               >
                 Change Credentials
               </Button>
             </div>
 
-            <Card variant="white" padding="lg" organic="subtle" className="border-teal-200 shadow-sm">
+            <Card variant="white" padding="lg" organic="subtle" className="border-teal-200 dark:border-slate-800 shadow-sm">
               {/* Tab Switcher */}
-              <div className="flex items-center justify-between pb-3 mb-5 border-b border-slate-200">
+              <div className="flex items-center justify-between pb-3 mb-5 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setActiveTab('triage')}
                     className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
                       activeTab === 'triage'
                         ? 'bg-teal-700 text-white shadow-xs'
-                        : 'text-slate-600 hover:bg-slate-100'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
                   >
                     Clinical Triage Result
@@ -488,14 +478,14 @@ export const InteractiveDemo: React.FC = () => {
                     className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
                       activeTab === 'fhir'
                         ? 'bg-teal-700 text-white shadow-xs'
-                        : 'text-slate-600 hover:bg-slate-100'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
                   >
                     HL7 FHIR R4 Record
                   </button>
                 </div>
 
-                <span className="text-[11px] font-mono text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 font-bold hidden sm:inline">
+                <span className="text-[11px] font-mono text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 font-bold hidden sm:inline">
                   Orqis Engine Active
                 </span>
               </div>
@@ -504,15 +494,15 @@ export const InteractiveDemo: React.FC = () => {
               {activeTab === 'triage' && (
                 <div className="space-y-5">
                   {/* Risk Level Banner */}
-                  <div className="p-4 sm:p-5 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                  <div className="p-4 sm:p-5 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500">
+                      <p className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                         Step 3 • Calibrated Clinical Triage
                       </p>
-                      <h4 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+                      <h4 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white mt-1">
                         {riskLevel} Risk Stratum
                       </h4>
-                      <p className="text-xs text-slate-600 mt-0.5">
+                      <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                         {caseSource === 'patient'
                           ? `Evaluated for ${patientProfile.name} on ${patientProfile.symptomRegion}`
                           : `Clinical presentation for ${selectedPreset.name}`}
@@ -524,49 +514,49 @@ export const InteractiveDemo: React.FC = () => {
                   {/* Diagnostic Gauges Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                     {/* Classical CNN */}
-                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                    <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs">
+                      <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                         Classical CNN
                       </p>
-                      <p className="text-lg font-extrabold text-slate-900 font-mono mt-0.5">
+                      <p className="text-lg font-extrabold text-slate-900 dark:text-white font-mono mt-0.5">
                         {(classicalProb * 100).toFixed(1)}%
                       </p>
-                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                      <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
                           className="bg-indigo-600 h-full transition-all duration-300"
                           style={{ width: `${classicalProb * 100}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-1">MobileNetV3 512D</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">MobileNetV3 512D</p>
                     </div>
 
                     {/* Quantum 8-Qubit VQC */}
-                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                    <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs">
+                      <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                         Quantum VQC ⟨Z₀⟩
                       </p>
-                      <p className="text-lg font-extrabold text-purple-700 font-mono mt-0.5">
+                      <p className="text-lg font-extrabold text-purple-700 dark:text-purple-400 font-mono mt-0.5">
                         {quantumZ0 >= 0 ? '+' : ''}
                         {quantumZ0.toFixed(2)}
                       </p>
-                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                      <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
                           className="bg-purple-600 h-full transition-all duration-300"
                           style={{ width: `${Math.max(10, (1 - (quantumZ0 + 1) / 2) * 100)}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-1">Pauli-Z ground state</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Pauli-Z ground state</p>
                     </div>
 
                     {/* Multimodal Fused Probability */}
-                    <div className="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                    <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs">
+                      <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                         Final Calibrated Score
                       </p>
-                      <p className="text-lg font-extrabold text-teal-800 font-mono mt-0.5">
+                      <p className="text-lg font-extrabold text-teal-800 dark:text-teal-400 font-mono mt-0.5">
                         {(finalProb * 100).toFixed(1)}%
                       </p>
-                      <div className="w-full bg-slate-100 h-1.5 rounded-full mt-1.5 overflow-hidden">
+                      <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
                           className={`h-full transition-all duration-300 ${
                             finalProb >= 0.6
@@ -578,17 +568,17 @@ export const InteractiveDemo: React.FC = () => {
                           style={{ width: `${finalProb * 100}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 mt-1">Fused clinical decision</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Fused clinical decision</p>
                     </div>
                   </div>
 
                   {/* Recommendation Card */}
-                  <div className="p-4 rounded-2xl bg-teal-50/60 border border-teal-200 space-y-1.5">
-                    <div className="flex items-center gap-2 text-teal-950 font-bold text-xs uppercase tracking-wider">
-                      <HeartHandshake className="w-4 h-4 text-teal-700" />
+                  <div className="p-4 rounded-2xl bg-teal-50/60 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-800 space-y-1.5">
+                    <div className="flex items-center gap-2 text-teal-950 dark:text-teal-300 font-bold text-xs uppercase tracking-wider">
+                      <HeartHandshake className="w-4 h-4 text-teal-700 dark:text-teal-400" />
                       Clinical Action Plan for Health Worker & Patient
                     </div>
-                    <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                    <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
                       {recommendation}
                     </p>
                   </div>
@@ -598,9 +588,9 @@ export const InteractiveDemo: React.FC = () => {
               {/* Tab 2: HL7 FHIR R4 JSON Record */}
               {activeTab === 'fhir' && (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs text-slate-600">
+                  <div className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-400">
                     <span className="font-bold">HL7 FHIR R4 Observation Resource</span>
-                    <span className="font-mono text-slate-500">SNOMED CT: 363349007</span>
+                    <span className="font-mono text-slate-500 dark:text-slate-400">SNOMED CT: 363349007</span>
                   </div>
                   <pre className="p-3.5 rounded-2xl bg-slate-900 text-teal-300 font-mono text-xs overflow-x-auto max-h-80 border border-slate-800 leading-relaxed">
                     {JSON.stringify(simulatedFhirObservation, null, 2)}
@@ -613,7 +603,7 @@ export const InteractiveDemo: React.FC = () => {
       </div>
 
       <div className="mt-12">
-        <OrganicDivider position="bottom" fillColor="#FFFFFF" variant="curve-1" />
+        <OrganicDivider position="bottom" fillColor="var(--warm-surface)" variant="curve-1" />
       </div>
     </section>
   );
