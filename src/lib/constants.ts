@@ -11,11 +11,11 @@ import {
 
 export const NAV_ITEMS: NavItem[] = [
   { label: 'Mission', href: '#project' },
-  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Workflow', href: '#how-it-works' },
   { label: 'Technology', href: '#technology' },
-  { label: 'Quantum Engine', href: '#quantum-ml' },
-  { label: 'Interactive Triage', href: '#sandbox' },
-  { label: 'Care Ethics', href: '#philosophy' },
+  { label: 'Quantum ML', href: '#quantum-ml' },
+  { label: 'Sandbox', href: '#sandbox' },
+  { label: 'Ethics', href: '#philosophy' },
   { label: 'Roadmap', href: '#journey' },
   { label: 'Team', href: '#team' },
 ];
