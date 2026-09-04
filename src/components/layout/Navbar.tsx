@@ -3,11 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { NAV_ITEMS } from '@/lib/constants';
 import { Button } from '../ui/Button';
-import { Menu, X, Sparkles, ChevronRight } from 'lucide-react';
+import { Menu, X, KeyRound, ChevronRight } from 'lucide-react';
+import { useCredentials } from '@/context/CredentialsContext';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { openModal } = useCredentials();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -65,13 +67,17 @@ export const Navbar: React.FC = () => {
           ))}
         </nav>
 
-        {/* Right CTA */}
+        {/* Right CTA - User & Clinician Credentials Trigger */}
         <div className="hidden sm:flex items-center gap-2 shrink-0 whitespace-nowrap">
-          <a href="#sandbox" className="whitespace-nowrap">
-            <Button variant="secondary" size="sm" icon={<Sparkles className="w-3.5 h-3.5" />} className="whitespace-nowrap text-xs xl:text-sm">
-              Sandbox
-            </Button>
-          </a>
+          <Button
+            onClick={openModal}
+            variant="secondary"
+            size="sm"
+            icon={<KeyRound className="w-3.5 h-3.5" />}
+            className="whitespace-nowrap text-xs xl:text-sm shadow-xs font-semibold"
+          >
+            Credentials
+          </Button>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -100,11 +106,18 @@ export const Navbar: React.FC = () => {
               </a>
             ))}
             <div className="pt-3 border-t border-slate-100">
-              <a href="#sandbox" onClick={() => setMobileOpen(false)} className="block w-full whitespace-nowrap">
-                <Button variant="secondary" size="md" className="w-full whitespace-nowrap">
-                  Launch Interactive Sandbox
-                </Button>
-              </a>
+              <Button
+                variant="secondary"
+                size="md"
+                onClick={() => {
+                  setMobileOpen(false);
+                  openModal();
+                }}
+                icon={<KeyRound className="w-4 h-4" />}
+                className="w-full whitespace-nowrap"
+              >
+                User & Clinician Credentials
+              </Button>
             </div>
           </div>
         </div>

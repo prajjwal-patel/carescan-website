@@ -51,6 +51,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { AppProviders } from '@/components/providers/AppProviders';
+
 export default function RootLayout({
   children,
 }: {
@@ -62,7 +64,7 @@ export default function RootLayout({
       className={`scroll-smooth ${outfit.variable} ${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased text-slate-900 bg-stone-50 selection:bg-teal-100 selection:text-teal-950">
-        {children}
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

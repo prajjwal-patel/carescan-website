@@ -7,6 +7,7 @@ import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
 import { TEST_CASE_PRESETS, calculateSimulatedRisk } from '@/lib/mockData';
 import { OrganicDivider } from '../visual/OrganicDivider';
+import { useCredentials } from '@/context/CredentialsContext';
 import {
   Info,
   Sparkles,
@@ -17,9 +18,11 @@ import {
   AlertTriangle,
   HeartHandshake,
   HelpCircle,
+  KeyRound,
 } from 'lucide-react';
 
 export const InteractiveDemo: React.FC = () => {
+  const { credentials, openModal } = useCredentials();
   const [selectedPresetId, setSelectedPresetId] = useState<string>(TEST_CASE_PRESETS[0].id);
   const [smoking, setSmoking] = useState<boolean>(false);
   const [alcohol, setAlcohol] = useState<boolean>(false);
@@ -60,6 +63,10 @@ export const InteractiveDemo: React.FC = () => {
   const simulatedFhirObservation = {
     resourceType: 'Observation',
     id: `obs-orqis-${selectedPreset.id}`,
+    meta: {
+      source: credentials.fhirEndpoint,
+      profile: ['http://hl7.org/fhir/StructureDefinition/Observation'],
+    },
     status: 'final',
     code: {
       coding: [
@@ -71,6 +78,26 @@ export const InteractiveDemo: React.FC = () => {
       ],
       text: 'Orqis AI & Quantum Oral Screening Risk Assessment',
     },
+    performer: [
+      {
+        display: credentials.name,
+        type: 'Practitioner',
+        identifier: {
+          system: 'https://orqis.health/practitioners',
+          value: credentials.facilityId,
+        },
+        extension: [
+          {
+            url: 'https://orqis.health/role',
+            valueString: credentials.role,
+          },
+          {
+            url: 'https://orqis.health/session-key',
+            valueString: credentials.accessKey,
+          },
+        ],
+      },
+    ],
     valueQuantity: {
       value: simulation.finalProb,
       unit: 'probability',
@@ -232,6 +259,35 @@ export const InteractiveDemo: React.FC = () => {
 
           {/* Right Column: Live Simulated Triage & FHIR Output */}
           <div className="lg:col-span-7 space-y-5">
+            {/* Active Practitioner Credentials Banner */}
+            <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 rounded-2xl bg-teal-50/80 border border-teal-200/90 shadow-2xs">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-teal-600 text-white flex items-center justify-center text-xs font-bold shadow-xs shrink-0">
+                  <KeyRound className="w-4 h-4" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-bold text-slate-900">{credentials.name}</span>
+                    <span className="text-[10px] font-bold text-teal-800 bg-teal-100/80 px-2 py-0.5 rounded-full border border-teal-200">
+                      {credentials.role}
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-600 font-mono">
+                    Facility: {credentials.facilityId}
+                  </p>
+                </div>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={openModal}
+                icon={<KeyRound className="w-3.5 h-3.5 text-teal-700" />}
+                className="text-xs font-bold text-teal-800 hover:bg-white border border-teal-200/80 bg-white/80 shadow-2xs"
+              >
+                Change Credentials
+              </Button>
+            </div>
+
             <Card variant="white" padding="lg" organic="subtle" className="border-teal-200 shadow-sm">
               {/* Tab Switcher */}
               <div className="flex items-center justify-between pb-3 mb-5 border-b border-slate-200">
