@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *, .dark, .dark *));
+
 @layer base {
   :root {
     --brand-iris: #4F46E5;
@@ -19,7 +21,8 @@
     --slate-500: #64748B;
   }
 
-  html.dark {
+  html.dark,
+  html[data-theme="dark"] {
     --warm-bg: #030712;
     --warm-surface: #0F172A;
     --warm-border: #1E293B;

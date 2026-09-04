@@ -16,6 +16,20 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setThemeState] = useState<Theme>('light');
   const [mounted, setMounted] = useState(false);
 
+  const applyTheme = (newTheme: Theme) => {
+    if (typeof document === 'undefined') return;
+    const root = document.documentElement;
+    if (newTheme === 'dark') {
+      root.classList.add('dark');
+      root.setAttribute('data-theme', 'dark');
+      document.body?.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+      root.setAttribute('data-theme', 'light');
+      document.body?.classList.remove('dark');
+    }
+  };
+
   useEffect(() => {
     setMounted(true);
     try {
@@ -27,21 +41,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         setThemeState('dark');
         applyTheme('dark');
       } else {
+        setThemeState('light');
         applyTheme('light');
       }
     } catch {
       applyTheme('light');
     }
   }, []);
-
-  const applyTheme = (newTheme: Theme) => {
-    const root = document.documentElement;
-    if (newTheme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-  };
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);
@@ -54,8 +60,16 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const toggleTheme = () => {
-    const next = theme === 'light' ? 'dark' : 'light';
-    setTheme(next);
+    setThemeState((prev) => {
+      const next = prev === 'light' ? 'dark' : 'light';
+      applyTheme(next);
+      try {
+        localStorage.setItem('orqis_theme', next);
+      } catch {
+        // ignore
+      }
+      return next;
+    });
   };
 
   return (
