@@ -56,7 +56,7 @@ export const Footer: React.FC = () => {
               </div>
             </div>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md font-body">
-              A privacy-conscious hybrid quantum-classical framework combining frozen MobileNet ROI localization (DEC-020), 16-qubit amplitude-encoded VQC (65,536 states), and strict patient-level evaluation integrity on the SMART-OM benchmark.
+              A privacy-conscious hybrid quantum-classical framework combining frozen MobileNet ROI localization (DEC-020), 16-qubit amplitude-encoded VQC (65,536 states), and strict patient-level evaluation integrity on the University of Peradeniya Oral Cancer Dataset v1 (SMART-OM).
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-teal-300 bg-teal-950/70 px-3 py-1 rounded-full border border-teal-800/70 shadow-2xs">
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800/90 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-body">
-          <p>© {new Date().getFullYear()} CareScan Research Project. SMART-OM Benchmark & IBM Quantum Evaluation.</p>
+          <p>© {new Date().getFullYear()} CareScan Research Project. University of Peradeniya Oral Cancer Dataset v1 (SMART-OM) &amp; IBM Quantum Evaluation.</p>
           <div className="flex items-center gap-1.5">
             <span>Crafted with clinical precision & empathy</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline ml-1" />

@@ -82,7 +82,7 @@ export const HeroSection: React.FC = () => {
               </span>
               <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                SMART-OM Benchmark (2,436 Images / 328 Pts)
+                Peradeniya Oral Cancer Dataset (2,436 Images / 328 Pts)
               </span>
             </div>
           </div>

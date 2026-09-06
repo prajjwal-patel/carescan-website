@@ -33,7 +33,7 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'CareScan — AI & 16-Qubit Quantum-Enhanced Oral Screening Research',
   description:
-    'CareScan is a privacy-conscious hybrid quantum-classical research framework combining frozen MobileNet lesion localization (DEC-020), 16-qubit amplitude-encoded VQC (65,536 states), and patient-level evaluation integrity on the SMART-OM benchmark.',
+    'CareScan is a privacy-conscious hybrid quantum-classical research framework combining frozen MobileNet lesion localization (DEC-020), 16-qubit amplitude-encoded VQC (65,536 states), and strict patient-level evaluation integrity on the University of Peradeniya Oral Cancer Dataset v1 (SMART-OM). Phase D VQC experiment active.',
   keywords: [
     'CareScan',
     'Oral Cancer Screening',
@@ -44,7 +44,9 @@ export const metadata: Metadata = {
     'Clinical Decision Support',
     'HL7 FHIR R4',
     'SMART-OM Dataset',
+    'University of Peradeniya Oral Cancer Dataset',
     'IBM Heron r2',
+    'IBM Quantum',
   ],
   authors: [{ name: 'CareScan Research Team' }],
   icons: {

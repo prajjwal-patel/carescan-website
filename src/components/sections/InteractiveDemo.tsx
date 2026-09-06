@@ -516,7 +516,7 @@ export const InteractiveDemo: React.FC = () => {
                     {/* Classical Localizer / Baseline */}
                     <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs">
                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                        Classical Localizer
+                        Classical Baseline
                       </p>
                       <p className="text-lg font-extrabold text-slate-900 dark:text-white font-mono mt-0.5">
                         {(classicalProb * 100).toFixed(1)}%
@@ -527,7 +527,7 @@ export const InteractiveDemo: React.FC = () => {
                           style={{ width: `${classicalProb * 100}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Frozen MobileNet (DEC-020)</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Row-aligned classical reference</p>
                     </div>
 
                     {/* Quantum 16-Qubit VQC */}
@@ -568,7 +568,7 @@ export const InteractiveDemo: React.FC = () => {
                           style={{ width: `${finalProb * 100}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Fused clinical decision</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">p = (1−⟨Z_q⟩)/2 — Simulated VQC</p>
                     </div>
                   </div>
 

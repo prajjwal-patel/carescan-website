@@ -21,24 +21,24 @@ export const NAV_ITEMS: NavItem[] = [
 
 export const HERO_METRICS: MetricItem[] = [
   {
-    value: '< 1 Second',
-    label: 'Rapid Frontline Triage',
-    description: 'On-device screening interface via Flutter mobile app',
-  },
-  {
     value: '16-Qubit VQC',
     label: '65,536 Quantum State',
-    description: '256×256 grayscale amplitude encoding with zero lossy compression',
+    description: '256×256 grayscale = 65,536 amplitudes = 2¹⁶ — exact amplitude encoding, no lossy compression',
   },
   {
-    value: '2,436 Images / 328 Pts',
-    label: 'Patient-Level Integrity',
-    description: 'Strict patient-level split (P_train ∩ P_val ∩ P_test = ∅) preventing leakage',
+    value: '2,436 / 328',
+    label: 'Images / Patients',
+    description: 'Strict patient-level split (P_train ∩ P_val ∩ P_test = ∅) — 230 train / 50 val / 48 test patients',
   },
   {
-    value: '182 Automated Tests',
-    label: 'Reproducible Checkpoint',
-    description: 'Comprehensive test suite protecting data isolation & VQC dimensions',
+    value: '98.16%',
+    label: 'ROI Localization Rate',
+    description: 'Frozen MobileNet localizer: 374/381 test images localized (0.5279 mean IoU)',
+  },
+  {
+    value: '182 Tests',
+    label: 'Automated Test Suite',
+    description: 'Structural defenses against data leakage, condition merging & contamination at Phase D checkpoint',
   },
 ];
 
@@ -46,17 +46,17 @@ export const PURPOSE_STATS = [
   {
     stat: '377,000+',
     label: 'Lives Impacted Globally Each Year',
-    detail: 'Oral cancer is one of the most prevalent and lethal malignancies in underserved regions, where patients face critical shortages of specialized oncology clinics.',
+    detail: 'Oral cancer is one of the most prevalent and lethal malignancies in underserved regions. Early detection is critical — CareScan brings preliminary screening to frontline health workers.',
   },
   {
     stat: '0.5279 IoU',
-    label: 'Validated MobileNet ROI Generalization',
-    detail: 'Frozen MobileNet lesion localizer achieves 0.5285 validation vs 0.5279 test mean IoU, strictly trained on lesion boxes (DEC-020) to eliminate geometric shortcuts.',
+    label: 'Validated MobileNet Test Performance',
+    detail: 'Frozen MobileNet lesion localizer achieves 0.5285 validation vs 0.5279 test mean IoU on held-out annotated images, trained exclusively on lesion boxes per DEC-020.',
   },
   {
-    stat: '100% Isolated',
-    label: 'Patient-Level Partitioning Invariant',
-    detail: '2,436 images across 328 patients partitioned strictly at the patient level (230 train / 50 validation / 48 test), guaranteeing zero cross-set patient data leakage.',
+    stat: '328 Patients',
+    label: 'Strict Patient-Level Partitioning',
+    detail: 'University of Peradeniya Oral Cancer Dataset v1: 2,436 usable images from 328 patients. Split strictly at patient level (230 train / 50 val / 48 test) — no cross-partition patient leakage.',
   },
 ];
 
@@ -167,18 +167,18 @@ export const TECH_TIERS: TechnologyTier[] = [
     title: 'Hardware-Aware 16-Qubit VQC',
     tagline: 'Variational Quantum Classifier & IBM Heron r2',
     description:
-      'A dedicated pixel-path Variational Quantum Classifier operating directly on 65,536 amplitude-encoded quantum states (2¹⁶). Evaluated across 8-, 10-, 12-, and 16-qubit configurations on Qiskit Aer and IBM Heron r2 (ibm_kingston).',
+      'A dedicated Variational Quantum Classifier (VQC) operating directly on 65,536 amplitude-encoded quantum states (2¹⁶ = 65,536). Evaluated across 8-, 10-, 12-, and 16-qubit configurations on Qiskit Aer ideal/noisy simulation and IBM Heron r2 (ibm_kingston) real hardware.',
     specs: [
       { label: 'State Representation', value: '16 Qubits (65,536 Normalized Amplitudes)' },
       { label: 'Ansatz Rotations', value: 'U_j(ϕ_j, ψ_j) = R_z(ψ_j) R_y(ϕ_j)' },
       { label: 'Entanglement Layer', value: 'Hardware-Aware Coupling Graph G=(V,E)' },
-      { label: 'Optimization Engine', value: 'SPSA Stochastic Gradient Descent (BCE Loss)' },
+      { label: 'Optimization Engine', value: 'SPSA (primary) / COBYLA (baseline)' },
     ],
     highlights: [
-      'Amplitude encoding maps 256×256 pixels directly to 16 qubits without lossy reduction',
-      'Chunked objective implementation reduces peak memory by 70% (846 MB → 250 MB)',
-      'Benchmark profiling reveals 29 ms/sample expectation batch on simulated states',
-      'Realistic hardware transpilation scaling: 4,083 CX gates at 12Q; ~62,940 CX at 16Q',
+      'Amplitude encoding: 256×256 = 65,536 = 2¹⁶ — exact state space, no lossy compression',
+      'Scalable experiment: 8-, 10-, 12-, 16-qubit configurations evaluated systematically',
+      'Hardware transpilation: measured 4,083 CX gates at 12 qubits; extrapolated ~62,940 CX at 16 qubits',
+      'Evaluation chain: Ideal Simulation → Noisy Simulation → IBM Heron r2 (ibm_kingston)',
     ],
     icon: 'Atom',
     color: 'quantum',
@@ -250,7 +250,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     icon: 'Shield',
     points: [
       'Guarantees no patient images appear across training and test partitions simultaneously',
-      'Dataset reconstruction: 2,436 usable images from 328 patients on SMART-OM dataset',
+      'Dataset reconstruction: 2,436 usable images from 328 patients (University of Peradeniya Oral Cancer Dataset v1, SMART-OM)',
       'Structural tripwires in test suites prevent accidental condition merging or leakage regressions',
     ],
   },
@@ -299,11 +299,11 @@ export const TIMELINE_MILESTONES: TimelineMilestone[] = [
     title: 'Dataset Reconstruction & Leakage Controls',
     status: 'completed',
     description:
-      'Curated the SMART-OM / University of Peradeniya Oral Cancer Dataset v1 (2,436 usable images / 328 patients). Enforced strict patient-level partitioning and resolved cache collisions.',
+      'Curated the University of Peradeniya Oral Cancer Dataset v1 (2,436 usable images from 328 patients after QC rejection of 33 images). Enforced strict patient-level partitioning and resolved a Ca 2.png filename collision.',
     deliverables: [
-      '2,436 images across 328 patients (1,692 train / 363 val / 381 test)',
-      'Zero patient-level leakage invariant (P_train ∩ P_val ∩ P_test = ∅)',
-      'Verified dataset manifests and reproducible cache generation',
+      '2,436 usable images from 328 patients (original 2,469 − 33 QC rejections)',
+      'Patient-level split: 230 train / 50 val / 48 test — zero cross-partition leakage',
+      'Reproducible cache generation and verified dataset manifests',
     ],
   },
   {
@@ -312,37 +312,37 @@ export const TIMELINE_MILESTONES: TimelineMilestone[] = [
     title: 'Frozen MobileNet Lesion Localizer (DEC-020)',
     status: 'completed',
     description:
-      'Supervised MobileNet exclusively on lesion boxes to eliminate crop-geometry shortcuts (AUC 0.983). Achieved identical generalization on validation (0.5285 IoU) and held-out test (0.5279 IoU).',
+      'Trained MobileNet exclusively on lesion boxes (DEC-020) to eliminate crop-geometry shortcuts (region-box AUC ≈ 0.983). Frozen checkpoint evaluated on held-out test set: 0.5279 mean IoU.',
     deliverables: [
-      'Frozen localizer.pt checkpoint (Epoch 17, threshold 0.30)',
-      '98.16% test localization rate (374/381 localized, 7 fallback)',
-      'Structural separation of Oracle (A), Predicted (B), and Fallback (C) conditions',
+      'Frozen localizer.pt (Epoch 17, threshold 0.30, SHA-256: 27d6036e…)',
+      '98.16% test localization rate (374/381 localized; 7 fallback; 0 rejected)',
+      'Validation: 0.5285 mean IoU | Test: 0.5279 mean IoU (96% IoU≥0.25 val)',
     ],
   },
   {
-    phase: 'Phase C & D',
+    phase: 'Phase C',
     quarter: 'Complete',
     title: 'Deterministic Pixel Pipeline & Quantum Diagnostics',
     status: 'completed',
     description:
-      'Engineered exact 256×256 uint8 grayscale representation (65,536 pixels = 2¹⁶ amplitudes). Measured state diagnostics (mean uniform overlap 0.946) and memory-chunked objectives (70% reduction).',
+      'Engineered exact 256×256 grayscale representation (65,536 pixels = 2¹⁶ amplitudes). Measured quantum state diagnostics: mean uniform-state overlap 0.946, minimum pairwise overlap 0.607.',
     deliverables: [
       'Exact 16-qubit amplitude encoding without forced dimensionality reduction',
-      'Shared expectation batch profiled at 29 ms/sample on Qiskit Aer',
-      'Hardware transpilation scaling benchmarked (4,083 CX at 12Q; ~62,940 CX at 16Q)',
+      'State diagnostics: mean overlap 0.946, random ⟨Z₀⟩ spread 0.0186, 1024-shot SE 0.031',
+      'Hardware transpilation: measured 4,083 CX at 12Q; extrapolated ~62,940 CX at 16Q',
     ],
   },
   {
     phase: 'Phase D',
     quarter: 'Active Phase',
-    title: 'Phase D: 16-Qubit VQC Experiment & Training',
+    title: 'Phase D: 16-Qubit VQC Depth Sweep & Training',
     status: 'in-progress',
     description:
-      'Executing candidate depth selection on validation PR-AUC, SPSA stochastic optimization under Binary Cross-Entropy, and row-aligned evaluation against the classical reference.',
+      'Active phase: depth sweep using validation PR-AUC, SPSA optimization under Binary Cross-Entropy loss, and row-aligned evaluation against the classical baseline. Final quantum performance numbers not yet claimed.',
     deliverables: [
-      'Validation-only depth sweep and frozen ansatz configuration',
-      'Dedicated pixel-path VQC trainer operating directly on prepared states',
-      'Row-aligned classical comparison on identical image ID populations',
+      'Depth sweep on validation PR-AUC → frozen VQC configuration',
+      'Oracle ROI, Predicted ROI, and Fallback condition evaluations (A/B/C)',
+      'Row-aligned classical comparison on identical patient populations',
     ],
   },
   {
@@ -351,24 +351,24 @@ export const TIMELINE_MILESTONES: TimelineMilestone[] = [
     title: 'Probability Calibration & FastAPI Backend',
     status: 'planned',
     description:
-      'Fitting isotonic probability calibration without test set contamination and establishing production FastAPI inference endpoints with typed Pydantic schemas and model versioning.',
+      'Calibrating raw VQC output (raw score → calibrated probability → risk band) without test set contamination. Building production FastAPI inference service with Pydantic schemas and model versioning.',
     deliverables: [
-      'Fitted probability calibration mapping ⟨Z_q⟩ to validated risk strata',
-      'FastAPI backend service with explicit model artifact loading',
-      'HL7 FHIR R4 Observation & RiskAssessment automated generation',
+      'Calibrated probability: raw ⟨Z_q⟩ → risk bands (fitted on validation only)',
+      'FastAPI backend: image upload → ROI → pixels → VQC → calibration → typed result',
+      'HL7 FHIR R4 Observation & RiskAssessment resource generation',
     ],
   },
   {
-    phase: 'Phase G - I',
+    phase: 'Phase G – I',
     quarter: 'Roadmap',
-    title: 'Flutter App Integration & Multi-Center Trials',
+    title: 'Flutter Integration, E2E Testing & Product Readiness',
     status: 'planned',
     description:
-      'Connecting the com.carescan.patient Flutter mobile application to the backend inference service, executing real-device verification, and conducting prospective community clinical trials.',
+      'Connecting the Flutter mobile application (Camera/Gallery → Preview → Analyzing → API → Result → History) to the backend, followed by end-to-end security testing, UI polish, and real-device demonstration.',
     deliverables: [
-      'Flutter client end-to-end integration with on-device quality controls',
-      'Real-device deployment on connected smartphones in primary health centers',
-      'Multi-center prospective clinical study against gold-standard histopathology',
+      'Flutter client: Camera/Gallery → API → Result → History screens connected',
+      'Security testing: camera denial, invalid images, localization failures, timeouts',
+      'Product readiness: UI fidelity, accessibility, documentation, reproducibility record',
     ],
   },
 ];

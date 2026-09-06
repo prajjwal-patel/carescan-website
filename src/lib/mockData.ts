@@ -13,7 +13,7 @@ export const TEST_CASE_PRESETS: TestCasePreset[] = [
       betelQuid: false,
     },
     classicalFeatureNorm: 0.18,
-    expectedQuantumExpectation: 0.74, // <Z> near +1 -> low cancer risk
+    expectedQuantumExpectation: 0.74, // ⟨Z⟩ near +1 → p_cancer = (1 − 0.74)/2 = 0.13
     expectedClassicalProb: 0.12,
     expectedFinalProb: 0.08,
     riskLevel: 'Low',
@@ -33,7 +33,7 @@ export const TEST_CASE_PRESETS: TestCasePreset[] = [
       betelQuid: false,
     },
     classicalFeatureNorm: 0.48,
-    expectedQuantumExpectation: 0.12, // <Z> intermediate
+    expectedQuantumExpectation: 0.12, // ⟨Z⟩ intermediate → p_cancer = (1 − 0.12)/2 = 0.44
     expectedClassicalProb: 0.44,
     expectedFinalProb: 0.38,
     riskLevel: 'Moderate',
@@ -53,7 +53,7 @@ export const TEST_CASE_PRESETS: TestCasePreset[] = [
       betelQuid: true,
     },
     classicalFeatureNorm: 0.88,
-    expectedQuantumExpectation: -0.68, // <Z> near -1 -> high cancer risk: P = (1 - (-0.68))/2 = 0.84
+    expectedQuantumExpectation: -0.68, // ⟨Z⟩ near −1 → p_cancer = (1 − (−0.68))/2 = 0.84
     expectedClassicalProb: 0.82,
     expectedFinalProb: 0.86,
     riskLevel: 'High',
@@ -63,39 +63,52 @@ export const TEST_CASE_PRESETS: TestCasePreset[] = [
   },
 ];
 
+/**
+ * Simulated risk calculation following the CareScan PDF methodology:
+ *  1. Primary quantum output: p_cancer = (1 − ⟨Z_q⟩) / 2
+ *  2. Clinical risk factors (smoking, alcohol, betel quid) shift ⟨Z_q⟩ per the
+ *     multimodal configuration described in the Methodology document.
+ *  3. This is a SIMULATION for demonstration purposes only.
+ *     Final experimental results depend on the live 16-qubit VQC experiment (Phase D).
+ */
 export function calculateSimulatedRisk(
   preset: TestCasePreset,
   customLifestyle?: { smoking: boolean; alcohol: boolean; betelQuid: boolean }
 ) {
   const lifestyle = customLifestyle || preset.lifestyle;
-  
-  // Calculate auxiliary risk bonus
-  let auxScore = 0;
-  if (lifestyle.smoking) auxScore += 0.12;
-  if (lifestyle.alcohol) auxScore += 0.08;
-  if (lifestyle.betelQuid) auxScore += 0.18;
 
-  // Compute simulated classical probability
-  const classicalProb = Math.min(0.96, Math.max(0.04, preset.expectedClassicalProb + auxScore * 0.4));
-  
-  // Compute simulated quantum expectation value <Z> in [-1, 1]
-  const baseExpectation = preset.expectedQuantumExpectation;
-  const shiftedExpectation = Math.max(-0.95, Math.min(0.95, baseExpectation - auxScore * 0.8));
-  
-  // Quantum probability formula: P_q = (1 - <Z>) / 2
+  // Clinical feature auxiliary score (c vector from the Methodology PDF, §5)
+  let clinicalAux = 0;
+  if (lifestyle.smoking) clinicalAux += 0.12;
+  if (lifestyle.alcohol) clinicalAux += 0.08;
+  if (lifestyle.betelQuid) clinicalAux += 0.18;
+
+  // Shift ⟨Z_q⟩ based on clinical risk factors
+  // (multimodal configuration: image + clinical features combined before classification)
+  const shiftedExpectation = Math.max(-0.95, Math.min(0.95,
+    preset.expectedQuantumExpectation - clinicalAux * 0.8
+  ));
+
+  // Primary quantum probability formula per PDF §9: p_cancer = (1 − ⟨Z_q⟩) / 2
   const quantumProb = (1.0 - shiftedExpectation) / 2.0;
 
-  // Multimodal fusion (weighted 60% quantum, 40% classical)
-  const fusedProb = Number((0.6 * quantumProb + 0.4 * classicalProb).toFixed(4));
+  // Classical feature probability (image-only baseline for comparison)
+  const classicalProb = Math.min(0.96, Math.max(0.04,
+    preset.expectedClassicalProb + clinicalAux * 0.4
+  ));
 
-  // Risk categorization based on CareScan clinical threshold (0.50)
+  // Final probability: quantum output is the primary signal in this simulation
+  // (matches the VQC-as-primary-classifier design per the Progress Report)
+  const finalProb = Number(quantumProb.toFixed(4));
+
+  // Risk stratification (calibration into risk bands per Phase E of roadmap)
   let riskLevel: 'Low' | 'Moderate' | 'High' = 'Low';
   let recommendation = preset.recommendation;
 
-  if (fusedProb >= 0.65) {
+  if (finalProb >= 0.65) {
     riskLevel = 'High';
     recommendation = 'Immediate specialist referral for incisional biopsy and comprehensive oncological staging.';
-  } else if (fusedProb >= 0.30) {
+  } else if (finalProb >= 0.30) {
     riskLevel = 'Moderate';
     recommendation = 'Clinical re-examination in 30 days. Cessation of all tobacco and betel quid risk factors recommended.';
   } else {
@@ -107,7 +120,7 @@ export function calculateSimulatedRisk(
     classicalProb: Number(classicalProb.toFixed(4)),
     quantumExpectation: Number(shiftedExpectation.toFixed(4)),
     quantumProb: Number(quantumProb.toFixed(4)),
-    finalProb: fusedProb,
+    finalProb,
     riskLevel,
     recommendation,
   };
