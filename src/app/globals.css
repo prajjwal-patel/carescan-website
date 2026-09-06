@@ -202,3 +202,40 @@
 .rounded-organic-pill {
   border-radius: 9999px;
 }
+
+/* Floating Dock & Capsule Nav Styles */
+.dock-nav-base {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dock-pill-scrolled {
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(13, 148, 136, 0.15);
+}
+
+.dark .dock-pill-scrolled {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(45, 212, 191, 0.2);
+}
+
+/* Curtain Reveal Main Container Shadow */
+.curtain-main {
+  box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.18), 0 18px 36px -18px rgba(15, 23, 42, 0.12);
+}
+
+.dark .curtain-main {
+  box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.8), 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+}
+
+/* Subtle Circuit Grid Pattern */
+.bg-circuit-grid {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(226, 232, 240, 0.4) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+}
+
+.dark .bg-circuit-grid {
+  background-image: 
+    linear-gradient(to right, rgba(51, 65, 85, 0.25) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(51, 65, 85, 0.25) 1px, transparent 1px);
+}
+

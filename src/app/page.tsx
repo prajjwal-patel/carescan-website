@@ -12,12 +12,12 @@ import { TeamSection } from '@/components/sections/TeamSection';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-stone-50/50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-teal-100 selection:text-teal-950 dark:selection:bg-teal-900 dark:selection:text-teal-100 transition-colors duration-300">
+    <div className="relative min-h-screen bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-teal-100 selection:text-teal-950 dark:selection:bg-teal-900 dark:selection:text-teal-100 transition-colors duration-300">
       {/* Navigation */}
       <Navbar />
 
-      {/* Main Content Sections */}
-      <main className="flex-1">
+      {/* Main Content Sections (Elevated Curtain with rounded bottom & depth shadow) */}
+      <main className="relative z-10 bg-stone-50/90 dark:bg-slate-950 rounded-b-[36px] sm:rounded-b-[48px] md:rounded-b-[60px] curtain-main border-b border-slate-200/80 dark:border-slate-800/80 overflow-hidden">
         {/* 1. Hero Section */}
         <HeroSection />
 
@@ -43,8 +43,10 @@ export default function Home() {
         <TeamSection />
       </main>
 
-      {/* Footer with Clinical Disclaimer */}
-      <Footer />
+      {/* Sticky Curtain Reveal Footer */}
+      <div className="sticky bottom-0 z-0 w-full">
+        <Footer />
+      </div>
     </div>
   );
 }
