@@ -64,7 +64,7 @@ export const TEST_CASE_PRESETS: TestCasePreset[] = [
 ];
 
 /**
- * Simulated risk calculation following the CareScan PDF methodology:
+ * Simulated risk calculation following the Orqis PDF methodology:
  *  1. Primary quantum output: p_cancer = (1 − ⟨Z_q⟩) / 2
  *  2. Clinical risk factors (smoking, alcohol, betel quid) shift ⟨Z_q⟩ per the
  *     multimodal configuration described in the Methodology document.

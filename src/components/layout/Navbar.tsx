@@ -55,7 +55,7 @@ export const Navbar: React.FC = () => {
             }`}>
               <Image
                 src="/orqis-logo.png"
-                alt="CareScan Logo"
+                alt="Orqis Logo"
                 width={36}
                 height={36}
                 priority
@@ -65,7 +65,7 @@ export const Navbar: React.FC = () => {
             <span className={`font-brand font-bold tracking-tight text-stone-900 dark:text-stone-50 transition-all duration-300 ${
               isScrolled ? 'text-base' : 'text-lg'
             }`}>
-              CareScan
+              Orqis
             </span>
           </a>
 

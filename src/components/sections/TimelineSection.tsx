@@ -1,96 +1,104 @@
 'use client';
 
 import React from 'react';
+import { SectionHeader } from '../ui/SectionHeader';
+import { Card } from '../ui/Card';
+import { Badge } from '../ui/Badge';
 import { TIMELINE_MILESTONES } from '@/lib/constants';
 import { OrganicDivider } from '../visual/OrganicDivider';
-
-const STATUS_COLORS: Record<string, string> = {
-  completed: 'bg-emerald-500',
-  'in-progress': 'bg-cyan-600 ring-4 ring-cyan-200 dark:ring-cyan-900',
-  planned: 'bg-stone-300 dark:bg-stone-700',
-};
-
-const STATUS_LABELS: Record<string, string> = {
-  completed: 'Complete',
-  'in-progress': 'Active',
-  planned: 'Planned',
-};
+import { CheckCircle2, CircleDot, Clock } from 'lucide-react';
 
 export const TimelineSection: React.FC = () => {
   return (
-    <section id="journey" className="relative py-16 md:py-24 bg-[#F8F6F2] dark:bg-[#0F0E0D] transition-colors duration-300">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="journey" className="relative py-14 md:py-20 bg-slate-50/70 dark:bg-slate-950 transition-colors duration-300">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Section Header */}
+        <SectionHeader
+          badge="Research & Clinical Roadmap"
+          badgeVariant="teal"
+          title="The Journey of the"
+          highlightText="Orqis Research Initiative"
+          subtitle="From dataset reconstruction (2,436 images / 328 patients) and frozen MobileNet localization to 16-qubit VQC execution on IBM Heron r2 and prospective field trials."
+        />
 
-        {/* Heading */}
-        <div className="mb-14 max-w-2xl">
-          <p className="text-sm font-semibold text-cyan-700 dark:text-cyan-500 tracking-wide uppercase mb-3">
-            Research Roadmap
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight mb-4">
-            The journey so far
-          </h2>
-          <p className="text-base text-stone-600 dark:text-stone-400 leading-relaxed">
-            From dataset reconstruction and frozen localizer training through to the active
-            16-qubit VQC experiment and clinical deployment planning.
-          </p>
-        </div>
+        {/* Timeline Path */}
+        <div className="relative max-w-4xl mx-auto">
+          {/* Vertical connecting line */}
+          <div className="absolute top-6 bottom-6 left-4 md:left-1/2 -translate-x-1/2 w-0.5 bg-gradient-to-b from-teal-500 via-indigo-500 to-slate-300 dark:to-slate-700 hidden sm:block" />
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Vertical rule */}
-          <div className="absolute left-3 top-2 bottom-2 w-px bg-stone-200 dark:bg-stone-800" />
+          <div className="space-y-6">
+            {TIMELINE_MILESTONES.map((item, index) => {
+              const isEven = index % 2 === 0;
 
-          <div className="space-y-0">
-            {TIMELINE_MILESTONES.map((item, index) => (
-              <div key={`${item.phase}-${index}`} className="relative pl-10 pb-12 last:pb-0">
-                {/* Dot */}
-                <span
-                  className={`absolute left-0 top-1.5 w-6 h-6 rounded-full flex items-center justify-center ${STATUS_COLORS[item.status]}`}
+              return (
+                <div
+                  key={`${item.phase}-${index}`}
+                  className={`relative flex flex-col sm:flex-row items-center gap-4 sm:gap-10 ${isEven ? 'sm:flex-row-reverse' : ''
+                    }`}
                 >
-                  {item.status === 'completed' && (
-                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12">
-                      <path d="M2 6l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  )}
-                  {item.status === 'in-progress' && (
-                    <span className="w-2 h-2 rounded-full bg-white" />
-                  )}
-                </span>
+                  {/* Content Card */}
+                  <div className="w-full sm:w-1/2">
+                    <Card
+                      variant="white"
+                      padding="md"
+                      organic="subtle"
+                      className="border-slate-200 dark:border-slate-800 shadow-2xs hover:border-teal-400 dark:hover:border-teal-600 transition-all space-y-2.5"
+                    >
+                      <div className="flex items-center justify-between">
+                        <Badge
+                          variant={
+                            item.status === 'completed'
+                              ? 'success'
+                              : item.status === 'in-progress'
+                                ? 'teal'
+                                : 'neutral'
+                          }
+                          size="sm"
+                          pulse={item.status === 'in-progress'}
+                        >
+                          {item.status === 'completed'
+                            ? 'Completed'
+                            : item.status === 'in-progress'
+                              ? 'Active Phase'
+                              : 'Planned'}
+                        </Badge>
+                        <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
+                          {item.phase} • {item.quarter}
+                        </span>
+                      </div>
 
-                {/* Content */}
-                <div className="max-w-2xl">
-                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-1">
-                    <span className="text-xs font-mono font-semibold text-stone-400 dark:text-stone-500 uppercase">
-                      {item.phase}
-                    </span>
-                    <span className={`text-xs font-semibold ${
-                      item.status === 'in-progress'
-                        ? 'text-cyan-700 dark:text-cyan-500'
-                        : item.status === 'completed'
-                        ? 'text-emerald-600 dark:text-emerald-500'
-                        : 'text-stone-400 dark:text-stone-500'
-                    }`}>
-                      {STATUS_LABELS[item.status]}
-                    </span>
+                      <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-heading">{item.title}</h3>
+                      <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-body">
+                        {item.description}
+                      </p>
+
+                      <div className="pt-1.5 space-y-1 border-t border-slate-100 dark:border-slate-800">
+                        {item.deliverables.map((del, dIdx) => (
+                          <div key={dIdx} className="flex items-center gap-2 text-xs text-slate-800 dark:text-slate-200 font-body">
+                            <span className="w-1.5 h-1.5 rounded-full bg-teal-600 dark:bg-teal-400 shrink-0" />
+                            <span>{del}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </Card>
                   </div>
 
-                  <h3 className="text-base font-bold text-stone-900 dark:text-stone-100 mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-3">
-                    {item.description}
-                  </p>
-                  <ul className="space-y-1">
-                    {item.deliverables.map((del, dIdx) => (
-                      <li key={dIdx} className="flex gap-2 text-xs text-stone-500 dark:text-stone-400">
-                        <span className="shrink-0">·</span>
-                        <span>{del}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  {/* Center Node on Timeline */}
+                  <div className="hidden sm:flex absolute left-1/2 -translate-x-1/2 w-7 h-7 rounded-full bg-white dark:bg-slate-900 border-2 border-teal-600 dark:border-teal-400 items-center justify-center text-teal-600 dark:text-teal-400 shadow-2xs z-10">
+                    {item.status === 'completed' ? (
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                    ) : item.status === 'in-progress' ? (
+                      <CircleDot className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400 animate-pulse" />
+                    ) : (
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                    )}
+                  </div>
+
+                  {/* Spacer for other side */}
+                  <div className="hidden sm:block w-1/2" />
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

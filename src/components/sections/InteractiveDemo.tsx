@@ -111,7 +111,7 @@ export const InteractiveDemo: React.FC = () => {
 
   const simulatedFhirObservation = {
     resourceType: 'Observation',
-    id: `obs-carescan-${caseSource === 'patient' ? patientProfile.patientId : selectedPreset.id}`,
+    id: `obs-orqis-${caseSource === 'patient' ? patientProfile.patientId : selectedPreset.id}`,
     meta: {
       source: credentials.fhirEndpoint,
       profile: ['http://hl7.org/fhir/StructureDefinition/Observation'],
@@ -125,18 +125,18 @@ export const InteractiveDemo: React.FC = () => {
           display: 'Malignant tumor of oral cavity (screening)',
         },
       ],
-      text: 'CareScan AI & Quantum Oral Screening Risk Assessment',
+      text: 'Orqis AI & Quantum Oral Screening Risk Assessment',
     },
     subject: {
       reference: `Patient/${caseSource === 'patient' ? patientProfile.patientId : 'SYNTH-PT-001'}`,
       display: caseSource === 'patient' ? patientProfile.name : 'Simulated Screening Patient',
       extension: [
         {
-          url: 'https://carescan.health/patient-age',
+          url: 'https://orqis.health/patient-age',
           valueString: caseSource === 'patient' ? `${patientProfile.age}y` : '45y',
         },
         {
-          url: 'https://carescan.health/oral-region',
+          url: 'https://orqis.health/oral-region',
           valueString:
             caseSource === 'patient' ? patientProfile.symptomRegion : selectedPreset.category,
         },
@@ -147,16 +147,16 @@ export const InteractiveDemo: React.FC = () => {
         display: credentials.name,
         type: 'Practitioner',
         identifier: {
-          system: 'https://carescan.health/practitioners',
+          system: 'https://orqis.health/practitioners',
           value: credentials.facilityId,
         },
         extension: [
           {
-            url: 'https://carescan.health/role',
+            url: 'https://orqis.health/role',
             valueString: credentials.role,
           },
           {
-            url: 'https://carescan.health/session-key',
+            url: 'https://orqis.health/session-key',
             valueString: credentials.accessKey,
           },
         ],
@@ -193,13 +193,15 @@ export const InteractiveDemo: React.FC = () => {
   };
 
   return (
-    <section id="sandbox" className="relative py-16 md:py-24 bg-[#F8F6F2] dark:bg-[#0F0E0D] transition-colors duration-300">
+    <section id="sandbox" className="relative py-14 md:py-20 bg-stone-50 dark:bg-slate-950 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Header */}
         <SectionHeader
-          title="Clinical Triage"
-          highlightText="Sandbox"
-          subtitle="Explore how CareScan combines frozen MobileNet lesion localisation with 16-qubit amplitude-encoded VQC and patient risk factors to generate a calibrated triage decision."
+          badge="Interactive Point-of-Care Simulator"
+          badgeVariant="teal"
+          title="Try the Guided"
+          highlightText="Orqis Triage Sandbox"
+          subtitle="Follow the 3 steps below to explore how Orqis combines frozen MobileNet lesion ROI localization with 16-qubit amplitude-encoded VQC and lifestyle risk factors to generate calibrated clinical triage decisions."
         />
 
         {/* Guided 3-Step Progress Header Banner */}
@@ -257,22 +259,20 @@ export const InteractiveDemo: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setCaseSource('preset')}
-                  className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer ${
-                    caseSource === 'preset'
+                  className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer ${caseSource === 'preset'
                       ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-2xs'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                    }`}
                 >
                   Clinical Presets
                 </button>
                 <button
                   type="button"
                   onClick={handleSelectPatientCase}
-                  className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
-                    caseSource === 'patient'
+                  className={`text-xs font-bold py-1.5 px-2 rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${caseSource === 'patient'
                       ? 'bg-teal-700 text-white shadow-2xs'
                       : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                  }`}
+                    }`}
                 >
                   <Camera className="w-3.5 h-3.5" />
                   <span>Patient Photo Case</span>
@@ -294,8 +294,8 @@ export const InteractiveDemo: React.FC = () => {
                         patientProfile.analysisResult?.riskLevel === 'High'
                           ? 'danger'
                           : patientProfile.analysisResult?.riskLevel === 'Moderate'
-                          ? 'warning'
-                          : 'success'
+                            ? 'warning'
+                            : 'success'
                       }
                       size="sm"
                     >
@@ -345,11 +345,10 @@ export const InteractiveDemo: React.FC = () => {
                       <button
                         key={preset.id}
                         onClick={() => handleSelectPreset(preset.id)}
-                        className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer ${
-                          isSelected
+                        className={`w-full text-left p-3 rounded-2xl border transition-all cursor-pointer ${isSelected
                             ? 'bg-teal-50 dark:bg-teal-950/60 border-teal-600 dark:border-teal-500 ring-2 ring-teal-500/20 shadow-xs'
                             : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800'
-                        }`}
+                          }`}
                       >
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm font-bold text-slate-900 dark:text-white">{preset.name}</span>
@@ -358,8 +357,8 @@ export const InteractiveDemo: React.FC = () => {
                               preset.riskLevel === 'High'
                                 ? 'danger'
                                 : preset.riskLevel === 'Moderate'
-                                ? 'warning'
-                                : 'neutral'
+                                  ? 'warning'
+                                  : 'neutral'
                             }
                             size="sm"
                           >
@@ -463,28 +462,26 @@ export const InteractiveDemo: React.FC = () => {
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => setActiveTab('triage')}
-                    className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
-                      activeTab === 'triage'
+                    className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${activeTab === 'triage'
                         ? 'bg-teal-700 text-white shadow-xs'
                         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-                    }`}
+                      }`}
                   >
                     Clinical Triage Result
                   </button>
                   <button
                     onClick={() => setActiveTab('fhir')}
-                    className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${
-                      activeTab === 'fhir'
+                    className={`text-xs sm:text-sm font-bold px-3.5 py-1.5 rounded-full transition-colors cursor-pointer ${activeTab === 'fhir'
                         ? 'bg-teal-700 text-white shadow-xs'
                         : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
-                    }`}
+                      }`}
                   >
                     HL7 FHIR R4 Record
                   </button>
                 </div>
 
                 <span className="text-[11px] font-mono text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 font-bold hidden sm:inline">
-                  CareScan Engine Active
+                  Orqis Engine Active
                 </span>
               </div>
 
@@ -556,13 +553,12 @@ export const InteractiveDemo: React.FC = () => {
                       </p>
                       <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-1.5 overflow-hidden">
                         <div
-                          className={`h-full transition-all duration-300 ${
-                            finalProb >= 0.6
+                          className={`h-full transition-all duration-300 ${finalProb >= 0.6
                               ? 'bg-rose-500'
                               : finalProb >= 0.28
-                              ? 'bg-amber-500'
-                              : 'bg-emerald-500'
-                          }`}
+                                ? 'bg-amber-500'
+                                : 'bg-emerald-500'
+                            }`}
                           style={{ width: `${finalProb * 100}%` }}
                         />
                       </div>

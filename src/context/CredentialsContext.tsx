@@ -97,7 +97,7 @@ export const CREDENTIAL_PRESETS: CredentialPreset[] = [
     role: 'Lead Quantum Computing & VQC Architect',
     facilityId: 'Q-LAB-HERON-SIMULATOR',
     accessKey: 'QISKIT-AER-16Q-VQC-8890',
-    fhirEndpoint: 'https://quantum-ml.carescan.health/v1/fhir',
+    fhirEndpoint: 'https://quantum-ml.orqis.health/v1/fhir',
     badge: 'Quantum ML Lab',
     description: 'Direct parameter access to 16-qubit (65,536 amplitude) ansatz rotations and Pauli-Z expectation value debugging on IBM Heron r2 / Qiskit Aer.',
   },

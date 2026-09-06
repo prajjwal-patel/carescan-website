@@ -46,7 +46,7 @@ export const PURPOSE_STATS = [
   {
     stat: '377,000+',
     label: 'Lives Impacted Globally Each Year',
-    detail: 'Oral cancer is one of the most prevalent and lethal malignancies in underserved regions. Early detection is critical — CareScan brings preliminary screening to frontline health workers.',
+    detail: 'Oral cancer is one of the most prevalent and lethal malignancies in underserved regions. Early detection is critical — Orqis brings preliminary screening to frontline health workers.',
   },
   {
     stat: '0.5279 IoU',
@@ -64,7 +64,7 @@ export const WORKFLOW_STAGES: WorkflowStage[] = [
   {
     step: '01',
     title: 'Guided Mobile Capture & QC',
-    subtitle: 'On-Device Acquisition (com.carescan.patient)',
+    subtitle: 'On-Device Acquisition (com.orqis.patient)',
     description:
       'A frontline healthcare worker captures intra-oral photographs using the Flutter mobile application. The on-device engine performs instant quality checks for illumination, blur, and visibility while stripping all EXIF metadata.',
     icon: 'Camera',
@@ -123,11 +123,11 @@ export const TECH_TIERS: TechnologyTier[] = [
   {
     id: 'mobile',
     title: 'Frontline Mobile Application',
-    tagline: 'Flutter & Dart (com.carescan.patient)',
+    tagline: 'Flutter & Dart (com.orqis.patient)',
     description:
       'Cross-platform mobile application engineered for frontline health workers and community nurses. Provides guided camera acquisition, local OpenCV image quality validation, EXIF scrubbing, and offline session resilience.',
     specs: [
-      { label: 'Package Identifier', value: 'com.carescan.patient' },
+      { label: 'Package Identifier', value: 'com.orqis.patient' },
       { label: 'Framework', value: 'Flutter / Dart' },
       { label: 'Quality Controls', value: 'Illumination, Blur & ROI Size Checks' },
       { label: 'Routing & Navigation', value: 'Centralized go_router' },
@@ -246,7 +246,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Patient-Level Data Isolation',
     tagline: 'Eliminating Cross-Patient Data Leakage',
     description:
-      'Multiple images from the same patient share correlated visual patterns. CareScan strictly enforces patient-level dataset partitioning (P_train ∩ P_val ∩ P_test = ∅) across all 328 patients.',
+      'Multiple images from the same patient share correlated visual patterns. Orqis strictly enforces patient-level dataset partitioning (P_train ∩ P_val ∩ P_test = ∅) across all 328 patients.',
     icon: 'Shield',
     points: [
       'Guarantees no patient images appear across training and test partitions simultaneously',
@@ -258,7 +258,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Methodological Rigor over Shortcuts',
     tagline: 'Lesion-Only Supervised Targets (DEC-020)',
     description:
-      'Analysis revealed that broad region-box area alone separated diagnostic classes at AUC ≈ 0.983. CareScan decisively rejected broad region annotations to prevent models from learning geometric shortcuts.',
+      'Analysis revealed that broad region-box area alone separated diagnostic classes at AUC ≈ 0.983. Orqis decisively rejected broad region annotations to prevent models from learning geometric shortcuts.',
     icon: 'Eye',
     points: [
       'Trained exclusively on 318 lesion-annotated images with verified ground-truth boundaries',
@@ -282,7 +282,7 @@ export const PHILOSOPHY_PILLARS: PhilosophyPillar[] = [
     title: 'Defensible Science & Clinical Humility',
     tagline: 'Row-Aligned Baselines & Clear Disclaimers',
     description:
-      'CareScan does not assume quantum superiority in advance. Every quantum configuration is benchmarked against row-aligned classical baselines evaluated on the exact same patient populations.',
+      'Orqis does not assume quantum superiority in advance. Every quantum configuration is benchmarked against row-aligned classical baselines evaluated on the exact same patient populations.',
     icon: 'HeartHandshake',
     points: [
       'Row-aligned classical comparisons prevent false claims from differing sample prevalence',
@@ -399,10 +399,10 @@ export const TEAM_MEMBERS: TeamMember[] = [
     role: 'Mobile Architecture & UX',
     discipline: 'Patient-Centered Design',
     department: 'Mobile Engineering (Flutter)',
-    focus: 'com.carescan.patient client architecture, on-device image quality checks, EXIF scrubbing, and WCAG AA accessibility.',
+    focus: 'com.orqis.patient client architecture, on-device image quality checks, EXIF scrubbing, and WCAG AA accessibility.',
     avatarPlaceholder: 'UX',
   },
 ];
 
 export const CLINICAL_DISCLAIMER =
-  'CareScan is an investigational research initiative and clinical decision support system designed to assist frontline healthcare professionals. It provides an AI-assisted preliminary screening risk estimate and does not provide a definitive pathological diagnosis or replace histopathological biopsy by certified specialists.';
+  'Orqis is an investigational research initiative and clinical decision support system designed to assist frontline healthcare professionals. It provides an AI-assisted preliminary screening risk estimate and does not provide a definitive pathological diagnosis or replace histopathological biopsy by certified specialists.';
