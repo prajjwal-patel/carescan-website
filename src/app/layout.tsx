@@ -1,10 +1,11 @@
 import type { Metadata } from 'next';
-import { Outfit, Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
+import { DM_Serif_Display, Plus_Jakarta_Sans, Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
-const outfit = Outfit({
+const dmSerifDisplay = DM_Serif_Display({
   subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
   variable: '--font-brand',
   display: 'swap',
 });
@@ -65,7 +66,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`scroll-smooth ${outfit.variable} ${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
+      className={`scroll-smooth ${dmSerifDisplay.variable} ${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
       <body className="antialiased text-slate-900 dark:text-slate-100 bg-stone-50 dark:bg-slate-950 selection:bg-teal-100 selection:text-teal-950 dark:selection:bg-teal-900 dark:selection:text-teal-100 transition-colors duration-300">
         <AppProviders>{children}</AppProviders>
