@@ -29,7 +29,7 @@ export const HowItWorks: React.FC = () => {
         <SectionHeader
           badge="Simple 4-Step Journey"
           badgeVariant="teal"
-          title="How Orqis Works:"
+          title="How CareScan Works:"
           highlightText="From Smartphone Photo to Clinical Triage"
           subtitle="A seamless, guided workflow designed so any nurse, community health worker, or patient can perform an accurate screening in under a minute."
         />
@@ -159,7 +159,7 @@ export const HowItWorks: React.FC = () => {
                       {currentStage.title}
                     </h4>
                     <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 font-body">
-                      Orqis Intelligent Pipeline
+                      CareScan Intelligent Pipeline
                     </p>
                   </div>
 
@@ -167,16 +167,16 @@ export const HowItWorks: React.FC = () => {
                   {activeStep === 0 && (
                     <div className="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-2xl border border-slate-200 dark:border-slate-700 text-left space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
                       <div className="flex justify-between font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                        <span>Framing Guide:</span>
+                        <span>Quality Control:</span>
                         <span className="text-emerald-700 dark:text-emerald-400 font-bold">
-                          Sharp Focus
+                          Checked On-Device
                         </span>
                       </div>
                       <div className="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full overflow-hidden">
                         <div className="bg-emerald-600 h-full w-full" />
                       </div>
                       <p className="text-[10px] text-slate-600 dark:text-slate-400 text-center pt-0.5">
-                        Automatic illumination and distance check
+                        Native OpenCV blur & illumination validation
                       </p>
                     </div>
                   )}
@@ -184,13 +184,13 @@ export const HowItWorks: React.FC = () => {
                   {activeStep === 1 && (
                     <div className="bg-slate-50 dark:bg-slate-900/80 p-3 rounded-2xl border border-slate-200 dark:border-slate-700 text-left space-y-1.5 text-xs text-slate-700 dark:text-slate-300">
                       <div className="flex justify-between font-mono text-[11px] text-slate-600 dark:text-slate-400">
-                        <span>Tissue Embedding:</span>
+                        <span>Lesion ROI:</span>
                         <span className="text-teal-700 dark:text-teal-400 font-bold">
-                          512 Features
+                          0.5279 Test IoU
                         </span>
                       </div>
                       <div className="font-mono text-[10px] text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-950 p-1.5 rounded-lg border border-slate-200 dark:border-slate-800">
-                        Extracts color, texture, & border morphology
+                        256×256 Grayscale (65,536 Pixels)
                       </div>
                     </div>
                   )}
@@ -198,13 +198,13 @@ export const HowItWorks: React.FC = () => {
                   {activeStep === 2 && (
                     <div className="bg-purple-50 dark:bg-purple-950/50 p-3 rounded-2xl border border-purple-200 dark:border-purple-800 text-left space-y-1.5 text-xs text-purple-950 dark:text-purple-200">
                       <div className="flex justify-between font-mono text-[11px] text-purple-800 dark:text-purple-300">
-                        <span>Quantum ML Engine:</span>
+                        <span>Quantum ML VQC:</span>
                         <span className="text-purple-800 dark:text-purple-300 font-bold">
-                          8-Qubit VQC
+                          16-Qubit State
                         </span>
                       </div>
                       <div className="font-mono text-[10px] text-purple-700 dark:text-purple-300 bg-white dark:bg-slate-950 p-1.5 rounded-lg border border-purple-200 dark:border-purple-800">
-                        Evaluates multi-dimensional risk in Hilbert space
+                        2¹⁶ = 65,536 Amplitude Encoding
                       </div>
                     </div>
                   )}
@@ -214,11 +214,11 @@ export const HowItWorks: React.FC = () => {
                       <div className="flex justify-between font-mono text-[11px] text-emerald-800 dark:text-emerald-300">
                         <span>Clinical Triage:</span>
                         <span className="text-emerald-800 dark:text-emerald-300 font-bold">
-                          Calibrated Score
+                          Calibrated p ∈ [0, 1]
                         </span>
                       </div>
                       <div className="font-mono text-[10px] text-emerald-700 dark:text-emerald-300 bg-white dark:bg-slate-950 p-1.5 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                        HL7 FHIR Clinical Referral Generated
+                        HL7 FHIR R4 & SNOMED CT 363349007
                       </div>
                     </div>
                   )}

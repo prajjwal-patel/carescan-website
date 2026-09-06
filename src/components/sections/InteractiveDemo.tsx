@@ -111,7 +111,7 @@ export const InteractiveDemo: React.FC = () => {
 
   const simulatedFhirObservation = {
     resourceType: 'Observation',
-    id: `obs-orqis-${caseSource === 'patient' ? patientProfile.patientId : selectedPreset.id}`,
+    id: `obs-carescan-${caseSource === 'patient' ? patientProfile.patientId : selectedPreset.id}`,
     meta: {
       source: credentials.fhirEndpoint,
       profile: ['http://hl7.org/fhir/StructureDefinition/Observation'],
@@ -125,18 +125,18 @@ export const InteractiveDemo: React.FC = () => {
           display: 'Malignant tumor of oral cavity (screening)',
         },
       ],
-      text: 'Orqis AI & Quantum Oral Screening Risk Assessment',
+      text: 'CareScan AI & Quantum Oral Screening Risk Assessment',
     },
     subject: {
       reference: `Patient/${caseSource === 'patient' ? patientProfile.patientId : 'SYNTH-PT-001'}`,
       display: caseSource === 'patient' ? patientProfile.name : 'Simulated Screening Patient',
       extension: [
         {
-          url: 'https://orqis.health/patient-age',
+          url: 'https://carescan.health/patient-age',
           valueString: caseSource === 'patient' ? `${patientProfile.age}y` : '45y',
         },
         {
-          url: 'https://orqis.health/oral-region',
+          url: 'https://carescan.health/oral-region',
           valueString:
             caseSource === 'patient' ? patientProfile.symptomRegion : selectedPreset.category,
         },
@@ -147,16 +147,16 @@ export const InteractiveDemo: React.FC = () => {
         display: credentials.name,
         type: 'Practitioner',
         identifier: {
-          system: 'https://orqis.health/practitioners',
+          system: 'https://carescan.health/practitioners',
           value: credentials.facilityId,
         },
         extension: [
           {
-            url: 'https://orqis.health/role',
+            url: 'https://carescan.health/role',
             valueString: credentials.role,
           },
           {
-            url: 'https://orqis.health/session-key',
+            url: 'https://carescan.health/session-key',
             valueString: credentials.accessKey,
           },
         ],
@@ -181,11 +181,11 @@ export const InteractiveDemo: React.FC = () => {
     ],
     component: [
       {
-        code: { text: 'MobileNetV3 512D Classical CNN Feature Score' },
+        code: { text: 'Frozen MobileNet Lesion Localizer (DEC-020) Score' },
         valueQuantity: { value: Math.round(classicalProb * 1000) / 1000, unit: 'score' },
       },
       {
-        code: { text: '8-Qubit VQC Pauli-Z Ground State Expectation ⟨Z₀⟩' },
+        code: { text: '16-Qubit VQC Pauli-Z Ground State Expectation ⟨Z_q⟩' },
         valueQuantity: { value: Math.round(quantumZ0 * 1000) / 1000, unit: 'expectation' },
       },
     ],
@@ -200,8 +200,8 @@ export const InteractiveDemo: React.FC = () => {
           badge="Interactive Point-of-Care Simulator"
           badgeVariant="teal"
           title="Try the Guided"
-          highlightText="Orqis Triage Sandbox"
-          subtitle="Follow the 3 steps below to explore how Orqis fuses oral image patterns with patient lifestyle risk factors to generate calibrated clinical triage decisions."
+          highlightText="CareScan Triage Sandbox"
+          subtitle="Follow the 3 steps below to explore how CareScan combines frozen MobileNet lesion ROI localization with 16-qubit amplitude-encoded VQC and lifestyle risk factors to generate calibrated clinical triage decisions."
         />
 
         {/* Guided 3-Step Progress Header Banner */}
@@ -486,7 +486,7 @@ export const InteractiveDemo: React.FC = () => {
                 </div>
 
                 <span className="text-[11px] font-mono text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 font-bold hidden sm:inline">
-                  Orqis Engine Active
+                  CareScan Engine Active
                 </span>
               </div>
 
@@ -513,10 +513,10 @@ export const InteractiveDemo: React.FC = () => {
 
                   {/* Diagnostic Gauges Grid */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                    {/* Classical CNN */}
+                    {/* Classical Localizer / Baseline */}
                     <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs">
                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                        Classical CNN
+                        Classical Localizer
                       </p>
                       <p className="text-lg font-extrabold text-slate-900 dark:text-white font-mono mt-0.5">
                         {(classicalProb * 100).toFixed(1)}%
@@ -527,13 +527,13 @@ export const InteractiveDemo: React.FC = () => {
                           style={{ width: `${classicalProb * 100}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">MobileNetV3 512D</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Frozen MobileNet (DEC-020)</p>
                     </div>
 
-                    {/* Quantum 8-Qubit VQC */}
+                    {/* Quantum 16-Qubit VQC */}
                     <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs">
                       <p className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                        Quantum VQC ⟨Z₀⟩
+                        16-Qubit VQC ⟨Z_q⟩
                       </p>
                       <p className="text-lg font-extrabold text-purple-700 dark:text-purple-400 font-mono mt-0.5">
                         {quantumZ0 >= 0 ? '+' : ''}
@@ -545,7 +545,7 @@ export const InteractiveDemo: React.FC = () => {
                           style={{ width: `${Math.max(10, (1 - (quantumZ0 + 1) / 2) * 100)}%` }}
                         />
                       </div>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Pauli-Z ground state</p>
+                      <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-1">Pauli-Z readout on IBM Heron r2</p>
                     </div>
 
                     {/* Multimodal Fused Probability */}

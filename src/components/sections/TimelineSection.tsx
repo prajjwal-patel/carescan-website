@@ -17,8 +17,8 @@ export const TimelineSection: React.FC = () => {
           badge="Research & Clinical Roadmap"
           badgeVariant="teal"
           title="The Journey of the"
-          highlightText="Orqis Healthcare Initiative"
-          subtitle="From clinical problem definition to hardware-aware quantum variational circuits and upcoming community field trials."
+          highlightText="CareScan Research Initiative"
+          subtitle="From dataset reconstruction (2,436 images / 328 patients) and frozen MobileNet localization to 16-qubit VQC execution on IBM Heron r2 and prospective field trials."
         />
 
         {/* Timeline Path */}

@@ -29,7 +29,7 @@ export const HeroSection: React.FC = () => {
 
             {/* Headline */}
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-slate-900 dark:text-white leading-[1.14]">
-              Early Detection for Every Community,{' '}
+              Early Oral Screening for Every Community,{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-indigo-600 to-purple-600 dark:from-teal-400 dark:via-indigo-400 dark:to-purple-400">
                 Powered by Quantum AI
               </span>
@@ -37,26 +37,26 @@ export const HeroSection: React.FC = () => {
 
             {/* Subheadline — Clear and Human */}
             <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-body">
-              Orqis equips community health workers and local clinics with instant, non-invasive oral cancer screening. By pairing accessible smartphone imaging with cutting-edge Variational Quantum Machine Learning, we identify high-risk lesions years before they advance.
+              CareScan equips community health workers and primary clinics with instant, non-invasive oral cancer screening. Combining frozen MobileNet lesion localization (DEC-020) with 16-qubit Variational Quantum Classifiers (VQC) and strict patient-level evaluation integrity, we provide objective point-of-care risk triage.
             </p>
 
             {/* Value Highlights Pill List */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 font-body">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
-                <span>Empowers nurses & rural clinics</span>
+                <span>Flutter mobile acquisition (com.carescan.patient)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
-                <span>Non-invasive 1-second screening</span>
+                <span>Frozen MobileNet localizer (0.5279 Test IoU)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>Quantum-enhanced pattern separation</span>
+                <span>16-Qubit VQC (65,536 Amplitude State Space)</span>
               </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>Hospital-ready FHIR referral summaries</span>
+                <span>Hospital-ready HL7 FHIR R4 Observations</span>
               </div>
             </div>
 
@@ -78,11 +78,11 @@ export const HeroSection: React.FC = () => {
             <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs font-semibold text-slate-600 dark:text-slate-400">
               <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-2xs">
                 <ShieldCheck className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                100% On-Device Privacy
+                Patient-Level Partitioning Invariant
               </span>
               <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                SNOMED CT & HL7 FHIR Standard
+                SMART-OM Benchmark (2,436 Images / 328 Pts)
               </span>
             </div>
           </div>

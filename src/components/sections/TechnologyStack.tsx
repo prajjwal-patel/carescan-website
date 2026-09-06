@@ -30,7 +30,7 @@ export const TechnologyStack: React.FC = () => {
           badgeVariant="teal"
           title="Engineered for"
           highlightText="Clinical Precision & Accessibility"
-          subtitle="Orqis connects frontline mobile devices, edge computer vision, and quantum algorithms directly to hospital healthcare records."
+          subtitle="CareScan connects frontline Flutter mobile clients, frozen MobileNet lesion localizers, and 16-qubit Variational Quantum Classifiers (VQC) directly to hospital EHR systems."
         />
 
         {/* 4 Tier Selector Cards */}

@@ -15,40 +15,40 @@ interface GateInfo {
 
 const GATE_DETAILS: Record<string, GateInfo> = {
   prep: {
-    name: '1. State Preparation (Encoding the Photo)',
-    type: 'Input Encoding',
-    math: '|ψ(x)⟩ = ∑ xᵢ |i⟩',
+    name: '1. Amplitude State Preparation |ψ⟩',
+    type: 'Exact 16-Qubit Encoding',
+    math: '|ψ⟩ = ∑ aᵢ |i⟩,  aᵢ = (xᵢ/255) / √(∑(xⱼ/255)²)',
     description:
-      'Compresses the 256 visual features from the oral photograph into the synchronized quantum states of 8 qubits at once.',
+      'Maps the 256×256 grayscale ROI (65,536 normalized pixel values) directly to the amplitudes of a 16-qubit quantum state without forced lossy compression.',
     clinicalImpact:
-      'Preserves tiny textural subtleties in oral lesions without losing resolution or slowing down edge mobile devices.',
+      'Preserves fine micro-texture and border irregularities of oral mucosal lesions at full pixel fidelity.',
   },
   rot: {
-    name: '2. Variational Rotations (Trained Diagnostic Weights)',
-    type: 'Learned Weights',
-    math: 'U(θ, ϕ) = R_z(ϕ) R_y(θ)',
+    name: '2. Parameterized Rotation Layers U_rot(θ)',
+    type: 'Variational Single-Qubit Rotations',
+    math: 'Uⱼ(ϕⱼ, ψⱼ) = R_z(ψⱼ) R_y(ϕⱼ),  θ = (ϕ, ψ)',
     description:
-      'Adjusts the orientation of quantum states based on trained clinical weights to separate benign mucosal tissue from precancerous changes.',
+      'Parameterized single-qubit rotations optimized via SPSA under Binary Cross-Entropy loss (L_BCE) to separate benign mucosa from oncological dysplasia.',
     clinicalImpact:
-      'Acts like learned diagnostic filters, highlighting high-risk cellular patterns and ulcerated borders.',
+      'Learns optimal quantum decision boundaries in Hilbert space to identify subtle dysplastic tissue signatures.',
   },
   cnot: {
-    name: '3. Quantum Entanglement (Cross-Risk Consultation)',
-    type: 'Feature Correlation',
-    math: 'CX(qᵢ, qᵢ₊₁)',
+    name: '3. Hardware-Aware Entanglement CX(qᵢ, qₖ)',
+    type: 'Hardware Coupling Graph G=(V,E)',
+    math: 'CX(qᵢ, qₖ) ∈ E(G_Heron),  G = (V, E)',
     description:
-      'Intertwines all 8 qubits so visual lesion markers, smoking habits, and betel nut usage are evaluated together as an interconnected profile.',
+      'Entangling gates are constructed strictly along native physical qubit coupling edges of target processors (IBM Heron r2 ibm_kingston), eliminating routing SWAP gate overhead.',
     clinicalImpact:
-      'Catches combined risk combinations that single-factor tests miss (e.g. subtle white patch + heavy betel quid exposure).',
+      'Correlates distributed spatial tissue features across the oral lesion while maintaining NISQ hardware feasibility.',
   },
   readout: {
-    name: '4. Readout Measurement (Objective Triage Score)',
-    type: 'Clinical Readout',
-    math: '⟨Z₀⟩ → P = (1 - ⟨Z₀⟩) / 2',
+    name: '4. Pauli-Z Readout & Probability Calibration',
+    type: 'Clinical Risk Measurement',
+    math: '⟨Z_q⟩ = ⟨ψ_final|Z_q|ψ_final⟩  ⟹  p = (1 - ⟨Z_q⟩)/2',
     description:
-      'Measures the final quantum state over 1,024 simulator iterations to calculate the definitive preliminary risk score.',
+      'Readout qubit expectation ⟨Z_q⟩ ∈ [-1, +1] is measured and transformed into an AI-assisted screening probability in [0, 1] followed by isotonic probability calibration.',
     clinicalImpact:
-      'Produces a calibrated triage score (Low, Moderate, or High Risk) ready for instant specialist escalation.',
+      'Translates raw quantum states into actionable clinical triage strata (Low, Moderate, High) and HL7 FHIR R4 Observations.',
   },
 };
 
@@ -68,10 +68,10 @@ export const CircuitDiagram: React.FC = () => {
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
               <span className="font-bold text-slate-800 dark:text-slate-100">
-                8-Qubit Variational Quantum Classifier (Qiskit Engine)
+                Hardware-Aware Variational Quantum Classifier (IBM Heron r2 / Qiskit Aer)
               </span>
             </div>
-            <span className="text-slate-500 dark:text-slate-400 font-medium">Click any circuit block to see what it does in plain language</span>
+            <span className="text-slate-500 dark:text-slate-400 font-medium">Click any circuit block to inspect the exact mathematical operation</span>
           </div>
 
           <svg viewBox="0 0 780 340" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto">
@@ -125,7 +125,7 @@ export const CircuitDiagram: React.FC = () => {
                 textAnchor="middle"
                 transform="rotate(-90 112 160)"
               >
-                1. Photo State Prep |ψ(x)⟩
+                1. Amplitude Prep |ψ⟩ (65,536 State)
               </text>
             </g>
 

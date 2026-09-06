@@ -16,7 +16,7 @@ export const TeamSection: React.FC = () => {
           badgeVariant="teal"
           title="Bridging Medicine, AI, &"
           highlightText="Quantum Information Science"
-          subtitle="Orqis unites clinicians, oncology informatics researchers, quantum engineers, and mobile architects dedicated to accessible cancer screening."
+          subtitle="CareScan unites clinicians, oncology informatics researchers, quantum engineers, and mobile architects dedicated to accessible cancer screening."
         />
 
         {/* Team Grid */}

@@ -48,25 +48,25 @@ export const Footer: React.FC = () => {
               </div>
               <div className="flex flex-col">
                 <span className="font-brand text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                  Orqis
+                  CareScan
                 </span>
                 <span className="text-[11px] text-teal-400 font-medium -mt-0.5">
-                  Quantum-Enhanced Oral Triage & Screening
+                  Quantum-Classical Oral Cancer Screening Research
                 </span>
               </div>
             </div>
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md font-body">
-              AI-assisted, quantum-enhanced oral oncology screening research designed to empower frontline community health workers with rapid, non-invasive, and privacy-preserving preliminary triage.
+              A privacy-conscious hybrid quantum-classical framework combining frozen MobileNet ROI localization (DEC-020), 16-qubit amplitude-encoded VQC (65,536 states), and strict patient-level evaluation integrity on the SMART-OM benchmark.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-teal-300 bg-teal-950/70 px-3 py-1 rounded-full border border-teal-800/70 shadow-2xs">
-                <Cpu className="w-3.5 h-3.5 text-teal-400" /> Qiskit Aer VQC
+                <Cpu className="w-3.5 h-3.5 text-teal-400" /> IBM Heron r2 & Aer
               </span>
               <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-indigo-300 bg-indigo-950/70 px-3 py-1 rounded-full border border-indigo-800/70 shadow-2xs">
                 <FileText className="w-3.5 h-3.5 text-indigo-400" /> HL7 FHIR R4
               </span>
               <span className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-purple-300 bg-purple-950/70 px-3 py-1 rounded-full border border-purple-800/70 shadow-2xs">
-                <Sparkles className="w-3.5 h-3.5 text-purple-400" /> MobileNetV3 512D
+                <Sparkles className="w-3.5 h-3.5 text-purple-400" /> 16-Qubit VQC (2¹⁶)
               </span>
             </div>
           </div>
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-slate-800/90 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400 font-body">
-          <p>© {new Date().getFullYear()} Orqis Research Project. Standalone Open-Access Demonstration.</p>
+          <p>© {new Date().getFullYear()} CareScan Research Project. SMART-OM Benchmark & IBM Quantum Evaluation.</p>
           <div className="flex items-center gap-1.5">
             <span>Crafted with clinical precision & empathy</span>
             <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500 inline ml-1" />

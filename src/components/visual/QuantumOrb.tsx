@@ -144,8 +144,8 @@ export const QuantumOrb: React.FC<{ className?: string }> = ({ className = '' })
       <div className="absolute -left-2 sm:left-4 top-1/4 bg-white/95 dark:bg-slate-900/95 px-3.5 py-2 rounded-2xl shadow-lg flex items-center gap-2.5 border border-slate-200/90 dark:border-slate-700/90 animate-bounce [animation-duration:6s] backdrop-blur-md transition-colors">
         <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping shrink-0" />
         <div className="text-left">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-300">Quantum State</p>
-          <p className="text-xs font-bold text-slate-900 dark:text-teal-300 font-mono">|ψ⟩ = ∑ xᵢ |i⟩</p>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-300">16-Qubit State</p>
+          <p className="text-xs font-bold text-slate-900 dark:text-teal-300 font-mono">2¹⁶ = 65,536 Ampl</p>
         </div>
       </div>
 
@@ -153,8 +153,8 @@ export const QuantumOrb: React.FC<{ className?: string }> = ({ className = '' })
       <div className="absolute -right-2 sm:right-4 bottom-1/4 bg-white/95 dark:bg-slate-900/95 px-3.5 py-2 rounded-2xl shadow-lg flex items-center gap-2.5 border border-slate-200/90 dark:border-slate-700/90 animate-bounce [animation-duration:7s] backdrop-blur-md transition-colors">
         <div className="w-2.5 h-2.5 rounded-full bg-indigo-500 shrink-0" />
         <div className="text-left">
-          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-300">Readout Expectation</p>
-          <p className="text-xs font-bold text-slate-900 dark:text-indigo-300 font-mono">⟨Z₀⟩ ∈ [-1.0, +1.0]</p>
+          <p className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-300">Pauli-Z Triage</p>
+          <p className="text-xs font-bold text-slate-900 dark:text-indigo-300 font-mono">p = (1 - ⟨Z_q⟩)/2</p>
         </div>
       </div>
     </div>

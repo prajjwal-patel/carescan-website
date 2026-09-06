@@ -31,21 +31,22 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Orqis — AI & Quantum-Enhanced Oral Screening Research',
+  title: 'CareScan — AI & 16-Qubit Quantum-Enhanced Oral Screening Research',
   description:
-    'Orqis is an open scientific research platform combining mobile imaging, deep convolutional feature extraction, and Variational Quantum Classifiers (VQC) for rapid, accessible preliminary oral oncology triage.',
+    'CareScan is a privacy-conscious hybrid quantum-classical research framework combining frozen MobileNet lesion localization (DEC-020), 16-qubit amplitude-encoded VQC (65,536 states), and patient-level evaluation integrity on the SMART-OM benchmark.',
   keywords: [
-    'Orqis',
+    'CareScan',
     'Oral Cancer Screening',
     'Quantum Machine Learning',
     'Variational Quantum Classifier',
-    'VQC',
+    '16-Qubit VQC',
+    'MobileNet ROI Localizer',
     'Clinical Decision Support',
     'HL7 FHIR R4',
-    'Medical Image Analysis',
-    'Mobile Triage',
+    'SMART-OM Dataset',
+    'IBM Heron r2',
   ],
-  authors: [{ name: 'Orqis Research Team' }],
+  authors: [{ name: 'CareScan Research Team' }],
   icons: {
     icon: '/orqis-logo.png',
   },

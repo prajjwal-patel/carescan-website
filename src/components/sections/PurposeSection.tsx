@@ -18,7 +18,7 @@ export const PurposeSection: React.FC = () => {
           badgeVariant="teal"
           title="Why Early Detection Matters:"
           highlightText="Saving Lives at the Frontline"
-          subtitle="Oral cancer is among the deadliest and most disfiguring malignancies when detected late, yet it is almost entirely curable when caught early. Orqis exists to eliminate the diagnostic divide."
+          subtitle="Oral cancer is among the deadliest and most disfiguring malignancies when detected late, yet it is almost entirely curable when caught early. CareScan exists to eliminate the diagnostic divide."
         />
 
         {/* 3 Impact Stats Grid */}
@@ -43,7 +43,7 @@ export const PurposeSection: React.FC = () => {
           ))}
         </div>
 
-        {/* Side-by-Side Comparison: Traditional vs Orqis */}
+        {/* Side-by-Side Comparison: Traditional vs CareScan */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           {/* Traditional Bottlenecks */}
           <Card variant="white" padding="lg" className="border-rose-200/80 dark:border-rose-900/60 bg-gradient-to-b from-rose-50/40 via-white to-white dark:from-rose-950/20 dark:via-slate-900 dark:to-slate-900 shadow-xs">
@@ -80,17 +80,17 @@ export const PurposeSection: React.FC = () => {
             </ul>
           </Card>
 
-          {/* Orqis Solution */}
+          {/* CareScan Solution */}
           <Card variant="white" padding="lg" className="border-teal-200/80 dark:border-teal-800/60 bg-gradient-to-b from-teal-50/40 via-white to-white dark:from-teal-950/20 dark:via-slate-900 dark:to-slate-900 shadow-xs">
             <div className="flex items-center gap-2 mb-3">
-              <Badge variant="teal">The Orqis Solution</Badge>
+              <Badge variant="teal">The CareScan Solution</Badge>
               <span className="text-xs font-bold text-teal-800 dark:text-teal-300">Immediate Frontline Empowerment</span>
             </div>
             <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-2 font-heading">
               Standardized, Point-of-Care Decision Support
             </h3>
             <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 mb-5 leading-relaxed font-body">
-              Orqis turns any smartphone into an intelligent triage companion, providing community nurses with instant objective risk scores and automatic specialist referral summaries.
+              CareScan turns any smartphone into an intelligent triage companion, providing community nurses with instant objective risk scores and automatic specialist referral summaries.
             </p>
 
             <ul className="space-y-3 text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-body">
@@ -103,7 +103,7 @@ export const PurposeSection: React.FC = () => {
               <li className="flex items-start gap-2.5">
                 <Shield className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0 mt-0.5" />
                 <span>
-                  <strong className="text-slate-900 dark:text-white">Quantum-Enhanced Precision: </strong> Quantum ML evaluates multi-dimensional tissue risk patterns classical models miss.
+                  <strong className="text-slate-900 dark:text-white">16-Qubit Quantum VQC: </strong> Evaluates 65,536 normalized amplitudes without lossy dimensionality reduction.
                 </span>
               </li>
               <li className="flex items-start gap-2.5">

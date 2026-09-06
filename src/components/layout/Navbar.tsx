@@ -81,15 +81,15 @@ export const Navbar: React.FC = () => {
                     isScrolled ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'
                   }`}
                 >
-                  Orqis
+                  CareScan
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/70 px-2 py-0.5 rounded-full border border-teal-200 dark:border-teal-800/80 whitespace-nowrap">
-                  Quantum AI
+                  16-Qubit VQC
                 </span>
               </div>
               {!isScrolled && (
                 <span className="text-[10px] sm:text-[11px] text-slate-600 dark:text-slate-400 font-medium tracking-wide hidden md:block font-body whitespace-nowrap animate-in fade-in duration-200">
-                  Oral Screening & Triage
+                  Quantum-Classical Oral Triage
                 </span>
               )}
             </div>
