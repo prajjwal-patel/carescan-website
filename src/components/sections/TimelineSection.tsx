@@ -32,7 +32,7 @@ export const TimelineSection: React.FC = () => {
 
               return (
                 <div
-                  key={item.phase}
+                  key={`${item.phase}-${index}`}
                   className={`relative flex flex-col sm:flex-row items-center gap-4 sm:gap-10 ${
                     isEven ? 'sm:flex-row-reverse' : ''
                   }`}
