@@ -1,145 +1,125 @@
 'use client';
 
 import React, { useState } from 'react';
-import { SectionHeader } from '../ui/SectionHeader';
-import { Card } from '../ui/Card';
-import { Badge } from '../ui/Badge';
 import { TECH_TIERS } from '@/lib/constants';
 import { OrganicDivider } from '../visual/OrganicDivider';
-import { Smartphone, Layers, Atom, ShieldCheck, CheckCircle2, ChevronRight } from 'lucide-react';
+import { Smartphone, Layers, Atom, ShieldCheck } from 'lucide-react';
 
 const TIER_ICONS = {
-  Smartphone: Smartphone,
-  Layers: Layers,
-  Atom: Atom,
-  ShieldCheck: ShieldCheck,
+  Smartphone,
+  Layers,
+  Atom,
+  ShieldCheck,
 };
 
 export const TechnologyStack: React.FC = () => {
-  const [selectedTierId, setSelectedTierId] = useState<string>('mobile');
-
-  const activeTier = TECH_TIERS.find((t) => t.id === selectedTierId) || TECH_TIERS[0];
-  const ActiveIcon = TIER_ICONS[activeTier.icon as keyof typeof TIER_ICONS] || Layers;
+  const [selectedId, setSelectedId] = useState<string>('mobile');
+  const active = TECH_TIERS.find((t) => t.id === selectedId) || TECH_TIERS[0];
+  const ActiveIcon = TIER_ICONS[active.icon as keyof typeof TIER_ICONS] || Layers;
 
   return (
-    <section id="technology" className="relative py-14 md:py-20 bg-slate-50/70 dark:bg-slate-950 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Section Header */}
-        <SectionHeader
-          badge="End-to-End Technology Architecture"
-          badgeVariant="teal"
-          title="Engineered for"
-          highlightText="Clinical Precision & Accessibility"
-          subtitle="CareScan connects frontline Flutter mobile clients, frozen MobileNet lesion localizers, and 16-qubit Variational Quantum Classifiers (VQC) directly to hospital EHR systems."
-        />
+    <section id="technology" className="relative py-16 md:py-24 bg-[#FEFCF9] dark:bg-[#1A1917] transition-colors duration-300">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* 4 Tier Selector Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-          {TECH_TIERS.map((tier) => {
-            const Icon = TIER_ICONS[tier.icon as keyof typeof TIER_ICONS] || Layers;
-            const isSelected = selectedTierId === tier.id;
-
-            return (
-              <Card
-                key={tier.id}
-                variant={isSelected ? 'white' : 'stone'}
-                padding="md"
-                organic="subtle"
-                onClick={() => setSelectedTierId(tier.id)}
-                className={`cursor-pointer transition-all duration-200 ${
-                  isSelected
-                    ? 'border-teal-600 dark:border-teal-500 shadow-sm ring-2 ring-teal-500/20'
-                    : 'hover:border-slate-300 dark:hover:border-slate-700'
-                }`}
-              >
-                <div className="flex items-center justify-between mb-2.5">
-                  <div
-                    className={`w-9 h-9 rounded-2xl flex items-center justify-center ${
-                      isSelected
-                        ? 'bg-gradient-to-tr from-teal-600 to-indigo-600 text-white'
-                        : 'bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
-                    }`}
-                  >
-                    <Icon className="w-4 h-4" />
-                  </div>
-                  <ChevronRight
-                    className={`w-4 h-4 transition-transform ${
-                      isSelected ? 'text-teal-700 dark:text-teal-400 rotate-90' : 'text-slate-400'
-                    }`}
-                  />
-                </div>
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white font-heading">{tier.title}</h3>
-                <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 line-clamp-2 font-body">{tier.tagline}</p>
-              </Card>
-            );
-          })}
+        {/* Heading */}
+        <div className="mb-12">
+          <p className="text-sm font-semibold text-cyan-700 dark:text-cyan-500 tracking-wide uppercase mb-3">
+            The Technology
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight mb-4">
+            Four layers, working together
+          </h2>
+          <p className="text-base text-stone-600 dark:text-stone-400 leading-relaxed max-w-2xl">
+            CareScan connects a Flutter mobile client, a frozen MobileNet lesion localizer,
+            a 16-qubit Variational Quantum Classifier, and hospital EHR integration into
+            a single coherent pipeline.
+          </p>
         </div>
 
-        {/* Active Tier Deep-Dive Overview */}
-        <Card variant="white" padding="lg" organic="subtle" className="border-teal-200 dark:border-slate-800 shadow-xs">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Specs & Description */}
-            <div className="lg:col-span-7 space-y-5">
-              <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-2xl bg-teal-50 dark:bg-teal-950/70 text-teal-700 dark:text-teal-300 flex items-center justify-center shrink-0">
-                  <ActiveIcon className="w-6 h-6" />
-                </div>
-                <div>
-                  <Badge variant={activeTier.color === 'quantum' ? 'quantum' : activeTier.color === 'teal' ? 'teal' : 'iris'}>
-                    {activeTier.tagline}
-                  </Badge>
-                  <h3 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1 font-heading">{activeTier.title}</h3>
-                </div>
-              </div>
-
-              <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed font-body">
-                {activeTier.description}
-              </p>
-
-              <div className="space-y-2.5">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                  Core Clinical & Technical Capabilities
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {activeTier.highlights.map((h, i) => (
-                    <div
-                      key={i}
-                      className="flex items-start gap-2 text-xs sm:text-sm text-slate-800 dark:text-slate-200 bg-slate-50 dark:bg-slate-900/80 p-2.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 font-body"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-teal-700 dark:text-teal-400 shrink-0 mt-0.5" />
-                      <span>{h}</span>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          {/* Left: Layer selector as plain list */}
+          <div className="lg:col-span-4">
+            <nav className="space-y-1">
+              {TECH_TIERS.map((tier) => {
+                const Icon = TIER_ICONS[tier.icon as keyof typeof TIER_ICONS] || Layers;
+                const isActive = tier.id === selectedId;
+                return (
+                  <button
+                    key={tier.id}
+                    onClick={() => setSelectedId(tier.id)}
+                    className={`w-full text-left flex items-center gap-3 px-4 py-3 rounded-lg transition-all cursor-pointer ${
+                      isActive
+                        ? 'bg-stone-100 dark:bg-stone-800/80 text-stone-900 dark:text-stone-50'
+                        : 'text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800/40'
+                    }`}
+                  >
+                    <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-cyan-700 dark:text-cyan-500' : ''}`} />
+                    <div className="min-w-0">
+                      <p className={`text-sm font-semibold truncate ${isActive ? '' : ''}`}>{tier.title}</p>
+                      <p className="text-xs text-stone-400 dark:text-stone-500 truncate">{tier.tagline}</p>
                     </div>
-                  ))}
-                </div>
+                    {isActive && (
+                      <span className="ml-auto w-1 h-1 rounded-full bg-cyan-700 dark:bg-cyan-500 shrink-0" />
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
+          </div>
+
+          {/* Right: Active tier detail */}
+          <div className="lg:col-span-8 border-t lg:border-t-0 lg:border-l border-stone-200 dark:border-stone-800 pt-6 lg:pt-0 lg:pl-8">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-9 h-9 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-cyan-700 dark:text-cyan-500">
+                <ActiveIcon className="w-4 h-4" />
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-stone-900 dark:text-stone-50">{active.title}</h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400">{active.tagline}</p>
               </div>
             </div>
 
-            {/* Right Technical Specification Table */}
-            <div className="lg:col-span-5 bg-stone-50 dark:bg-slate-900/90 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 space-y-3.5">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-400">
-                System Specifications
-              </h4>
+            <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-6">
+              {active.description}
+            </p>
 
-              <div className="divide-y divide-slate-200 dark:divide-slate-800 text-xs sm:text-sm font-body">
-                {activeTier.specs.map((spec, i) => (
-                  <div key={i} className="py-2.5 flex justify-between items-center gap-3">
-                    <span className="text-slate-600 dark:text-slate-400 font-medium">{spec.label}</span>
-                    <span className="font-mono font-bold text-slate-900 dark:text-teal-300 text-right">{spec.value}</span>
+            {/* Specs as definition list */}
+            <div className="mb-6">
+              <p className="text-xs font-semibold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-3">
+                Specifications
+              </p>
+              <div className="divide-y divide-stone-100 dark:divide-stone-800">
+                {active.specs.map((spec, i) => (
+                  <div key={i} className="py-2.5 flex justify-between gap-4">
+                    <span className="text-sm text-stone-500 dark:text-stone-400">{spec.label}</span>
+                    <span className="text-sm font-mono font-semibold text-stone-900 dark:text-stone-100 text-right">
+                      {spec.value}
+                    </span>
                   </div>
                 ))}
               </div>
+            </div>
 
-              <div className="pt-2 text-[11px] text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-slate-800 leading-relaxed font-body">
-                <strong className="text-slate-900 dark:text-white">Clinical Integration: </strong>
-                Engineered for zero disruption to existing clinical hospital workflows and high patient privacy.
-              </div>
+            {/* Highlights as plain bullet list */}
+            <div>
+              <p className="text-xs font-semibold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-3">
+                Key Capabilities
+              </p>
+              <ul className="space-y-2">
+                {active.highlights.map((h, i) => (
+                  <li key={i} className="flex gap-2.5 text-sm text-stone-700 dark:text-stone-300">
+                    <span className="text-cyan-700 dark:text-cyan-500 shrink-0 mt-0.5">—</span>
+                    <span>{h}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
 
-      <div className="mt-12">
-        <OrganicDivider position="bottom" fillColor="var(--warm-surface)" variant="curve-1" />
+      <div className="mt-16">
+        <OrganicDivider position="bottom" fillColor="var(--warm-bg)" variant="curve-1" />
       </div>
     </section>
   );

@@ -4,33 +4,38 @@
 
 @layer base {
   :root {
-    --brand-iris: #4F46E5;
-    --brand-iris-dark: #3730A3;
-    --brand-iris-light: #EEF2FF;
-    --brand-teal: #0D9488;
-    --brand-teal-light: #F0FDFA;
-    --brand-quantum: #7C3AED;
+    /* Warm clinical palette — replaces neon/cyan startup colors */
+    --brand-teal: #0E7490;          /* Deep medical teal (cyan-700) */
+    --brand-teal-dark: #155E75;     /* Deeper teal for hover */
+    --brand-teal-light: #F0F9FF;    /* Very light teal wash */
+    --brand-blue: #1D4ED8;          /* Muted medical blue (blue-700) */
+    --brand-quantum: #6D28D9;       /* Restrained violet — quantum only */
     --brand-quantum-light: #F5F3FF;
-    --warm-bg: #FAFAF9;
-    --warm-surface: #FFFFFF;
-    --warm-border: #E2E8F0;
-    --slate-900: #0F172A;
-    --slate-800: #1E293B;
-    --slate-700: #334155;
-    --slate-600: #475569;
-    --slate-500: #64748B;
+
+    /* Warm editorial backgrounds */
+    --warm-bg: #F8F6F2;             /* Warm off-white body */
+    --warm-surface: #FEFCF9;        /* Slightly warmer white for cards */
+    --warm-border: #E5E1D8;         /* Warm stone border */
+    --warm-muted: #78716C;          /* Stone-500 for captions */
+
+    /* Typography — charcoal scale */
+    --slate-900: #1C1917;           /* stone-900 charcoal */
+    --slate-800: #292524;           /* stone-800 */
+    --slate-700: #44403C;           /* stone-700 */
+    --slate-600: #57534E;           /* stone-600 */
+    --slate-500: #78716C;           /* stone-500 */
   }
 
   html.dark,
   html[data-theme="dark"] {
-    --warm-bg: #030712;
-    --warm-surface: #0F172A;
-    --warm-border: #1E293B;
-    --slate-900: #F8FAFC;
-    --slate-800: #F1F5F9;
-    --slate-700: #E2E8F0;
-    --slate-600: #CBD5E1;
-    --slate-500: #94A3B8;
+    --warm-bg: #0F0E0D;
+    --warm-surface: #1A1917;
+    --warm-border: #2C2A27;
+    --slate-900: #F5F5F4;
+    --slate-800: #E7E5E4;
+    --slate-700: #D6D3D1;
+    --slate-600: #A8A29E;
+    --slate-500: #78716C;
   }
 
   html {
@@ -51,7 +56,8 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
+    color: var(--slate-900);
   }
 
   code, pre, .font-mono {
@@ -59,183 +65,116 @@
   }
 }
 
-/* Custom Font Family Classes */
+/* ─── Custom Font Family Classes ─────────────────────────── */
 .font-brand {
   font-family: var(--font-brand), system-ui, -apple-system, sans-serif;
 }
-
 .font-heading {
   font-family: var(--font-heading), system-ui, -apple-system, sans-serif;
 }
-
 .font-body {
   font-family: var(--font-body), system-ui, -apple-system, sans-serif;
 }
 
-/* Glassmorphism & Soft Healthcare Shadows */
+/* ─── Glassmorphism — simplified, no glow ────────────────── */
 .glass-nav {
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(254, 252, 249, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  border: 1px solid rgba(229, 225, 216, 0.8);
 }
-
 .dark .glass-nav {
-  background: rgba(15, 23, 42, 0.85);
+  background: rgba(26, 25, 23, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(51, 65, 85, 0.6);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(44, 42, 39, 0.8);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.4);
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(226, 232, 240, 0.9);
+  background: rgba(254, 252, 249, 0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(229, 225, 216, 0.7);
 }
-
 .dark .glass-card {
-  background: rgba(15, 23, 42, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(51, 65, 85, 0.7);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+  background: rgba(26, 25, 23, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(44, 42, 39, 0.7);
 }
 
-.glass-dark {
-  background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-/* Organic Soft Glows */
-.glow-iris {
-  box-shadow: 0 10px 30px -10px rgba(79, 70, 229, 0.25);
-}
-
-.glow-teal {
-  box-shadow: 0 10px 30px -10px rgba(13, 148, 136, 0.25);
-}
-
-.glow-quantum {
-  box-shadow: 0 10px 30px -10px rgba(124, 58, 237, 0.25);
-}
-
-.dark .glow-teal {
-  box-shadow: 0 10px 35px -5px rgba(13, 148, 136, 0.4);
-}
-
-.dark .glow-iris {
-  box-shadow: 0 10px 35px -5px rgba(79, 70, 229, 0.4);
-}
-
-/* Subtle keyframe animations */
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.4;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes scanLine {
-  0% {
-    transform: translateY(-100%);
-  }
-  100% {
-    transform: translateY(100%);
-  }
-}
-
-@keyframes orbitRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes orbitRotateReverse {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 4s ease-in-out infinite;
-}
-
-.animate-scan-line {
-  animation: scanLine 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-}
-
-.animate-orbit {
-  animation: orbitRotate 24s linear infinite;
-}
-
-.animate-orbit-slow {
-  animation: orbitRotate 40s linear infinite;
-}
-
-.animate-orbit-reverse {
-  animation: orbitRotateReverse 30s linear infinite;
-}
-
-/* Organic border radius utilities */
-.rounded-organic-1 {
-  border-radius: 28px 16px 32px 20px;
-}
-
-.rounded-organic-2 {
-  border-radius: 20px 32px 18px 28px;
-}
-
-.rounded-organic-pill {
-  border-radius: 9999px;
-}
-
-/* Floating Dock & Capsule Nav Styles */
+/* ─── Floating Dock / Capsule Nav ────────────────────────── */
 .dock-nav-base {
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dock-pill-scrolled {
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(13, 148, 136, 0.15);
+  box-shadow:
+    0 4px 24px -8px rgba(28, 25, 23, 0.10),
+    0 1px 0 0 rgba(229, 225, 216, 0.6);
 }
-
 .dark .dock-pill-scrolled {
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(45, 212, 191, 0.2);
+  box-shadow:
+    0 4px 24px -8px rgba(0, 0, 0, 0.5),
+    0 1px 0 0 rgba(44, 42, 39, 0.8);
 }
 
-/* Curtain Reveal Main Container Shadow */
+/* ─── Curtain Reveal Main Container ─────────────────────── */
 .curtain-main {
-  box-shadow: 0 30px 60px -12px rgba(15, 23, 42, 0.18), 0 18px 36px -18px rgba(15, 23, 42, 0.12);
+  box-shadow:
+    0 24px 48px -12px rgba(28, 25, 23, 0.12),
+    0 12px 24px -8px rgba(28, 25, 23, 0.08);
 }
-
 .dark .curtain-main {
-  box-shadow: 0 35px 70px -15px rgba(0, 0, 0, 0.8), 0 20px 40px -20px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    0 24px 48px -12px rgba(0, 0, 0, 0.7),
+    0 12px 24px -8px rgba(0, 0, 0, 0.5);
 }
 
-/* Subtle Circuit Grid Pattern */
-.bg-circuit-grid {
-  background-size: 40px 40px;
-  background-image: 
-    linear-gradient(to right, rgba(226, 232, 240, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(226, 232, 240, 0.4) 1px, transparent 1px);
+/* ─── Section divider utility ────────────────────────────── */
+.section-rule {
+  border-top: 1px solid var(--warm-border);
 }
 
-.dark .bg-circuit-grid {
-  background-image: 
-    linear-gradient(to right, rgba(51, 65, 85, 0.25) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(51, 65, 85, 0.25) 1px, transparent 1px);
+/* ─── Editorial stat number utility ─────────────────────── */
+.editorial-stat {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
 }
 
+/* ─── Left-border accent for editorial callouts ──────────── */
+.border-l-accent {
+  border-left: 3px solid var(--brand-teal);
+  padding-left: 1.25rem;
+}
+
+/* ─── Scan line (kept for InteractiveDemo only) ──────────── */
+@keyframes scanLine {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+.animate-scan-line {
+  animation: scanLine 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ─── Subtle fade-in for section entrances ───────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 0.5s ease both;
+}
+
+/* ─── Quantum circuit scientific figure style ────────────── */
+.quantum-figure {
+  background: var(--warm-surface);
+  border: 1px solid var(--warm-border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dark .quantum-figure {
+  background: var(--warm-surface);
+  border-color: var(--warm-border);
+}

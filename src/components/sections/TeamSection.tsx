@@ -1,61 +1,61 @@
 'use client';
 
 import React from 'react';
-import { SectionHeader } from '../ui/SectionHeader';
-import { Card } from '../ui/Card';
-import { Badge } from '../ui/Badge';
 import { TEAM_MEMBERS } from '@/lib/constants';
 
 export const TeamSection: React.FC = () => {
   return (
-    <section id="team" className="relative py-14 md:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-        {/* Section Header */}
-        <SectionHeader
-          badge="Multidisciplinary Research Collaboration"
-          badgeVariant="teal"
-          title="Bridging Medicine, AI, &"
-          highlightText="Quantum Information Science"
-          subtitle="CareScan unites clinicians, oncology informatics researchers, quantum engineers, and mobile architects dedicated to accessible cancer screening."
-        />
+    <section id="team" className="relative py-16 md:py-24 bg-[#FEFCF9] dark:bg-[#1A1917] transition-colors duration-300">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Team Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* Heading */}
+        <div className="mb-12 max-w-2xl">
+          <p className="text-sm font-semibold text-cyan-700 dark:text-cyan-500 tracking-wide uppercase mb-3">
+            The Team
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-stone-900 dark:text-stone-50 tracking-tight mb-4">
+            Clinicians, engineers, and researchers
+          </h2>
+          <p className="text-base text-stone-600 dark:text-stone-400 leading-relaxed">
+            CareScan unites oncology informatics, quantum computing, and mobile engineering
+            toward a single goal — accessible, accurate oral cancer screening.
+          </p>
+        </div>
+
+        {/* Team grid — minimal cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {TEAM_MEMBERS.map((member, i) => (
-            <Card
-              key={i}
-              variant="white"
-              padding="md"
-              organic="subtle"
-              className="border-slate-200 dark:border-slate-800 hover:border-teal-400 dark:hover:border-teal-600 shadow-2xs transition-all space-y-3 text-center group"
-            >
-              {/* Avatar Placeholder */}
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-teal-50 via-indigo-50 to-purple-50 dark:from-teal-950/60 dark:via-indigo-950/60 dark:to-purple-950/60 border border-teal-200/80 dark:border-teal-800/80 flex items-center justify-center text-teal-800 dark:text-teal-300 font-extrabold text-base shadow-2xs group-hover:scale-105 transition-transform">
-                <span>{member.avatarPlaceholder}</span>
+            <div key={i} className="flex flex-col gap-3">
+              {/* Monogram avatar */}
+              <div className="w-12 h-12 rounded-full border-2 border-stone-200 dark:border-stone-700 flex items-center justify-center text-stone-700 dark:text-stone-300 font-bold text-sm bg-stone-50 dark:bg-stone-800">
+                {member.avatarPlaceholder}
               </div>
-
               <div>
-                <Badge variant={i === 0 ? 'teal' : i === 1 ? 'iris' : i === 2 ? 'quantum' : 'neutral'} size="sm">
+                <p className="text-xs font-semibold text-cyan-700 dark:text-cyan-500 mb-0.5">
                   {member.discipline}
-                </Badge>
-                <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-1.5 font-heading">{member.role}</h3>
-                <p className="text-xs font-semibold text-slate-600 dark:text-slate-400 font-body">{member.department}</p>
+                </p>
+                <h3 className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                  {member.role}
+                </h3>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mb-2">
+                  {member.department}
+                </p>
+                <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
+                  {member.focus}
+                </p>
               </div>
-
-              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed pt-2 border-t border-slate-100 dark:border-slate-800 font-body">
-                {member.focus}
-              </p>
-            </Card>
+            </div>
           ))}
         </div>
 
-        {/* Academic & Open Research Collaboration Banner */}
-        <Card variant="stone" padding="md" organic="subtle" className="max-w-3xl mx-auto border-teal-200 dark:border-teal-800 text-center space-y-1.5">
-          <p className="text-xs font-bold uppercase tracking-wider text-teal-800 dark:text-teal-300">Open Scientific Research Initiative</p>
-          <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed font-body">
-            Orqis is developed as an open scientific collaboration targeting peer-reviewed clinical benchmarks in frontline AI oral triage and hardware-aware quantum acceleration.
+        {/* Research note — plain editorial text */}
+        <div className="border-t border-stone-200 dark:border-stone-800 pt-8">
+          <p className="text-sm text-stone-500 dark:text-stone-400 max-w-2xl">
+            <span className="font-semibold text-stone-700 dark:text-stone-300">Open scientific research.</span>{' '}
+            CareScan is developed as an open academic collaboration targeting peer-reviewed
+            clinical benchmarks in frontline AI oral triage and hardware-aware quantum acceleration.
           </p>
-        </Card>
+        </div>
       </div>
     </section>
   );

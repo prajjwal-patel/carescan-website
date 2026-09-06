@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { NAV_ITEMS } from '@/lib/constants';
-import { Button } from '../ui/Button';
-import { Menu, X, KeyRound, ChevronRight, Sun, Moon } from 'lucide-react';
+import { Menu, X, KeyRound, Sun, Moon } from 'lucide-react';
 import { useCredentials } from '@/context/CredentialsContext';
 import { useTheme } from '@/context/ThemeContext';
 
@@ -17,15 +16,8 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
+      setIsScrolled(window.scrollY > 35);
 
-      if (scrollY > 35) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-
-      // ScrollSpy: Determine active section
       const sectionIds = NAV_ITEMS.map((item) => item.href.replace('#', ''));
       let currentActive = '';
       for (const id of sectionIds) {
@@ -38,9 +30,7 @@ export const Navbar: React.FC = () => {
           }
         }
       }
-      if (currentActive) {
-        setActiveSection(currentActive);
-      }
+      if (currentActive) setActiveSection(currentActive);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -50,114 +40,93 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 lg:px-8 pt-2.5 sm:pt-3.5 transition-all duration-300">
+      <header className="fixed top-0 left-0 right-0 z-40 px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 transition-all duration-300">
         <div
-          className={`mx-auto rounded-full dock-nav-base transition-all duration-300 ${
+          className={`mx-auto dock-nav-base transition-all duration-300 ${
             isScrolled
-              ? 'max-w-5xl bg-white/92 dark:bg-slate-900/92 backdrop-blur-xl border border-teal-500/30 dark:border-teal-400/30 dock-pill-scrolled py-1.5 sm:py-2 px-3 sm:px-5'
-              : 'max-w-7xl bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-slate-200/70 dark:border-slate-800/80 py-2.5 sm:py-3 px-4 sm:px-6 shadow-2xs'
-          } flex items-center justify-between gap-2`}
+              ? 'max-w-5xl rounded-full glass-nav dock-pill-scrolled py-2 px-4 sm:px-6'
+              : 'max-w-7xl rounded-2xl bg-[#FEFCF9]/90 dark:bg-[#1A1917]/90 backdrop-blur-md border border-[#E5E1D8]/60 dark:border-[#2C2A27]/60 py-3 px-5 sm:px-7'
+          } flex items-center justify-between gap-4`}
         >
-          {/* Logo & Brand Name */}
-          <a href="#" className="flex items-center gap-2 sm:gap-2.5 group shrink-0 whitespace-nowrap">
-            <div
-              className={`relative rounded-full bg-white flex items-center justify-center shadow-xs border border-slate-200/80 dark:border-slate-700/80 overflow-hidden group-hover:scale-105 transition-all duration-300 shrink-0 ${
-                isScrolled ? 'w-8 h-8 sm:w-9 sm:h-9 p-0.5' : 'w-10 h-10 sm:w-11 sm:h-11 p-1'
-              }`}
-            >
+          {/* Logo & Brand */}
+          <a href="#" className="flex items-center gap-2.5 shrink-0 group">
+            <div className={`relative rounded-full bg-white flex items-center justify-center border border-stone-200 dark:border-stone-700 overflow-hidden shrink-0 transition-all duration-300 ${
+              isScrolled ? 'w-7 h-7' : 'w-9 h-9'
+            }`}>
               <Image
                 src="/orqis-logo.png"
-                alt="Orqis Logo"
-                width={40}
-                height={40}
+                alt="CareScan Logo"
+                width={36}
+                height={36}
                 priority
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex flex-col whitespace-nowrap shrink-0">
-              <div className="flex items-center gap-1.5 whitespace-nowrap">
-                <span
-                  className={`font-brand font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight transition-all duration-300 ${
-                    isScrolled ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'
-                  }`}
-                >
-                  CareScan
-                </span>
-                <span className={`text-[10px] font-bold uppercase tracking-wider text-teal-700 dark:text-teal-300 bg-teal-50 dark:bg-teal-950/70 px-2 py-0.5 rounded-full border border-teal-200 dark:border-teal-800/80 whitespace-nowrap transition-all duration-300 ${isScrolled ? 'hidden' : ''}`}>
-                  16-Qubit VQC
-                </span>
-              </div>
-              {!isScrolled && (
-                <span className="text-[10px] sm:text-[11px] text-slate-600 dark:text-slate-400 font-medium tracking-wide hidden md:block font-body whitespace-nowrap animate-in fade-in duration-200">
-                  Quantum-Classical Oral Triage
-                </span>
-              )}
-            </div>
+            <span className={`font-brand font-bold tracking-tight text-stone-900 dark:text-stone-50 transition-all duration-300 ${
+              isScrolled ? 'text-base' : 'text-lg'
+            }`}>
+              CareScan
+            </span>
           </a>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 shrink-0 flex-nowrap whitespace-nowrap">
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = activeSection === item.href;
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  className={`font-body text-xs xl:text-sm font-semibold px-2 xl:px-3 py-1.5 rounded-full transition-all whitespace-nowrap inline-block ${
+                  className={`text-sm font-medium px-3 py-1.5 rounded-md transition-all ${
                     isActive
-                      ? 'bg-teal-100/90 dark:bg-teal-950/90 text-teal-900 dark:text-teal-200 border border-teal-300/80 dark:border-teal-700/80 shadow-2xs'
-                      : 'text-slate-700 dark:text-slate-300 hover:text-teal-700 dark:hover:text-teal-400 hover:bg-slate-100/80 dark:hover:bg-slate-800/80 border border-transparent'
+                      ? 'text-cyan-700 dark:text-cyan-400'
+                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100'
                   }`}
                 >
                   {item.label}
+                  {isActive && (
+                    <span className="block h-0.5 w-full bg-cyan-700 dark:bg-cyan-400 mt-0.5 rounded-full" />
+                  )}
                 </a>
               );
             })}
           </nav>
 
-          {/* Right CTA Area: Dark Mode Toggle + Credentials Button */}
-          <div className="hidden lg:flex items-center gap-2 shrink-0 whitespace-nowrap">
-            {/* Theme Toggle Button */}
+          {/* Right actions */}
+          <div className="hidden lg:flex items-center gap-2 shrink-0">
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-1.5 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 transition-all cursor-pointer shrink-0"
+              className="p-1.5 rounded-md text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors cursor-pointer"
               aria-label="Toggle dark mode"
-              title="Toggle color theme"
             >
-              <Sun className="w-4 h-4 text-amber-400 hidden dark:block animate-in spin-in-180 duration-200" />
-              <Moon className="w-4 h-4 text-slate-700 block dark:hidden animate-in spin-in-180 duration-200" />
+              <Sun className="w-4 h-4 text-amber-500 hidden dark:block" />
+              <Moon className="w-4 h-4 block dark:hidden" />
             </button>
 
-            {/* Credentials Trigger */}
-            <Button
+            <button
               onClick={() => openModal()}
-              variant="secondary"
-              size="sm"
-              icon={<KeyRound className="w-3.5 h-3.5" />}
-              className="whitespace-nowrap text-xs shadow-xs font-semibold shrink-0"
+              className="flex items-center gap-1.5 text-sm font-medium text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 border border-stone-300 dark:border-stone-700 hover:border-stone-400 dark:hover:border-stone-600 px-3 py-1.5 rounded-md transition-all cursor-pointer"
             >
+              <KeyRound className="w-3.5 h-3.5" />
               Credentials
-            </Button>
+            </button>
           </div>
 
-          {/* Mobile Action Area */}
+          {/* Mobile actions */}
           <div className="flex items-center gap-1.5 lg:hidden">
             <button
               type="button"
               onClick={toggleTheme}
-              className="p-2 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              aria-label="Toggle dark mode"
-              title="Toggle color theme"
+              className="p-2 rounded-md text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors cursor-pointer"
             >
-              <Sun className="w-4 h-4 text-amber-400 hidden dark:block" />
-              <Moon className="w-4 h-4 text-slate-700 block dark:hidden" />
+              <Sun className="w-4 h-4 text-amber-500 hidden dark:block" />
+              <Moon className="w-4 h-4 block dark:hidden" />
             </button>
-
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
-              className="p-2 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0 cursor-pointer"
-              aria-label="Toggle navigation menu"
+              className="p-2 rounded-md text-stone-700 dark:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors cursor-pointer"
+              aria-label="Toggle navigation"
             >
               {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -166,41 +135,28 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Drawer */}
         {mobileOpen && (
-          <div className="lg:hidden mt-3 max-w-lg mx-auto glass-card rounded-3xl p-5 shadow-xl border border-slate-200 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 animate-in fade-in slide-in-from-top-2 duration-200">
-            <div className="flex flex-col space-y-2">
-              {NAV_ITEMS.map((item) => {
-                const isActive = activeSection === item.href;
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={`font-body flex items-center justify-between text-sm font-semibold px-4 py-2.5 rounded-2xl transition-colors whitespace-nowrap ${
-                      isActive
-                        ? 'bg-teal-100/80 dark:bg-teal-950/80 text-teal-900 dark:text-teal-200 font-bold'
-                        : 'text-slate-800 dark:text-slate-200 hover:bg-teal-50 dark:hover:bg-slate-800/80 hover:text-teal-700 dark:hover:text-teal-400'
-                    }`}
-                  >
-                    <span className="whitespace-nowrap">{item.label}</span>
-                    <ChevronRight className="w-4 h-4 text-slate-400 shrink-0" />
-                  </a>
-                );
-              })}
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800">
-                <Button
-                  variant="secondary"
-                  size="md"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    openModal();
-                  }}
-                  icon={<KeyRound className="w-4 h-4" />}
-                  className="w-full whitespace-nowrap"
+          <div className="lg:hidden mt-2 max-w-lg mx-auto bg-[#FEFCF9] dark:bg-[#1A1917] rounded-2xl p-5 border border-[#E5E1D8] dark:border-[#2C2A27] shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+            <nav className="flex flex-col gap-1">
+              {NAV_ITEMS.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="text-sm font-medium text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 px-3 py-2.5 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
                 >
-                  User & Clinician Credentials
-                </Button>
+                  {item.label}
+                </a>
+              ))}
+              <div className="mt-3 pt-3 border-t border-stone-200 dark:border-stone-800">
+                <button
+                  onClick={() => { setMobileOpen(false); openModal(); }}
+                  className="flex items-center gap-2 w-full text-sm font-medium text-stone-700 dark:text-stone-300 px-3 py-2.5 rounded-md border border-stone-300 dark:border-stone-700 hover:border-stone-400 transition-colors cursor-pointer"
+                >
+                  <KeyRound className="w-4 h-4" />
+                  Credentials
+                </button>
               </div>
-            </div>
+            </nav>
           </div>
         )}
       </header>

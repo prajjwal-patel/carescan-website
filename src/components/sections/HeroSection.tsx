@@ -2,122 +2,85 @@
 
 import React from 'react';
 import { HERO_METRICS } from '@/lib/constants';
-import { Button } from '../ui/Button';
-import { Badge } from '../ui/Badge';
-import { Card } from '../ui/Card';
-import { QuantumOrb } from '../visual/QuantumOrb';
 import { OrganicDivider } from '../visual/OrganicDivider';
-import { ArrowRight, Sparkles, ShieldCheck, HeartPulse, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const HeroSection: React.FC = () => {
   return (
-    <section className="relative pt-24 pb-12 md:pt-32 md:pb-16 overflow-hidden bg-gradient-to-b from-teal-50/50 via-stone-50/70 to-white dark:from-slate-950 dark:via-slate-900/60 dark:to-slate-950 transition-colors duration-300">
-      {/* Background Soft Organic Radial Blobs */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-80 bg-gradient-to-r from-teal-200/20 via-indigo-200/20 to-purple-200/20 dark:from-teal-900/15 dark:via-indigo-900/15 dark:to-purple-900/15 rounded-full blur-3xl -z-10 pointer-events-none" />
+    <section className="relative pt-28 pb-16 md:pt-36 md:pb-20 bg-[#F8F6F2] dark:bg-[#0F0E0D] transition-colors duration-300">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
-          {/* Left Hero Copy — Healthcare Mission First */}
-          <div className="lg:col-span-7 space-y-5 text-center lg:text-left">
-            {/* Top pill badge */}
-            <div className="inline-flex justify-center lg:justify-start">
-              <Badge variant="teal" pulse size="md">
-                <HeartPulse className="w-3.5 h-3.5 mr-1" />
-                Frontline Healthcare Initiative • Early Oral Cancer Triage
-              </Badge>
-            </div>
+        {/* Editorial headline block */}
+        <div className="max-w-3xl">
+          <p className="text-sm font-semibold text-cyan-700 dark:text-cyan-500 tracking-wide uppercase mb-4">
+            Oral Cancer Screening Research
+          </p>
 
-            {/* Headline */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-slate-900 dark:text-white leading-[1.14]">
-              Early Oral Screening for Every Community,{' '}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-600 via-indigo-600 to-purple-600 dark:from-teal-400 dark:via-indigo-400 dark:to-purple-400">
-                Powered by Quantum AI
-              </span>
-            </h1>
+          <h1 className="text-4xl sm:text-5xl md:text-[3.5rem] font-bold tracking-tight text-stone-900 dark:text-stone-50 leading-[1.12] mb-6">
+            Earlier detection.<br className="hidden sm:block" />
+            Better outcomes for every community.
+          </h1>
 
-            {/* Subheadline — Clear and Human */}
-            <p className="text-base sm:text-lg text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl mx-auto lg:mx-0 font-body">
-              CareScan equips community health workers and primary clinics with instant, non-invasive oral cancer screening. Combining frozen MobileNet lesion localization (DEC-020) with 16-qubit Variational Quantum Classifiers (VQC) and strict patient-level evaluation integrity, we provide objective point-of-care risk triage.
-            </p>
+          <p className="text-lg text-stone-600 dark:text-stone-400 leading-relaxed max-w-2xl mb-8">
+            CareScan equips primary health workers with AI-assisted oral cancer triage.
+            A smartphone photograph, analysed by a frozen MobileNet localizer and a
+            16-qubit Variational Quantum Classifier, produces a calibrated risk score
+            and a hospital-ready FHIR record — in seconds.
+          </p>
 
-            {/* Value Highlights Pill List */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 font-body">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
-                <span>Flutter mobile acquisition (com.carescan.patient)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-teal-600 dark:text-teal-400 shrink-0" />
-                <span>Frozen MobileNet localizer (0.5279 Test IoU)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>16-Qubit VQC (65,536 Amplitude State Space)</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400 shrink-0" />
-                <span>Hospital-ready HL7 FHIR R4 Observations</span>
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
-              <a href="#sandbox" className="w-full sm:w-auto">
-                <Button variant="secondary" size="lg" icon={<Sparkles className="w-4 h-4" />} className="w-full sm:w-auto shadow-md">
-                  Try Interactive Triage Demo
-                </Button>
-              </a>
-              <a href="#project" className="w-full sm:w-auto">
-                <Button variant="outline" size="lg" icon={<ArrowRight className="w-4 h-4" />} className="w-full sm:w-auto">
-                  Our Healthcare Mission
-                </Button>
-              </a>
-            </div>
-
-            {/* Trust Badges */}
-            <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-3 text-xs font-semibold text-slate-600 dark:text-slate-400">
-              <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-2xs">
-                <ShieldCheck className="w-4 h-4 text-teal-600 dark:text-teal-400" />
-                Patient-Level Partitioning Invariant
-              </span>
-              <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                Peradeniya Oral Cancer Dataset (2,436 Images / 328 Pts)
-              </span>
-            </div>
+          <div className="flex flex-wrap items-center gap-4 mb-10">
+            <a
+              href="#sandbox"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-cyan-700 hover:bg-cyan-800 text-white text-sm font-semibold transition-colors"
+            >
+              Try the Triage Demo
+              <ArrowRight className="w-4 h-4" />
+            </a>
+            <a
+              href="#project"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-stone-700 dark:text-stone-300 hover:text-stone-900 dark:hover:text-stone-100 transition-colors"
+            >
+              Why this matters
+              <ArrowRight className="w-3.5 h-3.5" />
+            </a>
           </div>
 
-          {/* Right Visual Composition */}
-          <div className="lg:col-span-5 flex justify-center">
-            <QuantumOrb />
+          {/* Trust line — plain inline text */}
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-stone-500 dark:text-stone-500 border-t border-stone-200 dark:border-stone-800 pt-5">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-cyan-700" />
+              Patient-level data partitioning
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              2,436 images · 328 patients · Peradeniya dataset
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+              IBM Heron r2 evaluation · Phase D active
+            </span>
           </div>
         </div>
 
-        {/* Hero Metrics Row */}
-        <div className="mt-12 sm:mt-16 grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        {/* Metrics — plain numbers, no cards */}
+        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 border-t border-stone-200 dark:border-stone-800 pt-10">
           {HERO_METRICS.map((metric, i) => (
-            <Card
-              key={i}
-              variant="white"
-              padding="sm"
-              organic="subtle"
-              className="text-center group hover:border-teal-300 dark:hover:border-teal-600 transition-all shadow-xs"
-            >
-              <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white group-hover:text-teal-700 dark:group-hover:text-teal-400 transition-colors">
+            <div key={i}>
+              <p className="editorial-stat text-2xl sm:text-3xl font-bold text-stone-900 dark:text-stone-50">
                 {metric.value}
               </p>
-              <p className="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-200 mt-1">
+              <p className="text-xs font-semibold text-stone-700 dark:text-stone-300 mt-1">
                 {metric.label}
               </p>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5 leading-snug hidden sm:block">
+              <p className="text-[11px] text-stone-500 dark:text-stone-500 mt-0.5 leading-snug hidden sm:block">
                 {metric.description}
               </p>
-            </Card>
+            </div>
           ))}
         </div>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-14">
         <OrganicDivider position="bottom" fillColor="var(--warm-surface)" variant="curve-1" />
       </div>
     </section>

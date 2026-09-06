@@ -193,15 +193,13 @@ export const InteractiveDemo: React.FC = () => {
   };
 
   return (
-    <section id="sandbox" className="relative py-14 md:py-20 bg-stone-50 dark:bg-slate-950 transition-colors duration-300">
+    <section id="sandbox" className="relative py-16 md:py-24 bg-[#F8F6F2] dark:bg-[#0F0E0D] transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Header */}
         <SectionHeader
-          badge="Interactive Point-of-Care Simulator"
-          badgeVariant="teal"
-          title="Try the Guided"
-          highlightText="CareScan Triage Sandbox"
-          subtitle="Follow the 3 steps below to explore how CareScan combines frozen MobileNet lesion ROI localization with 16-qubit amplitude-encoded VQC and lifestyle risk factors to generate calibrated clinical triage decisions."
+          title="Clinical Triage"
+          highlightText="Sandbox"
+          subtitle="Explore how CareScan combines frozen MobileNet lesion localisation with 16-qubit amplitude-encoded VQC and patient risk factors to generate a calibrated triage decision."
         />
 
         {/* Guided 3-Step Progress Header Banner */}
