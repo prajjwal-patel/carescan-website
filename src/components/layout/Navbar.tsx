@@ -10,7 +10,6 @@ import { useTheme } from '@/context/ThemeContext';
 
 export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openModal } = useCredentials();
@@ -19,9 +18,6 @@ export const Navbar: React.FC = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = totalHeight > 0 ? (scrollY / totalHeight) * 100 : 0;
-      setScrollProgress(progress);
 
       if (scrollY > 35) {
         setIsScrolled(true);
@@ -54,12 +50,6 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* OmniRouters-Style Scroll Progress Bar */}
-      <div
-        className="fixed top-0 left-0 right-0 h-[2.5px] bg-gradient-to-r from-teal-500 via-indigo-500 to-purple-500 z-50 origin-left transition-all duration-75"
-        style={{ width: `${scrollProgress}%` }}
-      />
-
       <header className="fixed top-0 left-0 right-0 z-40 px-3 sm:px-6 lg:px-8 pt-2.5 sm:pt-3.5 transition-all duration-300">
         <div
           className={`mx-auto rounded-full dock-nav-base transition-all duration-300 ${
