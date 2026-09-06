@@ -139,7 +139,7 @@
 
 /* ─── Editorial stat number utility ─────────────────────── */
 .editorial-stat {
-  font-variant-numeric: tabular-nums;
+  font-feature-settings: "zero" 0, "tnum" 0;
   letter-spacing: -0.03em;
 }
 

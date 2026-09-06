@@ -53,7 +53,7 @@ export const TimelineSection: React.FC = () => {
                     </svg>
                   )}
                   {item.status === 'in-progress' && (
-                    <span className="w-2 h-2 rounded-full bg-white" />
+                    <span className="w-2 h-2 rounded-sm bg-white" />
                   )}
                 </span>
 
