@@ -81,8 +81,7 @@ export const HeroSection: React.FC = () => {
                 Patient-Level Partitioning Invariant
               </span>
               <span className="flex items-center gap-1.5 bg-white dark:bg-slate-900 px-3 py-1 rounded-full border border-slate-200/80 dark:border-slate-800 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                Peradeniya Oral Cancer Dataset (2,436 Images / 328 Pts)
+                2,436 images · 328 patients · Peradeniya dataset
               </span>
             </div>
           </div>

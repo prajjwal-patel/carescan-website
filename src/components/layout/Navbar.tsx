@@ -62,16 +62,11 @@ export const Navbar: React.FC = () => {
                 className="w-full h-full object-contain"
               />
             </div>
-            <div className="flex items-center gap-1.5">
-              <span className={`font-brand tracking-tight text-stone-900 dark:text-stone-50 transition-all duration-300 ${
+            <span className={`font-brand tracking-tight text-stone-900 dark:text-stone-50 transition-all duration-300 ${
                 isScrolled ? 'text-xl' : 'text-2xl sm:text-[1.7rem]'
               }`}>
                 Orqis
               </span>
-              <span className={`w-1.5 h-1.5 rounded-full bg-cyan-600 dark:bg-cyan-500 shrink-0 mb-0.5 transition-all duration-300 ${
-                isScrolled ? 'opacity-100' : 'opacity-80'
-              }`} />
-            </div>
           </a>
 
           {/* Desktop Nav */}

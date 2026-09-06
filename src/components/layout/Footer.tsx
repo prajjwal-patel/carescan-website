@@ -31,10 +31,7 @@ export const Footer: React.FC = () => {
               <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center overflow-hidden shrink-0">
                 <Image src="/orqis-logo.png" alt="Orqis" width={32} height={32} className="w-full h-full object-contain" />
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-brand text-xl tracking-tight text-stone-100">Orqis</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 shrink-0 mb-0.5" />
-              </div>
+              <span className="font-brand text-xl tracking-tight text-stone-100">Orqis</span>
             </div>
             <p className="text-xs text-stone-500 leading-relaxed max-w-xs">
               Privacy-conscious hybrid quantum-classical oral cancer screening research.
