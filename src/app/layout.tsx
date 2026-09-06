@@ -51,7 +51,6 @@ export const metadata: Metadata = {
   },
 };
 
-import Script from 'next/script';
 import { AppProviders } from '@/components/providers/AppProviders';
 
 export default function RootLayout({
@@ -65,29 +64,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`scroll-smooth ${outfit.variable} ${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
-      <head>
-        <Script
-          id="theme-initializer"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var saved = localStorage.getItem('orqis_theme');
-                  var isDark = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches);
-                  if (isDark) {
-                    document.documentElement.classList.add('dark');
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                  } else {
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.setAttribute('data-theme', 'light');
-                  }
-                } catch(e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
       <body className="antialiased text-slate-900 dark:text-slate-100 bg-stone-50 dark:bg-slate-950 selection:bg-teal-100 selection:text-teal-950 dark:selection:bg-teal-900 dark:selection:text-teal-100 transition-colors duration-300">
         <AppProviders>{children}</AppProviders>
       </body>

@@ -12,7 +12,7 @@ export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const { openModal } = useCredentials();
-  const { theme, toggleTheme } = useTheme();
+  const { toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -83,13 +83,10 @@ export const Navbar: React.FC = () => {
             onClick={toggleTheme}
             className="p-2 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80 transition-all cursor-pointer"
             aria-label="Toggle dark mode"
-            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title="Toggle color theme"
           >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400 animate-in spin-in-180 duration-200" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-700 animate-in spin-in-180 duration-200" />
-            )}
+            <Sun className="w-4 h-4 text-amber-400 hidden dark:block animate-in spin-in-180 duration-200" />
+            <Moon className="w-4 h-4 text-slate-700 block dark:hidden animate-in spin-in-180 duration-200" />
           </button>
 
           {/* Credentials Trigger */}
@@ -111,12 +108,10 @@ export const Navbar: React.FC = () => {
             onClick={toggleTheme}
             className="p-2 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
             aria-label="Toggle dark mode"
+            title="Toggle color theme"
           >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-700" />
-            )}
+            <Sun className="w-4 h-4 text-amber-400 hidden dark:block" />
+            <Moon className="w-4 h-4 text-slate-700 block dark:hidden" />
           </button>
 
           <button
