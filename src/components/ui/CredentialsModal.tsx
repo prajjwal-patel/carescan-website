@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState, useRef } from 'react';
@@ -10,7 +11,6 @@ import {
   computeAnomalyAnalysis,
 } from '@/context/CredentialsContext';
 import { Button } from './Button';
-import { Badge } from './Badge';
 import {
   X,
   KeyRound,
@@ -28,23 +28,16 @@ import {
   Camera,
   Image as ImageIcon,
   Activity,
-  AlertTriangle,
   HeartHandshake,
   CheckCircle2,
-  HelpCircle,
-  FileText,
-  Calendar,
-  Layers,
-  Cpu,
 } from 'lucide-react';
 
-export const CredentialsModal: React.FC = () => {
+const CredentialsModalDialog: React.FC = () => {
   const {
     activeAuthTab,
     setActiveAuthTab,
     credentials,
     patientProfile,
-    isModalOpen,
     closeModal,
     updateCredentials,
     updatePatientProfile,
@@ -53,8 +46,6 @@ export const CredentialsModal: React.FC = () => {
     resetDefaults,
     resetPatientDefaults,
     generateNewKey,
-    generateNewPatientId,
-    uploadPatientImage,
   } = useCredentials();
 
   // Clinician Form State
@@ -65,17 +56,8 @@ export const CredentialsModal: React.FC = () => {
   // Patient Form State
   const [patientForm, setPatientForm] = useState(patientProfile);
   const [patientSaveSuccess, setPatientSaveSuccess] = useState(false);
-  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Sync states when modal opens
-  React.useEffect(() => {
-    setClinicianForm(credentials);
-    setPatientForm(patientProfile);
-  }, [credentials, patientProfile, isModalOpen]);
-
-  if (!isModalOpen) return null;
 
   // Handle Clinician Save
   const handleSaveClinician = (e: React.FormEvent) => {
@@ -119,7 +101,6 @@ export const CredentialsModal: React.FC = () => {
       return;
     }
 
-    setIsAnalyzing(true);
     const reader = new FileReader();
     reader.onload = (e) => {
       const dataUrl = e.target?.result as string;
@@ -134,8 +115,6 @@ export const CredentialsModal: React.FC = () => {
         uploadedImageName: file.name,
         analysisResult: analysis,
       }));
-
-      setIsAnalyzing(false);
     };
     reader.readAsDataURL(file);
   };
@@ -157,20 +136,6 @@ export const CredentialsModal: React.FC = () => {
     e.stopPropagation();
     setDragActive(false);
     handleFileChange(e.dataTransfer.files);
-  };
-
-  // Run Manual Analysis trigger
-  const handleTriggerAnalysis = () => {
-    setIsAnalyzing(true);
-    setTimeout(() => {
-      const analysis = computeAnomalyAnalysis(patientForm.uploadedImageName, patientForm);
-      setPatientForm((prev) => ({
-        ...prev,
-        analysisResult: analysis,
-      }));
-      updatePatientProfile({ analysisResult: analysis });
-      setIsAnalyzing(false);
-    }, 600);
   };
 
   return (
@@ -895,4 +860,10 @@ export const CredentialsModal: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export const CredentialsModal: React.FC = () => {
+  const { isModalOpen } = useCredentials();
+  if (!isModalOpen) return null;
+  return <CredentialsModalDialog />;
 };

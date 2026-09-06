@@ -13,8 +13,21 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>('light');
-  const [mounted, setMounted] = useState(false);
+  const [theme, setThemeState] = useState<Theme>(() => {
+    if (typeof window === 'undefined') return 'light';
+    try {
+      const savedTheme = localStorage.getItem('orqis_theme') as Theme | null;
+      if (savedTheme === 'dark' || savedTheme === 'light') {
+        return savedTheme;
+      }
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+    } catch {
+      // ignore
+    }
+    return 'light';
+  });
 
   const applyTheme = (newTheme: Theme) => {
     if (typeof document === 'undefined') return;
@@ -31,23 +44,8 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   useEffect(() => {
-    setMounted(true);
-    try {
-      const savedTheme = localStorage.getItem('orqis_theme') as Theme | null;
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        setThemeState(savedTheme);
-        applyTheme(savedTheme);
-      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        setThemeState('dark');
-        applyTheme('dark');
-      } else {
-        setThemeState('light');
-        applyTheme('light');
-      }
-    } catch {
-      applyTheme('light');
-    }
-  }, []);
+    applyTheme(theme);
+  }, [theme]);
 
   const setTheme = (newTheme: Theme) => {
     setThemeState(newTheme);

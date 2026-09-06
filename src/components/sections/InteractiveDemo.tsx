@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import React, { useState } from 'react';
@@ -9,7 +10,6 @@ import { TEST_CASE_PRESETS, calculateSimulatedRisk } from '@/lib/mockData';
 import { OrganicDivider } from '../visual/OrganicDivider';
 import { useCredentials } from '@/context/CredentialsContext';
 import {
-  Sparkles,
   HeartHandshake,
   KeyRound,
   Camera,

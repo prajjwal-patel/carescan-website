@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
 import {
   SAMPLE_IMAGE_HEALTHY,
   SAMPLE_IMAGE_LICHENOID,
@@ -299,30 +299,46 @@ interface CredentialsContextType {
 const CredentialsContext = createContext<CredentialsContextType | undefined>(undefined);
 
 export const CredentialsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [activeAuthTab, setActiveAuthTab] = useState<'clinician' | 'patient'>('clinician');
-  const [credentials, setCredentials] = useState<UserCredentials>(DEFAULT_CREDENTIALS);
-  const [patientProfile, setPatientProfile] = useState<PatientProfile>(DEFAULT_PATIENT);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeAuthTab, setActiveAuthTab] = useState<'clinician' | 'patient'>(() => {
+    if (typeof window === 'undefined') return 'clinician';
+    try {
+      const savedTab = localStorage.getItem('orqis_active_auth_tab');
+      if (savedTab === 'patient' || savedTab === 'clinician') {
+        return savedTab;
+      }
+    } catch {
+      // ignore
+    }
+    return 'clinician';
+  });
 
-  // Load from localStorage if available
-  useEffect(() => {
+  const [credentials, setCredentials] = useState<UserCredentials>(() => {
+    if (typeof window === 'undefined') return DEFAULT_CREDENTIALS;
     try {
       const savedCreds = localStorage.getItem('orqis_user_credentials');
       if (savedCreds) {
-        setCredentials(JSON.parse(savedCreds));
-      }
-      const savedPatient = localStorage.getItem('orqis_patient_profile');
-      if (savedPatient) {
-        setPatientProfile(JSON.parse(savedPatient));
-      }
-      const savedTab = localStorage.getItem('orqis_active_auth_tab');
-      if (savedTab === 'patient' || savedTab === 'clinician') {
-        setActiveAuthTab(savedTab);
+        return JSON.parse(savedCreds);
       }
     } catch {
-      // ignore storage errors
+      // ignore
     }
-  }, []);
+    return DEFAULT_CREDENTIALS;
+  });
+
+  const [patientProfile, setPatientProfile] = useState<PatientProfile>(() => {
+    if (typeof window === 'undefined') return DEFAULT_PATIENT;
+    try {
+      const savedPatient = localStorage.getItem('orqis_patient_profile');
+      if (savedPatient) {
+        return JSON.parse(savedPatient);
+      }
+    } catch {
+      // ignore
+    }
+    return DEFAULT_PATIENT;
+  });
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = (initialTab?: 'clinician' | 'patient') => {
     if (initialTab) {

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import Image from 'next/image';
 import { ShieldAlert, Cpu, FileText, Sparkles, Heart } from 'lucide-react';
 import { CLINICAL_DISCLAIMER, NAV_ITEMS } from '@/lib/constants';
 
@@ -29,9 +29,11 @@ export const Footer: React.FC = () => {
           <div className="md:col-span-2 space-y-3.5">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center p-1.5 overflow-hidden shadow-sm border border-slate-700/60 shrink-0">
-                <img
+                <Image
                   src="/orqis-logo.png"
                   alt="Orqis Logo"
+                  width={48}
+                  height={48}
                   className="w-full h-full object-contain"
                 />
               </div>

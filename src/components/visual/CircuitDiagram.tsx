@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { Card } from '../ui/Card';
 import { Badge } from '../ui/Badge';
-import { Info, Sparkles, Check } from 'lucide-react';
+import { Info, Sparkles } from 'lucide-react';
 
 interface GateInfo {
   name: string;
